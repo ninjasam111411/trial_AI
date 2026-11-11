@@ -10,6 +10,7 @@ app = Flask(__name__)
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
+# Load the trained chatbot
 checkpoint = torch.load(
     "saved/chatbot.pt",
     map_location=device,
@@ -29,11 +30,9 @@ model.eval()
 
 def generate_response(message):
     history = get_context()
-
     prompt = history + "\nUser: " + message + "\nBot:"
 
     encoded = tokenizer.encode(prompt)
-
     input_tensor = torch.tensor(
         [encoded],
         dtype=torch.long,
@@ -48,7 +47,6 @@ def generate_response(message):
         )
 
     new_tokens = generated[0, len(encoded):].tolist()
-
     response = tokenizer.decode(new_tokens)
     response = response.split("\nUser:")[0].strip()
 
@@ -65,7 +63,7 @@ def chat():
     message = request.json.get("message", "").strip()
 
     if not message:
-        return jsonify({"error": "Empty message"}), 400
+        return jsonify({"error": "Please enter a message."}), 400
 
     response = generate_response(message)
 
@@ -76,4 +74,4 @@ def chat():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5000, debug=True)
