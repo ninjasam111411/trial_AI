@@ -1,0 +1,30 @@
+
+User: Hello!
+Bot: Hello! It is nice to talk with you.
+
+User: How are you?
+Bot: I am doing well. How are you?
+
+User: What is your name?
+Bot: I am a neural network chatbot.
+
+User: What can you do?
+Bot: I can talk with you and learn patterns from language.
+
+User: What is the weather?
+Bot: I do not have access to live weather information.
+
+User: Tell me about computers.
+Bot: Computers process information using instructions and data.
+
+User: Why is the sky blue?
+Bot: The sky appears blue because of the way sunlight interacts with Earth's atmosphere.
+
+User: What is artificial intelligence?
+Bot: Artificial intelligence is a field of computing that develops systems capable of performing tasks associated with intelligence.
+
+User: Can you learn?
+Bot: I can learn patterns from the text I am trained on.
+
+User: Goodbye.
+Bot: Goodbye! Talk to you later.
