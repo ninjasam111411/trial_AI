@@ -1,39 +1,46 @@
+"""
+Quick check of the chatbot. Runs a set of questions and shows each answer
+and where it came from (spelling, calculator, knowledge, neural).
+Note: this does not save anything to Neural's learning data.
 
-import torch
-from model import NeuralChatbot
-from tokenizer import Tokenizer
+    python test_chat.py            # run the built-in questions
+    python test_chat.py -i         # interactive, without saving memory
+"""
 
-device = "cuda" if torch.cuda.is_available() else "cpu"
+import sys
 
-checkpoint = torch.load(
-    "saved/chatbot.pt",
-    map_location=device,
-    weights_only=True
-)
+from brain import Brain
 
-tokenizer = Tokenizer("".join(checkpoint["characters"]))
+QUESTIONS = [
+    "hi",
+    "whats your name",
+    "why is the sky blue",
+    "tell me a joke",
+    "how many planets are there",
+    "what is 12 * 7",
+    "who invented the telephone",
+    "what is a neural network",
+    "waht is teh biggest planit",
+    "how do you spell recieve",
+    "I like turtles",
+    "what should I do this weekend?",
+    "bye",
+]
 
-model = NeuralChatbot(
-    vocab_size=tokenizer.vocab_size,
-    context_size=checkpoint["context_size"]
-).to(device)
+brain = Brain()
 
-model.load_state_dict(checkpoint["model"])
-model.eval()
-
-print("Project Neural is ready! Type 'quit' to stop.")
-
-while True:
-    message = input("\nYou: ")
-
-    if message.lower() == "quit":
-        break
-
-    encoded = tokenizer.encode(message + "\nBot:")
-    x = torch.tensor([encoded], dtype=torch.long, device=device)
-
-    with torch.no_grad():
-        output = model.generate(x, max_tokens=150, temperature=0.8)
-
-    answer = tokenizer.decode(output[0, len(encoded):].tolist())
-    print("Neural:", answer.split("\n")[0])
+if "-i" in sys.argv:
+    print("Project Neural test mode. Type 'quit' to stop.")
+    while True:
+        message = input("\nYou: ").strip()
+        if message.lower() == "quit":
+            break
+        r = brain.respond(message, learn=False)
+        if r["corrected"]:
+            print(f"  (read as: {r['corrected']})")
+        print(f"Neural [{r['source']}]: {r['answer']}")
+else:
+    for q in QUESTIONS:
+        r = brain.respond(q, learn=False)
+        read_as = f"  (read as: {r['corrected']})" if r["corrected"] else ""
+        print(f"You: {q}{read_as}\nBot [{r['source']}]: {r['answer']}\n")

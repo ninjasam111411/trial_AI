@@ -1,1 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neural</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%237c5cff'/><circle cx='11' cy='13' r='2.5' fill='white'/><circle cx='21' cy='13' r='2.5' fill='white'/><circle cx='16' cy='21' r='2.5' fill='white'/></svg>">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <aside id="sidebar">
+    <div class="side-top">
+      <div class="brand"><span class="logo"></span>Neural</div>
+      <button id="close-side" class="icon-btn only-mobile" aria-label="Close menu">✕</button>
+    </div>
+    <button id="new-chat" class="new-chat">＋ New chat</button>
+    <div class="side-label">Chats</div>
+    <nav id="chat-list"></nav>
+    <div class="side-bottom">
+      <button id="open-brain" class="side-btn">🧠 Brain &amp; training</button>
+      <button id="theme" class="side-btn">☀️ Light mode</button>
+    </div>
+  </aside>
+  <div id="scrim"></div>
 
+  <main>
+    <header class="topbar">
+      <button id="open-side" class="icon-btn only-mobile" aria-label="Open menu">☰</button>
+      <div id="title">New chat</div>
+      <div id="model-status" class="status"></div>
+    </header>
+
+    <section id="messages">
+      <div id="empty" class="empty">
+        <div class="logo big"></div>
+        <h1>Hi, I'm Neural.</h1>
+        <p>A small AI that learns from every chat. Rate my answers and teach me when I'm wrong.</p>
+        <div class="suggestions">
+          <button>Why is the sky blue?</button>
+          <button>Tell me a joke</button>
+          <button>How do you spell becuase?</button>
+          <button>What is 48 * 12?</button>
+        </div>
+      </div>
+      <div id="thread"></div>
+    </section>
+
+    <form id="composer">
+      <div class="input-wrap">
+        <textarea id="input" rows="1" maxlength="500" placeholder="Message Neural..." autofocus></textarea>
+        <button id="send" type="submit" aria-label="Send">➤</button>
+      </div>
+      <div class="hint">Neural saves chats to learn spelling and new answers. Use 👍 / 👎 to help it improve.</div>
+    </form>
+  </main>
+
+  <div id="brain-modal" class="modal" hidden>
+    <div class="modal-card">
+      <div class="modal-head">
+        <h2>🧠 Neural's brain</h2>
+        <button class="icon-btn" data-close aria-label="Close">✕</button>
+      </div>
+      <div id="stats" class="stats"></div>
+      <div class="train-box">
+        <div id="train-info" class="muted"></div>
+        <div id="train-progress" class="progress" hidden><div></div></div>
+        <div id="train-stage" class="muted small"></div>
+        <div class="train-actions">
+          <button id="retrain" class="primary">Retrain with what I've learned</button>
+          <button id="fresh" class="link">Train from scratch</button>
+        </div>
+        <p class="muted small">Retraining adds taught answers, 👍 chats and real typos people made to the training data, then keeps training the neural network.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
