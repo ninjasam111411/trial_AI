@@ -4,24 +4,28 @@ Train the Neural chatbot.
     python build_dataset.py     # (re)build data/training.txt
     python train.py             # train with defaults
     python train.py --steps 6000 --layers 6   # bigger / longer
+    python train.py --resume --steps 500      # keep learning from new data
 
 The best checkpoint (lowest validation loss) is saved to saved/chatbot.pt.
 """
 
 import argparse
+import json
 import math
 import random
+import sys
 import time
 from pathlib import Path
 
 import torch
 import torch.nn.functional as F
 
+from config import LEARNED_DIR, MODEL_FILE, TRAIN_INFO_FILE, TRAINING_FILE
 from model import NeuralChatbot
 from tokenizer import Tokenizer, EOS
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--data", default="data/training.txt")
+parser.add_argument("--data", default=str(TRAINING_FILE))
 parser.add_argument("--steps", type=int, default=3000)
 parser.add_argument("--batch-size", type=int, default=32)
 parser.add_argument("--context-size", type=int, default=256)
@@ -31,7 +35,9 @@ parser.add_argument("--layers", type=int, default=4)
 parser.add_argument("--dropout", type=float, default=0.1)
 parser.add_argument("--lr", type=float, default=1e-3)
 parser.add_argument("--eval-every", type=int, default=250)
-parser.add_argument("--out", default="saved/chatbot.pt")
+parser.add_argument("--out", default=str(MODEL_FILE))
+parser.add_argument("--resume", action="store_true",
+                    help="continue training the saved model instead of starting over")
 args = parser.parse_args()
 
 torch.manual_seed(1337)
@@ -43,7 +49,12 @@ text = Path(args.data).read_text(encoding="utf-8")
 examples = [e.strip() for e in text.split("\n\n") if e.strip()]
 random.shuffle(examples)
 
-tokenizer = Tokenizer("".join(examples))
+checkpoint = None
+if args.resume and Path(args.out).exists():
+    checkpoint = torch.load(args.out, map_location=device, weights_only=True)
+
+# Fixed keyboard alphabet, so new data never changes the vocabulary.
+tokenizer = Tokenizer("".join(checkpoint["characters"])) if checkpoint else Tokenizer()
 
 
 def to_tensor(items):
@@ -76,15 +87,23 @@ def get_batch(data):
 
 
 # ---- Model ---------------------------------------------------------------
-config = dict(
-    vocab_size=tokenizer.vocab_size,
-    embedding_size=args.embedding_size,
-    heads=args.heads,
-    layers=args.layers,
-    context_size=args.context_size,
-    dropout=args.dropout,
-)
+if checkpoint and checkpoint.get("config"):
+    config = checkpoint["config"]
+    args.context_size = config["context_size"]
+else:
+    config = dict(
+        vocab_size=tokenizer.vocab_size,
+        embedding_size=args.embedding_size,
+        heads=args.heads,
+        layers=args.layers,
+        context_size=args.context_size,
+        dropout=args.dropout,
+    )
+    checkpoint = None
 model = NeuralChatbot(**config).to(device)
+if checkpoint:
+    model.load_state_dict(checkpoint["model"])
+    print("Resuming from the saved model")
 print(f"Parameters: {sum(p.numel() for p in model.parameters()) / 1e6:.2f}M")
 
 optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=0.1)
@@ -148,6 +167,8 @@ for step in range(args.steps + 1):
 
     if step == args.steps:
         break
+    if step % 10 == 0 and step % args.eval_every and not sys.stdout.isatty():
+        print(f"Step {step}/{args.steps}", flush=True)  # progress for the app
 
     x, y = get_batch(train_data)
     logits = model(x)
@@ -158,5 +179,10 @@ for step in range(args.steps + 1):
     torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
     optimizer.step()
 
+LEARNED_DIR.mkdir(parents=True, exist_ok=True)
+TRAIN_INFO_FILE.write_text(json.dumps({
+    "time": int(time.time()), "val_loss": round(best_val, 4),
+    "steps": args.steps, "examples": len(examples), "resumed": bool(checkpoint),
+}), encoding="utf-8")
 print(f"Training complete! Best val loss: {best_val:.4f}")
 print(f"Model saved to {args.out}")

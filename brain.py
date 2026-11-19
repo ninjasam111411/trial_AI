@@ -1,7 +1,8 @@
 """
 The chatbot's "brain", shared by main.py, app.py and test_chat.py.
 
-Answering a message goes through three steps:
+Answering a message goes through these steps:
+  0. Spelling    - fix typos first (and answer "how do you spell X?").
   1. Calculator  - exact answers for arithmetic like "12 * 7".
   2. Knowledge   - fuzzy-match the message against data/intents.json and
                    reply with a known answer when the match is strong.
@@ -19,10 +20,9 @@ import random
 import re
 from pathlib import Path
 
-from memory import load_memory
+from config import INTENTS_FILE, MODEL_FILE
+from learning import ChatLog, Speller, TaughtStore, words_in
 
-INTENTS_FILE = Path("data/intents.json")
-MODEL_FILE = Path("saved/chatbot.pt")
 MATCH_THRESHOLD = 0.72
 
 
@@ -84,11 +84,13 @@ def _normalize(text):
 
 
 class KnowledgeBase:
-    def __init__(self, path=INTENTS_FILE):
+    def __init__(self, extra_intents=()):
         self.entries = []  # (normalized pattern, word set, intent)
-        if not Path(path).exists():
-            return
-        for intent in json.loads(Path(path).read_text(encoding="utf-8"))["intents"]:
+        intents = []
+        if INTENTS_FILE.exists():
+            intents = json.loads(INTENTS_FILE.read_text(encoding="utf-8"))["intents"]
+        self.topic_count = len(intents)
+        for intent in list(intents) + list(extra_intents):
             for pattern in intent["patterns"]:
                 norm = _normalize(pattern)
                 self.entries.append((norm, set(norm.split()), intent))
@@ -146,42 +148,98 @@ class NeuralModel:
 
 
 # ---- Putting it together -------------------------------------------------
+SPELL_RE = re.compile(r"(?:how|hw|hwo) (?:do you|do u|do i|to|would you) spell ([a-z']+)", re.I)
+
+
 class Brain:
     def __init__(self, model_path=MODEL_FILE):
-        self.knowledge = KnowledgeBase()
+        self.model_path = model_path
+        self.speller = Speller()
+        self.chat_log = ChatLog()
+        self.taught = TaughtStore()
+        self.knowledge = None
         self.neural = None
         self.last_reply = None
-        if Path(model_path).exists():
-            self.neural = NeuralModel(model_path)
-        else:
-            print(f"[brain] No trained model at {model_path} - "
-                  "run `python train.py`. Using knowledge base only.")
+        self.reload_knowledge()
+        self.reload_model()
 
-    def build_prompt(self, message, history_turns=4):
-        history = load_memory()[-history_turns:]
+    def reload_knowledge(self):
+        self.knowledge = KnowledgeBase(self.taught.as_intents())
+
+    def reload_model(self):
+        self.neural = None
+        if Path(self.model_path).exists():
+            self.neural = NeuralModel(self.model_path)
+        else:
+            print(f"[brain] No trained model at {self.model_path} yet. "
+                  "Using knowledge base only until it is trained.")
+
+    def teach(self, question, answer):
+        self.taught.add(question, answer)
+        self.speller.base.update(words_in(question + " " + answer))
+        self.reload_knowledge()
+
+    def build_prompt(self, message, history):
         lines = [f"{m['role']}: {m['message']}" for m in history]
         lines.append(f"User: {message}")
         return "\n".join(lines) + "\nBot:"
 
-    def respond(self, message, use_history=True):
-        answer = calculate(message)
-        source = "calculator"
+    def respond(self, message, history=(), learn=True):
+        """Returns a dict: answer, source, corrected (or None).
+        learn=False answers without saving anything (used by tests)."""
+        corrected, changes = self.speller.correct(message)
+        if learn:
+            self.speller.observe(message)
+        answer, source = None, None
+
+        spell = SPELL_RE.search(message) or SPELL_RE.search(corrected)
+        if spell:
+            # Use the word as the person typed it, not the auto-corrected one.
+            raw = SPELL_RE.search(message)
+            word = (raw or spell).group(1).lower()
+            right = self.speller.correct_word(word)
+            if right != word or self.speller.known(word):
+                answer = f"It's spelled {right}: {'-'.join(right.upper())}."
+            else:
+                answer = f"I don't know the word \"{word}\" yet."
+            source = "spelling"
+
+        if answer is None:
+            answer = calculate(message)
+            source = "calculator"
 
         if answer is None:
             score, intent = self.knowledge.match(message)
+            if changes:
+                fixed_score, fixed_intent = self.knowledge.match(corrected)
+                if fixed_score > score:
+                    score, intent = fixed_score, fixed_intent
+                    if score >= MATCH_THRESHOLD and learn:
+                        # The fix led to a confident answer: remember the typos.
+                        self.speller.learn_typos(changes)
             if intent and score >= MATCH_THRESHOLD:
                 options = [r for r in intent["responses"] if r != self.last_reply]
                 answer = random.choice(options or intent["responses"])
                 source = "knowledge"
 
         if answer is None and self.neural:
-            prompt = self.build_prompt(message) if use_history else f"User: {message}\nBot:"
-            answer = self.neural.generate(prompt)
+            answer = self.neural.generate(self.build_prompt(corrected, history))
             source = "neural"
 
         if not answer:
-            answer = "I'm still learning about that. Try asking me something else!"
+            answer = ("I'm still learning about that. If I got it wrong, "
+                      "press 👎 and teach me the right answer!")
             source = "fallback"
 
         self.last_reply = answer
-        return answer, source
+        return {"answer": answer, "source": source,
+                "corrected": corrected if changes else None}
+
+    def stats(self):
+        return {
+            "topics": self.knowledge.topic_count,
+            "taught_answers": len(self.taught.all()),
+            "model_ready": self.neural is not None,
+            **self.speller.stats(),
+            **self.chat_log.stats(),
+        }

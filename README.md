@@ -1,65 +1,111 @@
-# Project Neural (trial_AI)
+---
+title: Neural
+emoji: 🧠
+colorFrom: purple
+colorTo: blue
+sdk: docker
+app_port: 7860
+pinned: false
+---
 
-A small chatbot built from scratch with Python and PyTorch: a character-level
-transformer neural network, plus a knowledge base and calculator that make it
-answer reliably.
+# Neural (trial_AI)
 
-## How it answers
+A small AI chatbot built from scratch with Python and PyTorch, with a full
+chat app and the ability to **learn from the chats people send it**.
 
-Every message goes through three steps (see `brain.py`):
+- Chat app like other AIs: saved chats, dark/light mode, works on phones
+- Fixes spelling and understands chat-speak ("waht is teh sun", "hru", "r u ok")
+- 👍 / 👎 on every answer, and you can **teach it** the right answer
+- One-click **Retrain** button so the neural network learns from new chats
 
-1. **Calculator** - exact answers for math like `12 * 7` or `100 divided by 4`.
-2. **Knowledge base** - fuzzy-matches your message against `data/intents.json`
-   (140+ topics: science, space, animals, computers, AI, geography, history,
-   jokes, riddles, fun facts...). Typos and different wording still match.
-3. **Neural network** - if nothing matches, the trained transformer writes a reply.
+## Start it
 
-The web page labels each answer with where it came from.
+**Windows:** double-click `start.bat`
+**Mac / Linux:** run `./start.sh`
 
-## Setup
+The first run installs everything (a few minutes). After that, Neural opens in
+your browser at http://127.0.0.1:5000. If the neural network hasn't been
+trained yet, open **🧠 Brain & training** and press **Train the neural network**.
+
+Prefer the command line?
 
 ```bash
 pip install -r requirements.txt
-python build_dataset.py   # builds data/training.txt from data/intents.json
-python train.py           # trains the model -> saved/chatbot.pt
-```
-
-Then chat in the terminal or the browser:
-
-```bash
-python main.py            # terminal chat (type /debug to see answer sources)
-python app.py             # web chat at http://127.0.0.1:5000
+python app.py             # the chat app
+python main.py            # terminal chat
 python test_chat.py       # quick test with sample questions
 ```
 
+## Put it online (a real website anyone can use)
+
+The easiest free option is **Hugging Face Spaces**:
+
+1. Make a free account at huggingface.co, then **New Space** → SDK **Docker** → Blank.
+2. Upload this repo's files to the Space (or push with git). The settings at the
+   top of this README tell Hugging Face how to run it.
+3. In the Space's **Settings → Variables and secrets**, add a secret named
+   `NEURAL_ADMIN_KEY` with a password. Then only people with the password can
+   teach it or retrain it, and strangers can't teach it bad answers.
+
+It builds and trains a starter model automatically (about 10 minutes), then
+gives you a link. Note: on the free tier, learned chats reset when the Space
+restarts. Turning on persistent storage and setting `NEURAL_DATA_DIR=/data`
+keeps them.
+
+The `Dockerfile` also works on Render, Railway, or any server that runs Docker.
+
+## How it answers
+
+Every message goes through these steps (`brain.py`):
+
+1. **Spelling** - fixes typos and chat-speak, and answers "how do you spell ___?"
+2. **Calculator** - exact answers for math like `48 * 12`
+3. **Knowledge** - fuzzy-matches the question against 140+ built-in topics plus
+   everything people have taught it
+4. **Neural network** - if nothing matches, the transformer writes a reply
+
+Each answer in the app shows which step it came from.
+
+## How it learns from chats
+
+| What happens | What Neural learns |
+|---|---|
+| Someone types a word a lot | It becomes a known word (slang, names, game words) |
+| A misspelled message gets understood | It remembers that misspelling for next time |
+| Someone presses 👎 and teaches an answer | It knows that answer **right away** |
+| Someone presses 👍 | That chat goes into the next training run |
+| You press **Retrain** | Taught answers, 👍 chats and real typos are added to the training data, and the neural network keeps learning from where it left off |
+
+The training data also includes made-up typos of every question (swapped,
+missing, doubled letters and nearby keys), so the network learns what
+misspelled words look like.
+
+It never trains on its own unrated replies; otherwise it would learn its own
+mistakes. Learned data is saved in `saved/learned/` (not uploaded to GitHub).
+
 ## Making it smarter
 
-- **Add knowledge:** add a new entry to `data/intents.json` with a few ways to
-  ask the question (`patterns`) and one or more answers (`responses`). It works
-  in the knowledge base right away; run `build_dataset.py` and `train.py` again
-  so the neural net learns it too.
-- **Add conversations:** put extra example chats in `data/extra.txt`
-  (format below, blank line between conversations) and rebuild.
-- **Bigger model / longer training:** `python train.py --steps 6000 --layers 6`.
-  On a slow computer use a smaller model:
-  `python train.py --context-size 128 --embedding-size 128 --heads 4 --layers 3`.
-  Watch the `val` loss - lower is better. If it stops going down, more data
-  helps more than more steps.
-
-```
-User: What is your favorite planet?
-Bot: Saturn, because of its beautiful rings.
-```
+- **Add knowledge:** add entries to `data/intents.json`, or just teach it in the app.
+- **Add conversations:** put example chats in `data/extra.txt`:
+  ```
+  User: What is your favorite planet?
+  Bot: Saturn, because of its beautiful rings.
+  ```
+- **Bigger model:** `python build_dataset.py && python train.py --steps 6000`
+  (uses a bigger model than the app's quick training; better, but slower on
+  a normal computer). Lower `val` loss = better.
 
 ## Files
 
 | File | What it does |
 |---|---|
-| `data/intents.json` | The knowledge: questions and answers by topic |
-| `build_dataset.py` | Turns intents into training conversations |
-| `train.py` | Trains the transformer (validation, learning-rate schedule, saves best) |
-| `model.py` | The transformer neural network |
-| `tokenizer.py` | Turns characters into numbers and back |
-| `brain.py` | Calculator + knowledge base + neural net working together |
-| `memory.py` | Remembers the last 20 messages |
-| `main.py` / `app.py` | Terminal and web chat |
+| `app.py` | The chat app and its API |
+| `templates/`, `static/` | The app's page, styles and code |
+| `brain.py` | Spelling + calculator + knowledge + neural net working together |
+| `learning.py` | Spell checker, chat log, taught answers |
+| `memory.py` | Saved conversations |
+| `data/intents.json` | Built-in knowledge |
+| `build_dataset.py` | Builds training data from knowledge + learned chats + typos |
+| `train.py` | Trains the transformer (`--resume` keeps learning) |
+| `model.py`, `tokenizer.py` | The neural network and text-to-numbers |
+| `Dockerfile` | Runs it as a website |
