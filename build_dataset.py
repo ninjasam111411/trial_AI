@@ -14,6 +14,7 @@ Run:  python build_dataset.py
 
 import json
 import random
+import re
 
 from config import EXTRA_FILE, INTENTS_FILE, TRAINING_FILE
 from learning import ChatLog, Speller, TaughtStore
@@ -61,6 +62,11 @@ def typo_sentence(text, real_typos):
     return out if out.lower() != text.lower() else None
 
 
+def one_block(text):
+    """Conversations are separated by blank lines, so messages can't contain any."""
+    return re.sub(r"\n\s*\n+", "\n", str(text).strip())
+
+
 def variants(text):
     out = {text, text.lower()}
     stripped = text.translate(str.maketrans("", "", "?!.,'")).strip()
@@ -70,7 +76,9 @@ def variants(text):
 
 def build():
     intents = json.loads(INTENTS_FILE.read_text(encoding="utf-8"))["intents"]
-    taught = TaughtStore().as_intents()
+    taught = [{**t, "patterns": [one_block(x) for x in t["patterns"]],
+               "responses": [one_block(x) for x in t["responses"]]}
+              for t in TaughtStore().as_intents()]
     all_intents = intents + taught
 
     # real typos: correct word -> [misspellings people typed]
@@ -98,12 +106,12 @@ def build():
         if e.get("rating") == "bad":
             continue
         if e.get("rating") == "good":
-            examples.extend([f"User: {e['user']}\nBot: {e['bot']}"] * 3)
+            examples.extend([f"User: {one_block(e['user'])}\nBot: {one_block(e['bot'])}"] * 3)
             good += 1
         elif e.get("corrected") and e.get("source") == "knowledge":
             # A misspelled message it understood: keep the original spelling
             # so the model sees what real typos look like.
-            examples.append(f"User: {e['user']}\nBot: {e['bot']}")
+            examples.append(f"User: {one_block(e['user'])}\nBot: {one_block(e['bot'])}")
             confirmed += 1
 
     # Multi-turn conversations so it learns to use chat history.

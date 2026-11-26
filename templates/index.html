@@ -18,6 +18,7 @@
     <nav id="chat-list"></nav>
     <div class="side-bottom">
       <button id="open-brain" class="side-btn">🧠 Brain &amp; training</button>
+      <a id="export" class="side-btn" href="/api/export" download>⬇️ Download my chats</a>
       <button id="theme" class="side-btn">☀️ Light mode</button>
     </div>
   </aside>
@@ -50,7 +51,7 @@
         <textarea id="input" rows="1" maxlength="500" placeholder="Message Neural..." autofocus></textarea>
         <button id="send" type="submit" aria-label="Send">➤</button>
       </div>
-      <div class="hint">Neural saves chats to learn spelling and new answers. Use 👍 / 👎 to help it improve.</div>
+      <div class="hint">Your chats are saved in this browser and help Neural learn. Use 👍 / 👎 to help it improve.</div>
     </form>
   </main>
 
@@ -60,6 +61,7 @@
         <h2>🧠 Neural's brain</h2>
         <button class="icon-btn" data-close aria-label="Close">✕</button>
       </div>
+      <div id="model-card" class="model-card"></div>
       <div id="stats" class="stats"></div>
       <div class="train-box">
         <div id="train-info" class="muted"></div>
@@ -67,8 +69,20 @@
         <div id="train-stage" class="muted small"></div>
         <div class="train-actions">
           <button id="retrain" class="primary">Retrain with what I've learned</button>
-          <button id="fresh" class="link">Train from scratch</button>
         </div>
+        <details id="fresh-box" class="fresh-box">
+          <summary>Train a new model from scratch</summary>
+          <div class="fresh-row">
+            <select id="preset">
+              <option value="tiny">Tiny · ~5M parameters · minutes</option>
+              <option value="small">Small · ~33M · about an hour (faster with a GPU)</option>
+              <option value="medium">Medium · ~110M · needs a GPU</option>
+            </select>
+            <button id="fresh" class="ghost">Start</button>
+          </div>
+          <p class="muted small">Bigger models need much more text to get smarter. For Small and up,
+            run <code>python download_data.py</code> and pretrain first (see the README).</p>
+        </details>
         <p class="muted small">Retraining adds taught answers, 👍 chats and real typos people made to the training data, then keeps training the neural network.</p>
       </div>
     </div>

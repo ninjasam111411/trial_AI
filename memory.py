@@ -1,4 +1,7 @@
-"""Saved conversations (like the chat list in other AI apps)."""
+"""Saved conversations (like the chat list in other AI apps).
+
+Each browser gets its own id (saved in a cookie), so everyone who uses
+Neural sees only their own chats, and they're still there next visit."""
 
 import json
 import threading
@@ -24,31 +27,48 @@ def _save(data):
     tmp.replace(CONVERSATIONS_FILE)
 
 
-def list_conversations():
+def list_conversations(owner):
     data = _load()
     items = [{"id": cid, "title": c["title"], "updated": c["updated"]}
-             for cid, c in data.items()]
+             for cid, c in data.items() if c.get("owner") == owner]
     return sorted(items, key=lambda c: c["updated"], reverse=True)
 
 
-def create_conversation():
+def create_conversation(owner):
     with _lock:
         data = _load()
         cid = uuid.uuid4().hex[:12]
-        data[cid] = {"title": "New chat", "updated": time.time(), "messages": []}
+        data[cid] = {"title": "New chat", "updated": time.time(), "messages": [],
+                     "owner": owner}
         _save(data)
     return cid
 
 
-def get_conversation(cid):
-    return _load().get(cid)
+def get_conversation(cid, owner=None):
+    convo = _load().get(cid)
+    if convo and owner is not None and convo.get("owner") != owner:
+        return None  # someone else's chat
+    return convo
 
 
-def delete_conversation(cid):
+def all_conversations(owner):
+    return [{"id": cid, **c} for cid, c in _load().items() if c.get("owner") == owner]
+
+
+def delete_conversation(cid, owner):
     with _lock:
         data = _load()
-        data.pop(cid, None)
+        if data.get(cid, {}).get("owner") == owner:
+            data.pop(cid)
         _save(data)
+
+
+def rename_conversation(cid, owner, title):
+    with _lock:
+        data = _load()
+        if data.get(cid, {}).get("owner") == owner:
+            data[cid]["title"] = title[:60] or "New chat"
+            _save(data)
 
 
 def add_message(cid, role, text, **extra):

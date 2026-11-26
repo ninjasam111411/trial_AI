@@ -83,6 +83,12 @@ def _normalize(text):
     return " ".join(text.split())
 
 
+STOPWORDS = set("""a an the is are was were am be do does did you your i me my we our it
+its to of in on at for with about what whats who how why when where which can could would
+should will tell give say please hey hi hello this that there and or so just some any
+very really much many more most tell u ur r""".split())
+
+
 class KnowledgeBase:
     def __init__(self, extra_intents=()):
         self.entries = []  # (normalized pattern, word set, intent)
@@ -106,6 +112,15 @@ class KnowledgeBase:
             union = words | pattern_words
             overlap = len(words & pattern_words) / len(union) if union else 0
             score = max(ratio, 0.5 * ratio + 0.5 * overlap)
+            # The important words must agree: "tell me about frogs" is not
+            # "tell me about dogs", even though the sentences look alike.
+            key_msg, key_pat = words - STOPWORDS, pattern_words - STOPWORDS
+            if key_msg and key_pat and not (key_msg & key_pat):
+                score *= 0.6
+            elif key_msg - key_pat and key_pat - key_msg:
+                score *= 0.7   # a key word was swapped (spain vs japan)
+            elif len(key_msg - key_pat) > len(key_msg & key_pat):
+                score *= 0.85
             if score > best_score:
                 best_score, best_intent = score, intent
 
@@ -114,37 +129,39 @@ class KnowledgeBase:
 
 # ---- 3. Neural network ---------------------------------------------------
 class NeuralModel:
+    """Neural's own self-trained language model (see model.py / train.py)."""
+
     def __init__(self, path=MODEL_FILE):
+        import tempfile
+
         import torch
-        from model import NeuralChatbot
+        from model import NeuralLM
         from tokenizer import Tokenizer
 
-        self.torch = torch
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        ckpt = torch.load(path, map_location=self.device, weights_only=False)
+        if ckpt.get("format") != 2:
+            raise ValueError("old model format - press Train in the Brain panel to make a new one")
 
-        checkpoint = torch.load(path, map_location=self.device, weights_only=True)
-        self.tokenizer = Tokenizer("".join(checkpoint["characters"]))
+        with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8") as f:
+            f.write(ckpt["tokenizer"])
+        self.tokenizer = Tokenizer(f.name)
+        Path(f.name).unlink(missing_ok=True)
 
-        config = checkpoint.get("config") or {
-            "vocab_size": self.tokenizer.vocab_size,
-            "context_size": checkpoint["context_size"],
-        }
-        self.model = NeuralChatbot(**config).to(self.device)
-        self.model.load_state_dict(checkpoint["model"])
+        c = ckpt["config"]
+        self.model = NeuralLM(c["vocab"], c["dim"], c["layers"], c["heads"], c["context"]).to(self.device)
+        self.model.load_state_dict(ckpt["model"])
         self.model.eval()
-        self.stop_ids = self.tokenizer.encode("\nUser:")
+        self.info = {"params": ckpt.get("params", self.model.num_params()),
+                     "stage": ckpt.get("stage"), **c}
+        self.stop = {self.tokenizer.end_id, self.tokenizer.user_id}
 
-    def generate(self, prompt, max_tokens=200, temperature=0.7):
-        encoded = self.tokenizer.encode(prompt)
-        # Keep only what fits in the model's context window.
-        encoded = encoded[-(self.model.context_size - 1):]
-        x = self.torch.tensor([encoded], dtype=self.torch.long, device=self.device)
-        out = self.model.generate(
-            x, max_tokens=max_tokens, temperature=temperature,
-            top_k=20, stop_text_ids=self.stop_ids,
-        )
-        reply = self.tokenizer.decode(out[0, len(encoded):].tolist())
-        return reply.split("\nUser:")[0].split("\n\n")[0].strip()
+    def generate(self, message, history=(), max_tokens=200, temperature=0.7):
+        turns = [("user" if m["role"] == "User" else "bot", m["message"]) for m in history]
+        ids = self.tokenizer.chat_prompt(turns, message)
+        out = self.model.generate(ids, max_tokens=max_tokens, temperature=temperature,
+                                  stop_ids=self.stop)
+        return self.tokenizer.decode(out).strip()
 
 
 # ---- Putting it together -------------------------------------------------
@@ -169,7 +186,10 @@ class Brain:
     def reload_model(self):
         self.neural = None
         if Path(self.model_path).exists():
-            self.neural = NeuralModel(self.model_path)
+            try:
+                self.neural = NeuralModel(self.model_path)
+            except Exception as e:  # noqa: BLE001
+                print(f"[brain] Could not load the model: {e}")
         else:
             print(f"[brain] No trained model at {self.model_path} yet. "
                   "Using knowledge base only until it is trained.")
@@ -178,11 +198,6 @@ class Brain:
         self.taught.add(question, answer)
         self.speller.base.update(words_in(question + " " + answer))
         self.reload_knowledge()
-
-    def build_prompt(self, message, history):
-        lines = [f"{m['role']}: {m['message']}" for m in history]
-        lines.append(f"User: {message}")
-        return "\n".join(lines) + "\nBot:"
 
     def respond(self, message, history=(), learn=True):
         """Returns a dict: answer, source, corrected (or None).
@@ -223,7 +238,7 @@ class Brain:
                 source = "knowledge"
 
         if answer is None and self.neural:
-            answer = self.neural.generate(self.build_prompt(corrected, history))
+            answer = self.neural.generate(corrected, history)
             source = "neural"
 
         if not answer:
@@ -240,6 +255,7 @@ class Brain:
             "topics": self.knowledge.topic_count,
             "taught_answers": len(self.taught.all()),
             "model_ready": self.neural is not None,
+            "model": self.neural.info if self.neural else None,
             **self.speller.stats(),
             **self.chat_log.stats(),
         }

@@ -2,3 +2,5 @@ torch
 numpy
 flask
 pyspellchecker
+tokenizers
+datasets

@@ -13,8 +13,7 @@ COPY --chown=user . .
 USER user
 
 # Train a starter model while building, so the site is ready right away.
-RUN python build_dataset.py && \
-    python train.py --steps 1500 --context-size 128 --embedding-size 128 --heads 4 --layers 3
+RUN python build_dataset.py && python train.py --preset tiny --steps 800 --dropout 0.1
 
 ENV HOST=0.0.0.0 PORT=7860 NO_BROWSER=1
 EXPOSE 7860

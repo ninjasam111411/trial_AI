@@ -1,15 +1,25 @@
 """
-Train the Neural chatbot.
+Train Neural's language model from scratch. No downloaded model, no Ollama:
+every weight is learned here.
 
-    python build_dataset.py     # (re)build data/training.txt
-    python train.py             # train with defaults
-    python train.py --steps 6000 --layers 6   # bigger / longer
-    python train.py --resume --steps 500      # keep learning from new data
+Two stages, the same way big models are made:
 
-The best checkpoint (lowest validation loss) is saved to saved/chatbot.pt.
+  1. pretrain  learns English from lots of general text      (data/pretrain/)
+  2. chat      learns to answer like an assistant              (data/training.txt
+                                                                + data/chats/)
+
+Examples:
+    python train.py --preset tiny                     # quick: chat only, minutes
+    python download_data.py                           # get free training text
+    python train.py --preset small --stage pretrain --steps 20000
+    python train.py --stage chat --resume --steps 3000
+    python train.py --resume --steps 400 --lr 3e-4    # keep learning new chats
+
+Presets (see model.py): tiny ~5M, small ~33M, medium ~110M, large ~335M, xl ~1.3B
 """
 
 import argparse
+import hashlib
 import json
 import math
 import random
@@ -17,172 +27,285 @@ import sys
 import time
 from pathlib import Path
 
+import numpy as np
 import torch
-import torch.nn.functional as F
 
-from config import LEARNED_DIR, MODEL_FILE, TRAIN_INFO_FILE, TRAINING_FILE
-from model import NeuralChatbot
-from tokenizer import Tokenizer, EOS
+from config import (CHAT_DATA_DIR, LEARNED_DIR, MODEL_FILE, PRETRAIN_DIR,
+                    TOKEN_CACHE_DIR, TOKENIZER_FILE, TRAIN_INFO_FILE, TRAINING_FILE)
+from model import PRESETS, NeuralLM
+from tokenizer import Tokenizer, parse_chat
 
-parser = argparse.ArgumentParser()
-parser.add_argument("--data", default=str(TRAINING_FILE))
-parser.add_argument("--steps", type=int, default=3000)
-parser.add_argument("--batch-size", type=int, default=32)
-parser.add_argument("--context-size", type=int, default=256)
-parser.add_argument("--embedding-size", type=int, default=192)
-parser.add_argument("--heads", type=int, default=6)
-parser.add_argument("--layers", type=int, default=4)
-parser.add_argument("--dropout", type=float, default=0.1)
-parser.add_argument("--lr", type=float, default=1e-3)
-parser.add_argument("--eval-every", type=int, default=250)
-parser.add_argument("--out", default=str(MODEL_FILE))
-parser.add_argument("--resume", action="store_true",
-                    help="continue training the saved model instead of starting over")
-args = parser.parse_args()
+p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+p.add_argument("--preset", default="tiny", choices=PRESETS)
+p.add_argument("--stage", default="chat", choices=["chat", "pretrain"])
+p.add_argument("--dim", type=int)
+p.add_argument("--layers", type=int)
+p.add_argument("--heads", type=int)
+p.add_argument("--context", type=int)
+p.add_argument("--vocab", type=int)
+p.add_argument("--steps", type=int, default=2000)
+p.add_argument("--batch-size", type=int, default=16)
+p.add_argument("--grad-accum", type=int, default=1, help="bigger effective batch on small GPUs")
+p.add_argument("--lr", type=float, default=1e-3)
+p.add_argument("--dropout", type=float, default=0.0)
+p.add_argument("--eval-every", type=int, default=200)
+p.add_argument("--resume", action="store_true", help="keep training the saved model")
+p.add_argument("--new-tokenizer", action="store_true", help="retrain the tokenizer (fresh models only)")
+p.add_argument("--compile", action="store_true", help="torch.compile for speed (Linux + GPU)")
+p.add_argument("--out", default=str(MODEL_FILE))
+args = p.parse_args()
 
 torch.manual_seed(1337)
 random.seed(1337)
-device = "cuda" if torch.cuda.is_available() else "cpu"
+np.random.seed(1337)
+
+if torch.cuda.is_available():
+    device = "cuda"
+elif torch.backends.mps.is_available():
+    device = "mps"
+else:
+    device = "cpu"
+amp_dtype = None
+if device == "cuda":
+    amp_dtype = torch.bfloat16 if torch.cuda.is_bf16_supported() else torch.float16
+scaler = torch.amp.GradScaler("cuda", enabled=amp_dtype == torch.float16)
+
+
+def log(msg):
+    print(msg, flush=True)
+
+
+def chat_texts():
+    for f in [TRAINING_FILE] + sorted(CHAT_DATA_DIR.glob("*.txt")):
+        if f.exists():
+            for ex in f.read_text(encoding="utf-8").split("\n\n"):
+                if ex.strip():
+                    yield ex.strip()
+
+
+def tokenizer_corpus():
+    yield from chat_texts()
+    budget = 200_000_000  # bytes of general text to learn word pieces from
+    for f in sorted(PRETRAIN_DIR.glob("*.txt")):
+        with open(f, encoding="utf-8", errors="ignore") as fh:
+            while budget > 0 and (chunk := fh.read(1_000_000)):
+                budget -= len(chunk)
+                yield chunk
+
+
+# ---- Model config + tokenizer --------------------------------------------
+checkpoint = None
+if args.resume:
+    if not Path(args.out).exists():
+        sys.exit(f"--resume: no saved model at {args.out}. Train one first.")
+    checkpoint = torch.load(args.out, map_location="cpu", weights_only=False)
+    if checkpoint.get("format") != 2:
+        sys.exit("The saved model is the old letter-by-letter kind. Train a new one (no --resume).")
+    config = checkpoint["config"]
+    TOKENIZER_FILE.parent.mkdir(parents=True, exist_ok=True)
+    TOKENIZER_FILE.write_text(checkpoint["tokenizer"], encoding="utf-8")
+    tokenizer = Tokenizer(TOKENIZER_FILE)
+else:
+    preset = dict(PRESETS[args.preset])
+    for k in ("dim", "layers", "heads", "context", "vocab"):
+        if getattr(args, k):
+            preset[k] = getattr(args, k)
+    tokenizer = Tokenizer(TOKENIZER_FILE) if TOKENIZER_FILE.exists() else None
+    if args.new_tokenizer or tokenizer is None or tokenizer.vocab_size != preset["vocab"]:
+        log(f"Training Neural's own tokenizer (vocab {preset['vocab']:,})...")
+        tokenizer = Tokenizer.train(tokenizer_corpus(), TOKENIZER_FILE, preset["vocab"])
+    config = dict(vocab=tokenizer.vocab_size, dim=preset["dim"], layers=preset["layers"],
+                  heads=preset["heads"], context=preset["context"])
 
 # ---- Data ----------------------------------------------------------------
-text = Path(args.data).read_text(encoding="utf-8")
-examples = [e.strip() for e in text.split("\n\n") if e.strip()]
-random.shuffle(examples)
-
-checkpoint = None
-if args.resume and Path(args.out).exists():
-    checkpoint = torch.load(args.out, map_location=device, weights_only=True)
-
-# Fixed keyboard alphabet, so new data never changes the vocabulary.
-tokenizer = Tokenizer("".join(checkpoint["characters"])) if checkpoint else Tokenizer()
+tok_hash = hashlib.md5(TOKENIZER_FILE.read_bytes()).hexdigest()[:8]
 
 
-def to_tensor(items):
-    # Each conversation ends with the end-of-response token, so the
-    # model learns when to STOP talking.
-    ids = []
-    for e in items:
-        ids.extend(tokenizer.encode(e))
-        ids.append(EOS)
-    return torch.tensor(ids, dtype=torch.long)
+def load_chat():
+    examples = list(chat_texts())
+    random.shuffle(examples)
+    ids, mask = [], []
+    for ex in examples:
+        turns = parse_chat(ex)
+        if turns:
+            i, m = tokenizer.encode_chat(turns)
+            ids += i
+            mask += m
+    return np.array(ids, dtype=np.int32), np.array(mask, dtype=np.bool_), len(examples)
 
 
-split = int(len(examples) * 0.95)
-train_data = to_tensor(examples[:split])
-val_data = to_tensor(examples[split:])
+def read_docs(fh):
+    buf = []
+    for line in fh:
+        if line.strip() == "<|end|>":
+            if buf:
+                yield "".join(buf).strip()
+            buf = []
+        else:
+            buf.append(line)
+    if buf:
+        yield "".join(buf).strip()
 
-if len(train_data) <= args.context_size + 1 or len(val_data) <= args.context_size + 1:
-    raise ValueError("Add more training text!")
 
-print(f"Device: {device}")
-print(f"Examples: {len(examples)}  |  vocab: {tokenizer.vocab_size}")
-print(f"Train tokens: {len(train_data):,}  |  val tokens: {len(val_data):,}")
+def encode_docs(docs):
+    out = []
+    for ids in tokenizer.encode_batch(docs):
+        out.extend(ids)
+        out.append(tokenizer.end_id)
+    return out
 
 
-def get_batch(data):
-    starts = torch.randint(0, len(data) - args.context_size - 1, (args.batch_size,))
-    x = torch.stack([data[i:i + args.context_size] for i in starts])
-    y = torch.stack([data[i + 1:i + args.context_size + 1] for i in starts])
+def load_pretrain():
+    files = sorted(PRETRAIN_DIR.glob("*.txt"))
+    if not files:
+        sys.exit("No text in data/pretrain/. Run `python download_data.py` first.")
+    TOKEN_CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    arrays = []
+    for f in files:
+        size = f.stat().st_size
+        cache = TOKEN_CACHE_DIR / f"{f.stem}-{size}-{tok_hash}.bin"
+        if not cache.exists():
+            log(f"Tokenizing {f.name} ({size / 1e6:.0f} MB, one time only)...")
+            with open(cache, "wb") as out, open(f, encoding="utf-8", errors="ignore") as fh:
+                docs, chunk = [], 0
+                for doc in read_docs(fh):
+                    docs.append(doc)
+                    chunk += len(doc)
+                    if chunk > 20_000_000:
+                        np.array(encode_docs(docs), dtype=np.uint32).tofile(out)
+                        docs, chunk = [], 0
+                np.array(encode_docs(docs), dtype=np.uint32).tofile(out)
+        arrays.append(np.memmap(cache, dtype=np.uint32, mode="r"))
+    return (np.concatenate(arrays) if len(arrays) > 1 else arrays[0]), None, None
+
+
+data, mask, n_examples = load_chat() if args.stage == "chat" else load_pretrain()
+ctx = config["context"]
+split = int(len(data) * 0.97)
+if split <= ctx + 1 or len(data) - split <= ctx + 1:
+    sys.exit("Not enough training data for this context size.")
+log(f"Device: {device}{' (' + str(amp_dtype).split('.')[-1] + ')' if amp_dtype else ''}"
+    f"  |  stage: {args.stage}  |  tokens: {len(data):,}"
+    + (f"  |  chats: {n_examples:,}" if n_examples else ""))
+
+
+def get_batch(part):
+    lo, hi = (0, split) if part == "train" else (split, len(data))
+    starts = np.random.randint(lo, hi - ctx - 1, args.batch_size)
+    x = np.stack([data[s:s + ctx] for s in starts]).astype(np.int64)
+    y = np.stack([data[s + 1:s + ctx + 1] for s in starts]).astype(np.int64)
+    if mask is not None:
+        m = np.stack([mask[s + 1:s + ctx + 1] for s in starts])
+        y[~m] = -100
+    x, y = torch.from_numpy(x), torch.from_numpy(y)
+    if device == "cuda":
+        return x.pin_memory().to(device, non_blocking=True), y.pin_memory().to(device, non_blocking=True)
     return x.to(device), y.to(device)
 
 
 # ---- Model ---------------------------------------------------------------
-if checkpoint and checkpoint.get("config"):
-    config = checkpoint["config"]
-    args.context_size = config["context_size"]
-else:
-    config = dict(
-        vocab_size=tokenizer.vocab_size,
-        embedding_size=args.embedding_size,
-        heads=args.heads,
-        layers=args.layers,
-        context_size=args.context_size,
-        dropout=args.dropout,
-    )
-    checkpoint = None
-model = NeuralChatbot(**config).to(device)
+model = NeuralLM(config["vocab"], config["dim"], config["layers"], config["heads"],
+                 config["context"], args.dropout).to(device)
 if checkpoint:
     model.load_state_dict(checkpoint["model"])
-    print("Resuming from the saved model")
-print(f"Parameters: {sum(p.numel() for p in model.parameters()) / 1e6:.2f}M")
+n_params = model.num_params()
+log(f"Model: {n_params / 1e6:.1f}M parameters  "
+    f"(dim {config['dim']}, {config['layers']} layers, {config['heads']} heads, "
+    f"context {ctx}, vocab {config['vocab']:,})" + ("  |  resuming" if checkpoint else ""))
 
-optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=0.1)
-warmup = max(1, args.steps // 20)
+decay = [p for p in model.parameters() if p.dim() >= 2]
+no_decay = [p for p in model.parameters() if p.dim() < 2]
+optimizer = torch.optim.AdamW([{"params": decay, "weight_decay": 0.1},
+                               {"params": no_decay, "weight_decay": 0.0}],
+                              lr=args.lr, betas=(0.9, 0.95))
+train_model = torch.compile(model) if args.compile else model
+warmup = max(1, min(500, args.steps // 20))
 
 
 def lr_at(step):
-    # Warm up, then cosine decay to 10% of the peak learning rate.
     if step < warmup:
         return args.lr * (step + 1) / warmup
     progress = (step - warmup) / max(1, args.steps - warmup)
-    return args.lr * (0.1 + 0.9 * 0.5 * (1 + math.cos(math.pi * progress)))
+    return args.lr * (0.1 + 0.45 * (1 + math.cos(math.pi * progress)))
+
+
+def autocast():
+    if amp_dtype:
+        return torch.autocast("cuda", dtype=amp_dtype)
+    return torch.autocast("cpu", enabled=False)
 
 
 @torch.no_grad()
-def estimate_loss(iters=20):
+def evaluate(iters=20):
     model.eval()
-    result = {}
-    for name, data in (("train", train_data), ("val", val_data)):
+    out = {}
+    for part in ("train", "val"):
         losses = []
         for _ in range(iters):
-            x, y = get_batch(data)
-            logits = model(x)
-            losses.append(F.cross_entropy(
-                logits.reshape(-1, logits.size(-1)), y.reshape(-1)
-            ).item())
-        result[name] = sum(losses) / len(losses)
+            x, y = get_batch(part)
+            with autocast():
+                losses.append(train_model(x, y)[1].item())
+        out[part] = sum(losses) / len(losses)
     model.train()
-    return result
+    return out
 
 
-def save():
+def save(val_loss):
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
+    tmp = Path(args.out).with_suffix(".tmp")
     torch.save({
         "model": model.state_dict(),
-        "characters": tokenizer.characters,
         "config": config,
-        "context_size": args.context_size,
-    }, args.out)
+        "tokenizer": TOKENIZER_FILE.read_text(encoding="utf-8"),
+        "params": n_params,
+        "stage": args.stage,
+        "val_loss": val_loss,
+        "format": 2,
+    }, tmp)
+    tmp.replace(args.out)  # never leave a half-written model behind
 
 
 # ---- Training loop -------------------------------------------------------
-best_val = float("inf")
+best = float("inf")
 start = time.time()
+quiet = not sys.stdout.isatty()
+model.train()
 
 for step in range(args.steps + 1):
-    for group in optimizer.param_groups:
-        group["lr"] = lr_at(step)
+    for g in optimizer.param_groups:
+        g["lr"] = lr_at(step)
 
     if step % args.eval_every == 0 or step == args.steps:
-        losses = estimate_loss()
-        marker = ""
-        if losses["val"] < best_val:
-            best_val = losses["val"]
-            save()
-            marker = "  (saved)"
-        print(
-            f"Step {step}/{args.steps} | train {losses['train']:.4f} | "
-            f"val {losses['val']:.4f} | {time.time() - start:.0f}s{marker}"
-        )
-
+        losses = evaluate()
+        saved = losses["val"] < best
+        if saved:
+            best = losses["val"]
+            save(best)
+        elapsed = time.time() - start
+        eta = elapsed / max(step, 1) * (args.steps - step)
+        log(f"Step {step}/{args.steps} | train {losses['train']:.3f} | val {losses['val']:.3f} | "
+            f"{elapsed / 60:.1f}m elapsed, ~{eta / 60:.0f}m left{'  (saved)' if saved else ''}")
     if step == args.steps:
         break
-    if step % 10 == 0 and step % args.eval_every and not sys.stdout.isatty():
-        print(f"Step {step}/{args.steps}", flush=True)  # progress for the app
+    if quiet and step % 10 == 0 and step % args.eval_every:
+        log(f"Step {step}/{args.steps}")  # progress for the app's Retrain bar
 
-    x, y = get_batch(train_data)
-    logits = model(x)
-    loss = F.cross_entropy(logits.reshape(-1, logits.size(-1)), y.reshape(-1))
-
-    optimizer.zero_grad(set_to_none=True)
-    loss.backward()
+    for _ in range(args.grad_accum):
+        x, y = get_batch("train")
+        with autocast():
+            loss = train_model(x, y)[1] / args.grad_accum
+        scaler.scale(loss).backward()
+    scaler.unscale_(optimizer)
     torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
-    optimizer.step()
+    scaler.step(optimizer)
+    scaler.update()
+    optimizer.zero_grad(set_to_none=True)
 
 LEARNED_DIR.mkdir(parents=True, exist_ok=True)
 TRAIN_INFO_FILE.write_text(json.dumps({
-    "time": int(time.time()), "val_loss": round(best_val, 4),
-    "steps": args.steps, "examples": len(examples), "resumed": bool(checkpoint),
+    "time": int(time.time()), "val_loss": round(best, 4), "steps": args.steps,
+    "stage": args.stage, "params": n_params, "examples": n_examples or 0,
+    "tokens": int(len(data)), "resumed": bool(checkpoint),
 }), encoding="utf-8")
-print(f"Training complete! Best val loss: {best_val:.4f}")
-print(f"Model saved to {args.out}")
+log(f"Training complete! Best val loss: {best:.4f}  ({n_params / 1e6:.1f}M parameters)")
+log(f"Model saved to {args.out}")

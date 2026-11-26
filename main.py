@@ -4,7 +4,7 @@ import memory
 from brain import Brain
 
 brain = Brain()
-conversation = memory.create_conversation()
+conversation = memory.create_conversation("terminal")
 
 print("============================")
 print("       PROJECT NEURAL")

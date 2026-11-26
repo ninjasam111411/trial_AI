@@ -43,6 +43,33 @@ async function api(path, options = {}) {
   return data;
 }
 
+// Safe, tiny markdown: paragraphs, lists, **bold**, `code`, ```blocks```.
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+function inline(s) {
+  return s.replace(/`([^`]+)`/g, "<code>$1</code>").replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
+}
+function renderMarkdown(text) {
+  const parts = escapeHtml(text).split(/```(?:\w*)\n?/);
+  let html = "";
+  parts.forEach((part, i) => {
+    if (i % 2) { html += `<pre><code>${part.replace(/\n$/, "")}</code></pre>`; return; }
+    let list = null;
+    for (const line of part.split("\n")) {
+      const ul = line.match(/^\s*[-*•]\s+(.*)/), ol = line.match(/^\s*\d+[.)]\s+(.*)/);
+      const kind = ul ? "ul" : ol ? "ol" : null;
+      if (list && kind !== list) { html += `</${list}>`; list = null; }
+      if (kind) {
+        if (!list) { html += `<${kind}>`; list = kind; }
+        html += `<li>${inline((ul || ol)[1])}</li>`;
+      } else if (line.trim()) html += `<p>${inline(line)}</p>`;
+    }
+    if (list) html += `</${list}>`;
+  });
+  return html;
+}
+
 function scrollDown() { messagesEl.scrollTop = messagesEl.scrollHeight; }
 
 // ---------- theme ----------
@@ -163,7 +190,7 @@ function addBot(text, source, id, question, rating, animate = false) {
   }
   body.append(meta);
 
-  if (animate) typeOut(bubble, text); else bubble.textContent = text;
+  if (animate) typeOut(bubble, text); else bubble.innerHTML = renderMarkdown(text);
   scrollDown();
 }
 
@@ -175,6 +202,7 @@ function typeOut(node, text) {
     node.textContent = text.slice(0, i);
     scrollDown();
     if (i < text.length) requestAnimationFrame(tick);
+    else node.innerHTML = renderMarkdown(text);
   };
   tick();
 }
@@ -302,14 +330,28 @@ async function refreshStats() {
     $("#stats").append(box);
   }
 
+  const card = $("#model-card");
+  card.innerHTML = "";
+  if (s.model) {
+    const n = s.model.params;
+    const size = n >= 1e9 ? (n / 1e9).toFixed(1) + "B" : (n / 1e6).toFixed(1) + "M";
+    const num = el("div", "big-num", size);
+    const txt = el("div", "");
+    txt.append(el("div", "", "parameters, trained from scratch"));
+    txt.append(el("div", "muted", `${s.model.layers} layers · width ${s.model.dim} · reads ${s.model.context} tokens · vocab ${fmt(s.model.vocab)}`));
+    card.append(num, txt);
+  } else {
+    card.append(el("div", "", "No neural network yet. Train one below."));
+  }
+
   const lt = s.last_training;
   $("#train-info").textContent = !s.model_ready
     ? "The neural network isn't trained yet. It still answers from its knowledge, but training it lets it handle new questions."
     : lt
-      ? `Last trained ${new Date(lt.time * 1000).toLocaleString()} on ${fmt(lt.examples)} examples (loss ${lt.val_loss}, lower is better).`
+      ? `Last trained ${new Date(lt.time * 1000).toLocaleString()} on ${fmt(lt.tokens || 0)} tokens${lt.examples ? ` from ${fmt(lt.examples)} chats` : ""} (loss ${lt.val_loss}, lower is better).`
       : "Neural network is trained and ready.";
   $("#retrain").textContent = s.model_ready ? "Retrain with what I've learned" : "Train the neural network";
-  $("#fresh").hidden = !s.model_ready;
+  $("#fresh-box").hidden = !s.model_ready;
 
   const t = s.training;
   const status = $("#model-status");
@@ -339,9 +381,10 @@ modal.addEventListener("click", (e) => {
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") modal.hidden = true; });
 
 async function startTraining(fresh) {
-  if (fresh && !confirm("Start the neural network over from scratch? This takes longer.")) return;
+  const preset = $("#preset").value;
+  if (fresh && !confirm(`Replace the current neural network with a new ${preset} one trained from scratch?`)) return;
   try {
-    await api("/api/retrain", { method: "POST", body: JSON.stringify({ fresh }) });
+    await api("/api/retrain", { method: "POST", body: JSON.stringify({ fresh, preset }) });
   } catch (err) { alert(err.message); }
   refreshStats();
 }

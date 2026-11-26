@@ -21,3 +21,8 @@ TAUGHT_FILE = LEARNED_DIR / "taught.json"         # answers people taught it
 WORDS_FILE = LEARNED_DIR / "words.json"           # words seen in chats
 TYPOS_FILE = LEARNED_DIR / "typos.json"           # misspelling -> correct word
 TRAIN_INFO_FILE = LEARNED_DIR / "train_info.json"  # last training result
+
+TOKENIZER_FILE = SAVE_DIR / "tokenizer.json"      # Neural's own trained tokenizer
+PRETRAIN_DIR = DATA_DIR / "pretrain"              # general text (download_data.py)
+CHAT_DATA_DIR = DATA_DIR / "chats"                # extra chat datasets (download_data.py)
+TOKEN_CACHE_DIR = SAVE_DIR / "token_cache"        # pre-tokenized text for fast training

@@ -17,16 +17,39 @@ import sys
 import threading
 import webbrowser
 
-from flask import Flask, jsonify, render_template, request
+import json
+import uuid
+
+from flask import Flask, Response, g, jsonify, render_template, request
 
 import memory
 from brain import Brain
-from config import BASE_DIR, MODEL_FILE, TRAIN_INFO_FILE
+from config import BASE_DIR, TRAIN_INFO_FILE
 from learning import Speller, _read_json
 
 app = Flask(__name__)
 brain = Brain()
 ADMIN_KEY = os.environ.get("NEURAL_ADMIN_KEY", "")
+
+
+COOKIE = "neural_uid"
+UID_RE = re.compile(r"^[a-f0-9]{32}$")
+
+
+@app.before_request
+def identify_browser():
+    """Give each browser its own id, remembered in a cookie for a year."""
+    uid = request.cookies.get(COOKIE, "")
+    g.new_uid = not UID_RE.match(uid)
+    g.uid = uuid.uuid4().hex if g.new_uid else uid
+
+
+@app.after_request
+def save_cookie(resp):
+    if getattr(g, "new_uid", False) or request.path == "/":
+        resp.set_cookie(COOKIE, g.uid, max_age=365 * 24 * 3600, httponly=True,
+                        samesite="Lax", secure=request.is_secure)
+    return resp
 
 
 def is_admin():
@@ -42,24 +65,39 @@ def home():
 # ---- Conversations -------------------------------------------------------
 @app.get("/api/conversations")
 def conversations():
-    return jsonify(memory.list_conversations())
+    return jsonify(memory.list_conversations(g.uid))
 
 
 @app.post("/api/conversations")
 def new_conversation():
-    return jsonify({"id": memory.create_conversation()})
+    return jsonify({"id": memory.create_conversation(g.uid)})
 
 
 @app.get("/api/conversations/<cid>")
 def get_conversation(cid):
-    convo = memory.get_conversation(cid)
+    convo = memory.get_conversation(cid, g.uid)
     return (jsonify(convo), 200) if convo else (jsonify({"error": "Not found"}), 404)
 
 
 @app.delete("/api/conversations/<cid>")
 def delete_conversation(cid):
-    memory.delete_conversation(cid)
+    memory.delete_conversation(cid, g.uid)
     return jsonify({"ok": True})
+
+
+@app.patch("/api/conversations/<cid>")
+def rename_conversation(cid):
+    title = str((request.get_json(silent=True) or {}).get("title", "")).strip()
+    memory.rename_conversation(cid, g.uid, title)
+    return jsonify({"ok": True})
+
+
+@app.get("/api/export")
+def export_chats():
+    """Download all of this browser's chats as a file."""
+    body = json.dumps(memory.all_conversations(g.uid), indent=2, ensure_ascii=False)
+    return Response(body, mimetype="application/json",
+                    headers={"Content-Disposition": "attachment; filename=neural-chats.json"})
 
 
 # ---- Chat ----------------------------------------------------------------
@@ -67,7 +105,9 @@ def delete_conversation(cid):
 def chat():
     data = request.get_json(silent=True) or {}
     message = str(data.get("message", "")).strip()
-    cid = str(data.get("conversation_id") or "") or memory.create_conversation()
+    cid = str(data.get("conversation_id") or "")
+    if not cid or not memory.get_conversation(cid, g.uid):
+        cid = memory.create_conversation(g.uid)
 
     if not message:
         return jsonify({"error": "Please enter a message."}), 400
@@ -119,17 +159,18 @@ def teach():
 training = {"running": False, "stage": "", "progress": 0, "log": [], "error": None}
 
 
-def run_training(fresh):
+FRESH_STEPS = {"tiny": 800, "small": 3000, "medium": 5000}
+
+
+def run_training(fresh, preset):
     py = sys.executable
-    steps = 1500 if fresh else 400
     cmds = [[py, "-u", "build_dataset.py"],
-            [py, "-u", "train.py", "--steps", str(steps), "--eval-every", "100"]]
+            [py, "-u", "train.py", "--eval-every", "100"]]
     if fresh:
-        # A small, quick model that trains in minutes on a normal computer.
-        cmds[1] += ["--context-size", "128", "--embedding-size", "128",
-                    "--heads", "4", "--layers", "3"]
+        cmds[1] += ["--preset", preset, "--steps", str(FRESH_STEPS[preset]), "--dropout", "0.1"]
     else:
-        cmds[1] += ["--resume", "--lr", "3e-4"]
+        # Keep learning from where it left off, gently, so it doesn't forget.
+        cmds[1] += ["--resume", "--steps", "400", "--lr", "3e-4"]
 
     try:
         for i, cmd in enumerate(cmds):
@@ -160,10 +201,12 @@ def retrain():
         return jsonify({"error": "Admin password needed to retrain."}), 403
     if training["running"]:
         return jsonify({"error": "Already training."}), 409
-    fresh = not MODEL_FILE.exists() or bool((request.get_json(silent=True) or {}).get("fresh"))
+    body = request.get_json(silent=True) or {}
+    fresh = brain.neural is None or bool(body.get("fresh"))
+    preset = body.get("preset") if body.get("preset") in FRESH_STEPS else "tiny"
     training.update(running=True, stage="Starting", progress=0, log=[], error=None)
-    threading.Thread(target=run_training, args=(fresh,), daemon=True).start()
-    return jsonify({"ok": True, "fresh": fresh})
+    threading.Thread(target=run_training, args=(fresh, preset), daemon=True).start()
+    return jsonify({"ok": True, "fresh": fresh, "preset": preset})
 
 
 @app.get("/api/stats")
@@ -176,7 +219,17 @@ def stats():
     })
 
 
+def autotrain_if_needed():
+    """First run with no model yet: train a tiny starter model in the background.
+    Neural still answers from its knowledge while it trains."""
+    if brain.neural is None and not training["running"] and os.environ.get("NEURAL_AUTOTRAIN", "1") == "1":
+        print("  No neural network yet - training a starter model in the background...")
+        training.update(running=True, stage="Starting", progress=0, log=[], error=None)
+        threading.Thread(target=run_training, args=(True, "tiny"), daemon=True).start()
+
+
 if __name__ == "__main__":
+    autotrain_if_needed()
     host = os.environ.get("HOST", "127.0.0.1")
     port = int(os.environ.get("PORT", 5000))
     if host == "127.0.0.1" and not os.environ.get("NO_BROWSER"):
