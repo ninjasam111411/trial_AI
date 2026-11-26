@@ -4,7 +4,9 @@
    "tag": "ww2",
    "patterns": [
     "When was World War 2?",
-    "What was World War II?"
+    "What was World War II?",
+    "What was WW2?",
+    "Tell me about World War 2"
    ],
    "responses": [
     "World War II lasted from 1939 to 1945. It was the largest war in history, fought between the Allies and the Axis powers."
@@ -14,7 +16,9 @@
    "tag": "ww1",
    "patterns": [
     "When was World War 1?",
-    "What was World War I?"
+    "What was World War I?",
+    "What was WW1?",
+    "Tell me about World War 1"
    ],
    "responses": [
     "World War I lasted from 1914 to 1918 and was fought mostly in Europe."

@@ -128,6 +128,12 @@ class KnowledgeBase:
             elif key_pat - key_msg:
                 # the known question has an extra detail ("abraham" lincoln)
                 score *= 0.9
+            # One- or two-word topics ("macbeth", "ww1"): if every important
+            # word is in the known question, that's a match.
+            topic = words - STOPWORDS
+            if len(words) <= 2 and topic and all(len(w) >= 3 for w in topic) \
+                    and topic <= (pattern_words - STOPWORDS):
+                score = max(score, 0.8)
             if score > best_score:
                 best_score, best_intent = score, intent
 

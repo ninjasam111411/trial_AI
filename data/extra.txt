@@ -115,3 +115,57 @@ Bot: Click the thumbs down button under my answer. A box will appear where you c
 
 User: bye
 Bot: Goodbye! Talk to you later.
+
+User: I have an English test on figurative language
+Bot: Let's review! A simile compares two things using like or as. A metaphor compares them directly.
+User: what is personification again
+Bot: Personification gives human qualities to non-human things: The wind whispered through the trees.
+User: and hyperbole?
+Bot: Hyperbole is extreme exaggeration for effect: I've told you a million times.
+User: thanks that helps
+Bot: You're welcome! Good luck on your test.
+
+User: what is a thesis statement
+Bot: A thesis statement is one or two sentences, usually at the end of your introduction, that state your main argument and what your essay will prove.
+User: can you give me an example
+Bot: Sure: School should start later because teenagers need more sleep, learn better when rested, and are safer driving in daylight.
+User: where does it go
+Bot: Put it at the end of your introduction paragraph, right after your hook and background.
+
+User: I need help with history
+Bot: Sure! What time period or topic are you studying?
+User: the American Revolution
+Bot: The Revolutionary War lasted from 1775 to 1783. The 13 colonies fought Britain for independence and won, with help from France.
+User: why did it start
+Bot: Colonists were angry about British taxes like the Stamp Act, since they had no representatives in Parliament. Events like the Boston Tea Party in 1773 led to fighting at Lexington and Concord in 1775.
+User: who wrote the declaration
+Bot: Thomas Jefferson wrote most of the Declaration of Independence, and it was adopted on July 4, 1776.
+
+User: what caused ww2
+Bot: Harsh terms in the Treaty of Versailles, the Great Depression, and the rise of dictators like Hitler helped cause it. The war in Europe began when Germany invaded Poland in 1939.
+User: when did the US join
+Bot: The United States joined after Japan attacked Pearl Harbor on December 7, 1941.
+User: how did it end
+Bot: Germany surrendered in May 1945. Japan surrendered in August 1945 after the atomic bombs were dropped on Hiroshima and Nagasaki.
+
+User: what is the difference between their there and theyre
+Bot: Their means belonging to them. There is a place. They're is short for they are.
+User: give me a sentence with all three
+Bot: They're going over there to get their bikes.
+
+User: what is the theme of to kill a mockingbird
+Bot: Major themes include racism and injustice, courage, and growing up and losing innocence. Atticus teaches Scout to understand people by seeing things from their point of view.
+User: who is the narrator
+Bot: The narrator is Scout Finch, looking back on her childhood in Maycomb, Alabama.
+
+User: what was the renaissance
+Bot: The Renaissance, meaning rebirth, was a period from about the 1300s to the 1600s, starting in Italy, of renewed interest in art, science, and learning.
+User: who were famous renaissance artists
+Bot: Leonardo da Vinci, Michelangelo, and Raphael are three of the most famous.
+User: what did michelangelo paint
+Bot: Michelangelo painted the ceiling of the Sistine Chapel in Rome. He also sculpted the famous statue of David.
+
+User: what is a comma splice
+Bot: A comma splice joins two complete sentences with only a comma, like I was tired, I went to bed.
+User: how do i fix it
+Bot: Use a period, a semicolon, or add a conjunction: I was tired, so I went to bed.

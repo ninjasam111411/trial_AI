@@ -1,0 +1,479 @@
+{
+ "intents": [
+  {
+   "tag": "english_grammar_pronoun",
+   "patterns": [
+    "What is a pronoun?"
+   ],
+   "responses": [
+    "A pronoun takes the place of a noun, like he, she, it, they, we, or you. Example: Sam lost his book, so he looked for it."
+   ]
+  },
+  {
+   "tag": "english_grammar_preposition",
+   "patterns": [
+    "What is a preposition?"
+   ],
+   "responses": [
+    "A preposition shows how a noun relates to something else, often place or time: in, on, under, before, after, with. Example: The cat is under the table."
+   ]
+  },
+  {
+   "tag": "english_grammar_conjunction",
+   "patterns": [
+    "What is a conjunction?",
+    "What are FANBOYS?"
+   ],
+   "responses": [
+    "A conjunction joins words or sentences. The coordinating conjunctions are FANBOYS: for, and, nor, but, or, yet, so."
+   ]
+  },
+  {
+   "tag": "english_grammar_interjection",
+   "patterns": [
+    "What is an interjection?"
+   ],
+   "responses": [
+    "An interjection is a word that shows sudden feeling, like wow, oops, or hey. Example: Wow! That was amazing."
+   ]
+  },
+  {
+   "tag": "english_grammar_article",
+   "patterns": [
+    "What is an article in grammar?",
+    "What are articles?"
+   ],
+   "responses": [
+    "The articles are a, an, and the. A and an are used for any one thing; the is used for a specific thing."
+   ]
+  },
+  {
+   "tag": "english_grammar_parts_of_speech",
+   "patterns": [
+    "What are the parts of speech?",
+    "How many parts of speech are there?"
+   ],
+   "responses": [
+    "The eight parts of speech are noun, pronoun, verb, adjective, adverb, preposition, conjunction, and interjection."
+   ]
+  },
+  {
+   "tag": "english_grammar_a_an",
+   "patterns": [
+    "When do I use a or an?",
+    "a vs an"
+   ],
+   "responses": [
+    "Use an before a vowel sound and a before a consonant sound. It's the sound that matters: an hour, a university, an apple, a car."
+   ]
+  },
+  {
+   "tag": "english_grammar_subject_predicate",
+   "patterns": [
+    "What is a subject and predicate?",
+    "What is the subject of a sentence?"
+   ],
+   "responses": [
+    "The subject is who or what the sentence is about. The predicate tells what the subject does or is. In The dog barked, the dog is the subject and barked is the predicate."
+   ]
+  },
+  {
+   "tag": "english_grammar_sentence_types",
+   "patterns": [
+    "What are the four types of sentences?",
+    "What is a declarative sentence?"
+   ],
+   "responses": [
+    "Declarative makes a statement. Interrogative asks a question. Imperative gives a command. Exclamatory shows strong feeling with an exclamation point."
+   ]
+  },
+  {
+   "tag": "english_grammar_sentence_structures",
+   "patterns": [
+    "What is a compound sentence?",
+    "What is a complex sentence?",
+    "simple compound complex sentences"
+   ],
+   "responses": [
+    "A simple sentence has one independent clause. A compound sentence joins two with a conjunction or semicolon. A complex sentence has an independent clause plus a dependent clause, like Because it rained, we stayed inside."
+   ]
+  },
+  {
+   "tag": "english_grammar_clauses",
+   "patterns": [
+    "What is an independent clause?",
+    "What is a dependent clause?"
+   ],
+   "responses": [
+    "An independent clause has a subject and verb and can stand alone as a sentence. A dependent clause also has a subject and verb but can't stand alone, like because I was tired."
+   ]
+  },
+  {
+   "tag": "english_grammar_phrase",
+   "patterns": [
+    "What is a phrase?",
+    "What is the difference between a phrase and a clause?"
+   ],
+   "responses": [
+    "A phrase is a group of words without both a subject and a verb, like in the morning. A clause has both a subject and a verb."
+   ]
+  },
+  {
+   "tag": "english_grammar_fragment",
+   "patterns": [
+    "What is a sentence fragment?",
+    "What is a fragment?"
+   ],
+   "responses": [
+    "A fragment is an incomplete sentence missing a subject, a verb, or a complete thought, like Because I was late. Fix it by finishing the thought: Because I was late, I missed the bus."
+   ]
+  },
+  {
+   "tag": "english_grammar_run_on",
+   "patterns": [
+    "What is a run-on sentence?",
+    "How do I fix a run-on?"
+   ],
+   "responses": [
+    "A run-on joins two complete sentences without proper punctuation. Fix it with a period, a semicolon, or a comma plus a conjunction like and or but."
+   ]
+  },
+  {
+   "tag": "english_grammar_comma_splice",
+   "patterns": [
+    "What is a comma splice?"
+   ],
+   "responses": [
+    "A comma splice joins two complete sentences with only a comma, like I was tired, I went to bed. Use a period, a semicolon, or add a conjunction: I was tired, so I went to bed."
+   ]
+  },
+  {
+   "tag": "english_grammar_commas",
+   "patterns": [
+    "When do I use a comma?",
+    "Comma rules"
+   ],
+   "responses": [
+    "Use commas to separate items in a list, before a conjunction joining two sentences, after an introductory word or phrase, and around extra information in a sentence."
+   ]
+  },
+  {
+   "tag": "english_grammar_oxford_comma",
+   "patterns": [
+    "What is the Oxford comma?"
+   ],
+   "responses": [
+    "The Oxford comma is the comma before and in a list of three or more: red, white, and blue. Some style guides use it and some don't, but it often makes lists clearer."
+   ]
+  },
+  {
+   "tag": "english_grammar_semicolon",
+   "patterns": [
+    "When do I use a semicolon?",
+    "How do semicolons work?"
+   ],
+   "responses": [
+    "A semicolon joins two closely related complete sentences without a conjunction: I love reading; it relaxes me. It can also separate list items that already contain commas."
+   ]
+  },
+  {
+   "tag": "english_grammar_colon",
+   "patterns": [
+    "When do I use a colon?"
+   ],
+   "responses": [
+    "Use a colon after a complete sentence to introduce a list, an explanation, or a quote: I need three things: paper, pens, and tape."
+   ]
+  },
+  {
+   "tag": "english_grammar_apostrophe",
+   "patterns": [
+    "How do I use apostrophes?",
+    "When do I use an apostrophe?"
+   ],
+   "responses": [
+    "Apostrophes show possession (the dog's bone) or missing letters in contractions (don't = do not). Don't use them to make plurals: one apple, two apples."
+   ]
+  },
+  {
+   "tag": "english_grammar_plural_possessive",
+   "patterns": [
+    "How do I make a plural noun possessive?",
+    "dogs vs dog's vs dogs'"
+   ],
+   "responses": [
+    "For one owner add 's: the dog's toy. For a plural ending in s add just an apostrophe: the dogs' toys. For plurals without s add 's: the children's books."
+   ]
+  },
+  {
+   "tag": "english_grammar_quotation_marks",
+   "patterns": [
+    "How do I use quotation marks?",
+    "Does the period go inside quotes?"
+   ],
+   "responses": [
+    "Quotation marks go around someone's exact words and titles of short works. In American English, periods and commas go inside the quotation marks: She said, \"I'm ready.\""
+   ]
+  },
+  {
+   "tag": "english_grammar_capitalization",
+   "patterns": [
+    "What words should be capitalized?",
+    "Capitalization rules"
+   ],
+   "responses": [
+    "Capitalize the first word of a sentence, the word I, names of people and places, days, months, holidays, and the important words in titles."
+   ]
+  },
+  {
+   "tag": "english_grammar_active_passive",
+   "patterns": [
+    "What is passive voice?",
+    "What is active voice?"
+   ],
+   "responses": [
+    "In active voice the subject does the action: The dog chased the ball. In passive voice the subject receives it: The ball was chased by the dog. Active voice is usually clearer."
+   ]
+  },
+  {
+   "tag": "english_grammar_verb_tenses",
+   "patterns": [
+    "What are verb tenses?",
+    "What are the tenses in English?"
+   ],
+   "responses": [
+    "Tenses show when something happens: past (I walked), present (I walk), and future (I will walk). Each has simple, progressive, perfect, and perfect progressive forms."
+   ]
+  },
+  {
+   "tag": "english_grammar_perfect_tense",
+   "patterns": [
+    "What is present perfect tense?",
+    "What is the perfect tense?"
+   ],
+   "responses": [
+    "Perfect tenses use has, have, or had plus a past participle. Present perfect: I have finished. Past perfect: I had finished before you arrived."
+   ]
+  },
+  {
+   "tag": "english_grammar_irregular_verbs",
+   "patterns": [
+    "What are irregular verbs?"
+   ],
+   "responses": [
+    "Irregular verbs don't add -ed in the past. Examples: go and went, see and saw, eat and ate, run and ran, bring and brought."
+   ]
+  },
+  {
+   "tag": "english_grammar_subject_verb",
+   "patterns": [
+    "What is subject-verb agreement?"
+   ],
+   "responses": [
+    "The verb must match the subject in number. Singular: The dog runs. Plural: The dogs run. Watch for tricky subjects: Each of the students is ready."
+   ]
+  },
+  {
+   "tag": "english_grammar_pronoun_antecedent",
+   "patterns": [
+    "What is an antecedent?",
+    "What is pronoun-antecedent agreement?"
+   ],
+   "responses": [
+    "An antecedent is the noun a pronoun refers to. They must agree: Maria lost her phone. Here her refers back to Maria."
+   ]
+  },
+  {
+   "tag": "english_grammar_who_whom",
+   "patterns": [
+    "Who vs whom",
+    "When do I use whom?"
+   ],
+   "responses": [
+    "Use who for the subject (he) and whom for the object (him). Trick: if you can answer with him, use whom. Whom did you call? I called him."
+   ]
+  },
+  {
+   "tag": "english_grammar_affect_effect",
+   "patterns": [
+    "Affect vs effect",
+    "What is the difference between affect and effect?"
+   ],
+   "responses": [
+    "Affect is usually a verb meaning to influence. Effect is usually a noun meaning a result. The weather affects my mood; the effect is that I feel sleepy."
+   ]
+  },
+  {
+   "tag": "english_grammar_then_than",
+   "patterns": [
+    "Then vs than",
+    "What is the difference between then and than?"
+   ],
+   "responses": [
+    "Then is about time: We ate, then we left. Than compares things: She is taller than me."
+   ]
+  },
+  {
+   "tag": "english_grammar_lose_loose",
+   "patterns": [
+    "Lose vs loose"
+   ],
+   "responses": [
+    "Lose means to misplace or not win: Don't lose your keys. Loose means not tight: My shoe is loose."
+   ]
+  },
+  {
+   "tag": "english_grammar_accept_except",
+   "patterns": [
+    "Accept vs except"
+   ],
+   "responses": [
+    "Accept means to receive or agree: I accept your offer. Except means but or leaving out: Everyone came except Sam."
+   ]
+  },
+  {
+   "tag": "english_grammar_fewer_less",
+   "patterns": [
+    "Fewer vs less"
+   ],
+   "responses": [
+    "Use fewer for things you can count and less for things you can't: fewer cookies, less sugar."
+   ]
+  },
+  {
+   "tag": "english_grammar_good_well",
+   "patterns": [
+    "Good vs well"
+   ],
+   "responses": [
+    "Good is an adjective that describes nouns: a good book. Well is usually an adverb that describes verbs: She sings well. For health, I feel well is also correct."
+   ]
+  },
+  {
+   "tag": "english_grammar_lie_lay",
+   "patterns": [
+    "Lie vs lay"
+   ],
+   "responses": [
+    "Lay needs an object: Lay the book on the table. Lie doesn't: I need to lie down. It's tricky because the past tense of lie is lay."
+   ]
+  },
+  {
+   "tag": "english_grammar_me_i",
+   "patterns": [
+    "Me vs I",
+    "Is it me and my friend or my friend and I?"
+   ],
+   "responses": [
+    "Remove the other person to check. My friend and I went (I went). She called my friend and me (she called me)."
+   ]
+  },
+  {
+   "tag": "english_grammar_homophones",
+   "patterns": [
+    "What are homophones?",
+    "What is a homonym?"
+   ],
+   "responses": [
+    "Homophones sound the same but have different meanings and spellings, like their, there, and they're, or to, too, and two."
+   ]
+  },
+  {
+   "tag": "english_grammar_prefix_suffix",
+   "patterns": [
+    "What is a prefix?",
+    "What is a suffix?"
+   ],
+   "responses": [
+    "A prefix goes at the start of a word to change its meaning, like un- in unhappy. A suffix goes at the end, like -ful in helpful."
+   ]
+  },
+  {
+   "tag": "english_grammar_root_words",
+   "patterns": [
+    "What is a root word?"
+   ],
+   "responses": [
+    "A root word is the main part of a word that carries its meaning. In unhappiness, the root is happy. Many English roots come from Latin and Greek, like port meaning carry."
+   ]
+  },
+  {
+   "tag": "english_grammar_plurals",
+   "patterns": [
+    "How do I make words plural?",
+    "Plural rules"
+   ],
+   "responses": [
+    "Most words add -s. Words ending in s, x, z, ch, or sh add -es (boxes). Words ending in a consonant plus y change y to -ies (city, cities). Some are irregular: child, children."
+   ]
+  },
+  {
+   "tag": "english_grammar_objects",
+   "patterns": [
+    "What is a direct object?",
+    "What is an indirect object?"
+   ],
+   "responses": [
+    "A direct object receives the action: She threw the ball. An indirect object tells to whom it was done: She threw me the ball. Me is the indirect object."
+   ]
+  },
+  {
+   "tag": "english_grammar_verbals",
+   "patterns": [
+    "What is a gerund?",
+    "What is an infinitive?",
+    "What is a participle?"
+   ],
+   "responses": [
+    "A gerund is a verb ending in -ing used as a noun: Swimming is fun. An infinitive is to plus a verb: I want to swim. A participle is a verb form used as an adjective: the broken window."
+   ]
+  },
+  {
+   "tag": "english_grammar_parallel",
+   "patterns": [
+    "What is parallel structure?"
+   ],
+   "responses": [
+    "Parallel structure means using the same grammar pattern in a list. Not: I like hiking, to swim, and biking. Instead: I like hiking, swimming, and biking."
+   ]
+  },
+  {
+   "tag": "english_grammar_dangling_modifier",
+   "patterns": [
+    "What is a dangling modifier?",
+    "What is a misplaced modifier?"
+   ],
+   "responses": [
+    "A dangling modifier describes the wrong thing. Walking to school, the rain started sounds like the rain was walking. Fix: Walking to school, I got caught in the rain."
+   ]
+  },
+  {
+   "tag": "english_grammar_double_negative",
+   "patterns": [
+    "What is a double negative?"
+   ],
+   "responses": [
+    "A double negative uses two negative words, like I don't have no money. In standard English, use one: I don't have any money."
+   ]
+  },
+  {
+   "tag": "english_grammar_contractions",
+   "patterns": [
+    "What is a contraction?"
+   ],
+   "responses": [
+    "A contraction shortens two words with an apostrophe: can't (cannot), I'm (I am), they're (they are), won't (will not)."
+   ]
+  },
+  {
+   "tag": "english_grammar_comparatives",
+   "patterns": [
+    "What is a comparative adjective?",
+    "bigger vs biggest"
+   ],
+   "responses": [
+    "Comparatives compare two things (bigger, more careful). Superlatives compare three or more (biggest, most careful). Short words add -er and -est; longer words use more and most."
+   ]
+  }
+ ]
+}

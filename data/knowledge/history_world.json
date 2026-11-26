@@ -1,0 +1,467 @@
+{
+ "intents": [
+  {
+   "tag": "history_world_mesopotamia",
+   "patterns": [
+    "What was Mesopotamia?",
+    "Where did civilization start?"
+   ],
+   "responses": [
+    "Mesopotamia, between the Tigris and Euphrates rivers in modern Iraq, is often called the cradle of civilization. The Sumerians there invented one of the first writing systems, cuneiform."
+   ]
+  },
+  {
+   "tag": "history_world_ancient_egypt",
+   "patterns": [
+    "Tell me about ancient Egypt",
+    "What were hieroglyphics?"
+   ],
+   "responses": [
+    "Ancient Egypt grew along the Nile River for about 3,000 years. Egyptians built pyramids, were ruled by pharaohs, and wrote with picture symbols called hieroglyphics."
+   ]
+  },
+  {
+   "tag": "history_world_ancient_china",
+   "patterns": [
+    "Tell me about ancient China",
+    "What were Chinese dynasties?"
+   ],
+   "responses": [
+    "Ancient China was ruled by a series of dynasties, families that held power, like the Shang, Zhou, Qin, and Han. China gave the world paper, silk, the compass, and gunpowder."
+   ]
+  },
+  {
+   "tag": "history_world_qin_shi_huang",
+   "patterns": [
+    "Who was the first emperor of China?",
+    "What is the Terracotta Army?"
+   ],
+   "responses": [
+    "Qin Shi Huang united China in 221 BC and became its first emperor. He was buried with the Terracotta Army, thousands of life-size clay soldiers."
+   ]
+  },
+  {
+   "tag": "history_world_athens_sparta",
+   "patterns": [
+    "What is the difference between Athens and Sparta?"
+   ],
+   "responses": [
+    "Athens was a Greek city-state known for democracy, art, and learning. Sparta was known for its powerful military and strict training of its citizens."
+   ]
+  },
+  {
+   "tag": "history_world_greek_philosophers",
+   "patterns": [
+    "Who were Socrates Plato and Aristotle?"
+   ],
+   "responses": [
+    "They were ancient Greek philosophers. Socrates taught by asking questions, Plato was his student and founded a school called the Academy, and Aristotle was Plato's student and tutored Alexander the Great."
+   ]
+  },
+  {
+   "tag": "history_world_alexander",
+   "patterns": [
+    "Who was Alexander the Great?"
+   ],
+   "responses": [
+    "Alexander the Great was a king of Macedonia who, by his death in 323 BC, had conquered an empire stretching from Greece to Egypt and India."
+   ]
+  },
+  {
+   "tag": "history_world_roman_republic",
+   "patterns": [
+    "What was the Roman Republic?"
+   ],
+   "responses": [
+    "Before it was an empire, Rome was a republic where citizens elected leaders, like senators. The Republic ended when Augustus became the first emperor in 27 BC."
+   ]
+  },
+  {
+   "tag": "history_world_julius_caesar",
+   "patterns": [
+    "Who was Julius Caesar?"
+   ],
+   "responses": [
+    "Julius Caesar was a Roman general and leader who gained enormous power. He was assassinated by senators on the Ides of March, March 15, 44 BC."
+   ]
+  },
+  {
+   "tag": "history_world_fall_rome",
+   "patterns": [
+    "When did Rome fall?",
+    "Why did the Roman Empire fall?"
+   ],
+   "responses": [
+    "The Western Roman Empire fell in 476 AD, weakened by invasions, money problems, and political trouble. The Eastern half, the Byzantine Empire, lasted until 1453."
+   ]
+  },
+  {
+   "tag": "history_world_byzantine",
+   "patterns": [
+    "What was the Byzantine Empire?"
+   ],
+   "responses": [
+    "The Byzantine Empire was the eastern part of the Roman Empire, with its capital at Constantinople (now Istanbul). It lasted until the Ottomans conquered it in 1453."
+   ]
+  },
+  {
+   "tag": "history_world_middle_ages",
+   "patterns": [
+    "What were the Middle Ages?",
+    "What is the medieval period?"
+   ],
+   "responses": [
+    "The Middle Ages, or medieval period, in Europe lasted roughly from the fall of Rome in 476 to around 1500. It was a time of castles, knights, the Church, and feudalism."
+   ]
+  },
+  {
+   "tag": "history_world_feudalism",
+   "patterns": [
+    "What was feudalism?"
+   ],
+   "responses": [
+    "Feudalism was the medieval system where kings gave land to lords in exchange for loyalty and soldiers, and peasants called serfs worked the land for protection."
+   ]
+  },
+  {
+   "tag": "history_world_magna_carta",
+   "patterns": [
+    "What was the Magna Carta?"
+   ],
+   "responses": [
+    "The Magna Carta, signed by King John of England in 1215, limited the king's power and said even the king had to follow the law."
+   ]
+  },
+  {
+   "tag": "history_world_black_death",
+   "patterns": [
+    "What was the Black Death?",
+    "What was the plague?"
+   ],
+   "responses": [
+    "The Black Death was a plague that swept through Europe from 1347 to 1351, killing about a third of Europe's population. It was spread by fleas on rats."
+   ]
+  },
+  {
+   "tag": "history_world_crusades",
+   "patterns": [
+    "What were the Crusades?"
+   ],
+   "responses": [
+    "The Crusades were a series of religious wars from 1096 to the late 1200s in which European Christians tried to take control of Jerusalem and the Holy Land."
+   ]
+  },
+  {
+   "tag": "history_world_vikings",
+   "patterns": [
+    "Who were the Vikings?"
+   ],
+   "responses": [
+    "The Vikings were seafaring people from Scandinavia who raided, traded, and settled across Europe from about 800 to 1066. Leif Erikson reached North America around 1000."
+   ]
+  },
+  {
+   "tag": "history_world_genghis_khan",
+   "patterns": [
+    "Who was Genghis Khan?",
+    "What was the Mongol Empire?"
+   ],
+   "responses": [
+    "Genghis Khan united the Mongol tribes and in the 1200s began the Mongol Empire, which became the largest connected land empire in history."
+   ]
+  },
+  {
+   "tag": "history_world_silk_road",
+   "patterns": [
+    "What was the Silk Road?"
+   ],
+   "responses": [
+    "The Silk Road was a network of trade routes linking China with the Middle East and Europe. Goods like silk and spices, plus ideas and religions, traveled along it."
+   ]
+  },
+  {
+   "tag": "history_world_renaissance",
+   "patterns": [
+    "What was the Renaissance?"
+   ],
+   "responses": [
+    "The Renaissance, meaning rebirth, was a period from about the 1300s to the 1600s, starting in Italy, of renewed interest in art, science, and learning from ancient Greece and Rome."
+   ]
+  },
+  {
+   "tag": "history_world_reformation",
+   "patterns": [
+    "What was the Reformation?",
+    "Who was Martin Luther?"
+   ],
+   "responses": [
+    "In 1517, Martin Luther posted his 95 Theses criticizing the Catholic Church. This started the Protestant Reformation, which split Christianity in Western Europe."
+   ]
+  },
+  {
+   "tag": "history_world_exploration",
+   "patterns": [
+    "What was the Age of Exploration?"
+   ],
+   "responses": [
+    "From the 1400s to the 1600s, European explorers sailed to find new trade routes, reaching the Americas, Africa, and Asia. It led to colonization and huge changes worldwide."
+   ]
+  },
+  {
+   "tag": "history_world_magellan",
+   "patterns": [
+    "Who was Ferdinand Magellan?",
+    "Who sailed around the world first?"
+   ],
+   "responses": [
+    "Ferdinand Magellan led the first expedition to sail around the world, starting in 1519. He died on the way, but his crew completed the trip in 1522."
+   ]
+  },
+  {
+   "tag": "history_world_aztecs",
+   "patterns": [
+    "Who were the Aztecs?"
+   ],
+   "responses": [
+    "The Aztecs built a powerful empire in central Mexico with their capital Tenochtitlan. Spanish conquistador Hernan Cortes conquered them in 1521."
+   ]
+  },
+  {
+   "tag": "history_world_incas",
+   "patterns": [
+    "Who were the Incas?"
+   ],
+   "responses": [
+    "The Inca Empire stretched along the Andes Mountains in South America. They built Machu Picchu and huge road networks. Francisco Pizarro conquered them in the 1530s."
+   ]
+  },
+  {
+   "tag": "history_world_mayans",
+   "patterns": [
+    "Who were the Maya?",
+    "Who were the Mayans?"
+   ],
+   "responses": [
+    "The Maya lived in southern Mexico and Central America and built great cities with pyramids. They developed advanced writing, math, and calendars."
+   ]
+  },
+  {
+   "tag": "history_world_ottoman",
+   "patterns": [
+    "What was the Ottoman Empire?"
+   ],
+   "responses": [
+    "The Ottoman Empire was a powerful empire based in modern Turkey that lasted from about 1299 to 1922. It captured Constantinople in 1453."
+   ]
+  },
+  {
+   "tag": "history_world_enlightenment",
+   "patterns": [
+    "What was the Enlightenment?"
+   ],
+   "responses": [
+    "The Enlightenment was an 1700s movement that valued reason, science, and individual rights. Thinkers like John Locke and Voltaire inspired the American and French Revolutions."
+   ]
+  },
+  {
+   "tag": "history_world_scientific_revolution",
+   "patterns": [
+    "What was the Scientific Revolution?"
+   ],
+   "responses": [
+    "During the 1500s and 1600s, scientists like Copernicus, Galileo, and Newton used observation and experiments, showing for example that Earth goes around the sun."
+   ]
+  },
+  {
+   "tag": "history_world_french_revolution",
+   "patterns": [
+    "What was the French Revolution?"
+   ],
+   "responses": [
+    "The French Revolution began in 1789 when the people of France overthrew their king. It spread ideas of liberty and equality but also led to the violent Reign of Terror."
+   ]
+  },
+  {
+   "tag": "history_world_napoleon",
+   "patterns": [
+    "Who was Napoleon?"
+   ],
+   "responses": [
+    "Napoleon Bonaparte was a French general who became emperor in 1804 and conquered much of Europe. He was finally defeated at the Battle of Waterloo in 1815."
+   ]
+  },
+  {
+   "tag": "history_world_industrial_revolution",
+   "patterns": [
+    "What was the Industrial Revolution?"
+   ],
+   "responses": [
+    "The Industrial Revolution began in Britain in the late 1700s, when machines, factories, and steam power changed how goods were made and people lived."
+   ]
+  },
+  {
+   "tag": "history_world_imperialism",
+   "patterns": [
+    "What was imperialism?",
+    "What was colonialism?"
+   ],
+   "responses": [
+    "Imperialism is when a powerful country takes control of other lands. In the 1800s, European nations colonized much of Africa and Asia."
+   ]
+  },
+  {
+   "tag": "history_world_ww1_cause",
+   "patterns": [
+    "What caused World War 1?",
+    "Who was Franz Ferdinand?"
+   ],
+   "responses": [
+    "The spark was the assassination of Archduke Franz Ferdinand of Austria-Hungary in 1914. Deeper causes were militarism, alliances, imperialism, and nationalism (MAIN)."
+   ]
+  },
+  {
+   "tag": "history_world_russian_revolution",
+   "patterns": [
+    "What was the Russian Revolution?"
+   ],
+   "responses": [
+    "In 1917, revolutions in Russia ended the rule of the tsar. The Bolsheviks, led by Vladimir Lenin, took power and later formed the Soviet Union."
+   ]
+  },
+  {
+   "tag": "history_world_versailles",
+   "patterns": [
+    "What was the Treaty of Versailles?"
+   ],
+   "responses": [
+    "The Treaty of Versailles in 1919 ended World War I. It punished Germany harshly, which caused resentment that helped lead to World War II."
+   ]
+  },
+  {
+   "tag": "history_world_hitler",
+   "patterns": [
+    "Who was Adolf Hitler?",
+    "Who were the Nazis?"
+   ],
+   "responses": [
+    "Adolf Hitler led the Nazi Party and ruled Germany as a dictator from 1933 to 1945. He started World War II in Europe and was responsible for the Holocaust."
+   ]
+  },
+  {
+   "tag": "history_world_holocaust",
+   "patterns": [
+    "What was the Holocaust?"
+   ],
+   "responses": [
+    "The Holocaust was the Nazi genocide of about six million Jews, along with millions of others, during World War II."
+   ]
+  },
+  {
+   "tag": "history_world_ww2_sides",
+   "patterns": [
+    "Who fought in World War 2?",
+    "Who were the Allies and the Axis?"
+   ],
+   "responses": [
+    "The Allies included Britain, the Soviet Union, the United States, China, and France. The Axis powers were Germany, Italy, and Japan."
+   ]
+  },
+  {
+   "tag": "history_world_united_nations",
+   "patterns": [
+    "What is the United Nations?",
+    "When was the UN created?"
+   ],
+   "responses": [
+    "The United Nations was founded in 1945 after World War II to help countries keep peace and work together."
+   ]
+  },
+  {
+   "tag": "history_world_india_independence",
+   "patterns": [
+    "Who was Gandhi?",
+    "When did India become independent?"
+   ],
+   "responses": [
+    "Mahatma Gandhi led India's nonviolent independence movement against British rule. India became independent in 1947."
+   ]
+  },
+  {
+   "tag": "history_world_china_1949",
+   "patterns": [
+    "Who was Mao Zedong?"
+   ],
+   "responses": [
+    "Mao Zedong led the Chinese Communist Party to victory in 1949 and founded the People's Republic of China."
+   ]
+  },
+  {
+   "tag": "history_world_berlin_wall",
+   "patterns": [
+    "What was the Berlin Wall?",
+    "When did the Berlin Wall fall?"
+   ],
+   "responses": [
+    "The Berlin Wall divided communist East Berlin from West Berlin from 1961 until it fell on November 9, 1989. Germany reunited in 1990."
+   ]
+  },
+  {
+   "tag": "history_world_soviet_collapse",
+   "patterns": [
+    "When did the Soviet Union fall?"
+   ],
+   "responses": [
+    "The Soviet Union broke apart in 1991, ending the Cold War and creating 15 independent countries, including Russia and Ukraine."
+   ]
+  },
+  {
+   "tag": "history_world_mandela",
+   "patterns": [
+    "Who was Nelson Mandela?",
+    "What was apartheid?"
+   ],
+   "responses": [
+    "Apartheid was South Africa's system of racial segregation. Nelson Mandela fought against it, spent 27 years in prison, and became South Africa's first Black president in 1994."
+   ]
+  },
+  {
+   "tag": "history_world_samurai",
+   "patterns": [
+    "Who were the samurai?"
+   ],
+   "responses": [
+    "Samurai were warriors in feudal Japan who served lords and followed a code of honor called bushido."
+   ]
+  },
+  {
+   "tag": "history_world_bc_ad",
+   "patterns": [
+    "What does BC and AD mean?",
+    "What is BCE and CE?"
+   ],
+   "responses": [
+    "BC means before Christ and AD means anno Domini, in the year of the Lord. BCE (before common era) and CE (common era) mean the same years. Years count backward in BC."
+   ]
+  },
+  {
+   "tag": "history_world_centuries",
+   "patterns": [
+    "What century is it?",
+    "Why is the 1900s the 20th century?"
+   ],
+   "responses": [
+    "Century numbers are one ahead of the hundreds digits, because the 1st century was years 1 to 100. So the 1900s were the 20th century, and the 2000s are the 21st century."
+   ]
+  },
+  {
+   "tag": "history_world_sources",
+   "patterns": [
+    "What is a primary source?",
+    "What is a secondary source?"
+   ],
+   "responses": [
+    "A primary source was made at the time by someone who was there, like a diary, letter, or photo. A secondary source was made later by someone studying it, like a textbook."
+   ]
+  }
+ ]
+}

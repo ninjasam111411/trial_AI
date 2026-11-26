@@ -40,7 +40,9 @@
    "tag": "their_there",
    "patterns": [
     "What is the difference between their there and they're?",
-    "their vs there vs they're"
+    "their vs there vs they're",
+    "their vs there",
+    "When do I use their or there?"
    ],
    "responses": [
     "Their means belonging to them. There is a place. They're is short for they are. Example: They're over there with their dog."
@@ -50,7 +52,8 @@
    "tag": "your_youre",
    "patterns": [
     "What is the difference between your and you're?",
-    "your vs you're"
+    "your vs you're",
+    "When do I use your or you're?"
    ],
    "responses": [
     "Your means belonging to you. You're is short for you are. Example: You're going to love your gift."
@@ -59,7 +62,8 @@
   {
    "tag": "its_its",
    "patterns": [
-    "What is the difference between its and it's?"
+    "What is the difference between its and it's?",
+    "its vs it's"
    ],
    "responses": [
     "It's means it is. Its means belonging to it. Example: It's wagging its tail."
@@ -68,7 +72,9 @@
   {
    "tag": "to_too_two",
    "patterns": [
-    "What is the difference between to too and two?"
+    "What is the difference between to too and two?",
+    "to vs too",
+    "to vs too vs two"
    ],
    "responses": [
     "To shows direction, too means also or very, and two is the number 2. Example: I want to go too, with my two friends."

@@ -1,0 +1,442 @@
+{
+ "intents": [
+  {
+   "tag": "history_us_jamestown",
+   "patterns": [
+    "What was Jamestown?",
+    "What was the first English colony?"
+   ],
+   "responses": [
+    "Jamestown, Virginia, founded in 1607, was the first permanent English settlement in North America."
+   ]
+  },
+  {
+   "tag": "history_us_pilgrims",
+   "patterns": [
+    "Who were the Pilgrims?",
+    "What was the Mayflower?"
+   ],
+   "responses": [
+    "The Pilgrims sailed on the Mayflower in 1620 and founded Plymouth Colony in Massachusetts, seeking religious freedom."
+   ]
+  },
+  {
+   "tag": "history_us_thirteen_colonies",
+   "patterns": [
+    "What were the 13 colonies?"
+   ],
+   "responses": [
+    "The 13 colonies were British colonies on the Atlantic coast that became the first United States. They were grouped into New England, Middle, and Southern colonies."
+   ]
+  },
+  {
+   "tag": "history_us_french_indian_war",
+   "patterns": [
+    "What was the French and Indian War?"
+   ],
+   "responses": [
+    "The French and Indian War (1754 to 1763) was fought between Britain and France over land in North America. Britain won, but its war debts led to new taxes on the colonies."
+   ]
+  },
+  {
+   "tag": "history_us_boston_tea_party",
+   "patterns": [
+    "What was the Boston Tea Party?"
+   ],
+   "responses": [
+    "In 1773, colonists protesting British taxes dumped 342 chests of British tea into Boston Harbor. It helped lead to the American Revolution."
+   ]
+  },
+  {
+   "tag": "history_us_no_taxation",
+   "patterns": [
+    "What does no taxation without representation mean?",
+    "Why were the colonists angry?"
+   ],
+   "responses": [
+    "Colonists objected to being taxed by the British Parliament, where they had no representatives. Taxes like the Stamp Act made many colonists angry."
+   ]
+  },
+  {
+   "tag": "history_us_revolutionary_war",
+   "patterns": [
+    "What was the American Revolution?",
+    "When was the Revolutionary War?"
+   ],
+   "responses": [
+    "The Revolutionary War lasted from 1775 to 1783. The 13 colonies fought Britain for independence and won, with help from France."
+   ]
+  },
+  {
+   "tag": "history_us_lexington",
+   "patterns": [
+    "Where did the Revolutionary War start?",
+    "What was the shot heard round the world?"
+   ],
+   "responses": [
+    "The war began at the Battles of Lexington and Concord in Massachusetts on April 19, 1775."
+   ]
+  },
+  {
+   "tag": "history_us_declaration_author",
+   "patterns": [
+    "Who wrote the Declaration of Independence?"
+   ],
+   "responses": [
+    "Thomas Jefferson wrote most of the Declaration of Independence, and it was adopted on July 4, 1776."
+   ]
+  },
+  {
+   "tag": "history_us_constitution",
+   "patterns": [
+    "What is the Constitution?",
+    "When was the Constitution written?"
+   ],
+   "responses": [
+    "The U.S. Constitution, written in 1787 in Philadelphia, sets up the federal government and its powers. It is the supreme law of the United States."
+   ]
+  },
+  {
+   "tag": "history_us_bill_of_rights",
+   "patterns": [
+    "What is the Bill of Rights?"
+   ],
+   "responses": [
+    "The Bill of Rights is the first ten amendments to the Constitution, ratified in 1791. They protect rights like freedom of speech, religion, and the press."
+   ]
+  },
+  {
+   "tag": "history_us_first_amendment",
+   "patterns": [
+    "What is the First Amendment?"
+   ],
+   "responses": [
+    "The First Amendment protects freedom of religion, speech, the press, the right to assemble peacefully, and the right to petition the government."
+   ]
+  },
+  {
+   "tag": "history_us_three_branches",
+   "patterns": [
+    "What are the three branches of government?",
+    "What is checks and balances?"
+   ],
+   "responses": [
+    "The legislative branch (Congress) makes laws, the executive branch (the president) enforces them, and the judicial branch (the courts) interprets them. Checks and balances let each branch limit the others."
+   ]
+  },
+  {
+   "tag": "history_us_congress",
+   "patterns": [
+    "What is Congress?",
+    "How many senators are there?"
+   ],
+   "responses": [
+    "Congress has two parts: the Senate, with 100 senators (two per state), and the House of Representatives, with 435 members based on population."
+   ]
+  },
+  {
+   "tag": "history_us_washington",
+   "patterns": [
+    "Who was George Washington?"
+   ],
+   "responses": [
+    "George Washington led the Continental Army in the Revolutionary War and became the first president of the United States, serving from 1789 to 1797."
+   ]
+  },
+  {
+   "tag": "history_us_jefferson",
+   "patterns": [
+    "Who was Thomas Jefferson?"
+   ],
+   "responses": [
+    "Thomas Jefferson wrote the Declaration of Independence and was the third president. He made the Louisiana Purchase in 1803."
+   ]
+  },
+  {
+   "tag": "history_us_franklin",
+   "patterns": [
+    "Who was Benjamin Franklin?"
+   ],
+   "responses": [
+    "Benjamin Franklin was a founding father, inventor, writer, and diplomat. He experimented with electricity and helped get France to support the Revolution."
+   ]
+  },
+  {
+   "tag": "history_us_louisiana_purchase",
+   "patterns": [
+    "What was the Louisiana Purchase?"
+   ],
+   "responses": [
+    "In 1803 the United States bought a huge territory from France for about 15 million dollars, roughly doubling the size of the country."
+   ]
+  },
+  {
+   "tag": "history_us_lewis_clark",
+   "patterns": [
+    "Who were Lewis and Clark?"
+   ],
+   "responses": [
+    "Meriwether Lewis and William Clark led an expedition from 1804 to 1806 to explore the Louisiana Purchase and reach the Pacific Ocean, helped by Sacagawea, a Shoshone woman."
+   ]
+  },
+  {
+   "tag": "history_us_war_1812",
+   "patterns": [
+    "What was the War of 1812?"
+   ],
+   "responses": [
+    "The War of 1812 was fought between the United States and Britain, partly over trade and British seizing of American sailors. It ended in 1815 with no major land changes."
+   ]
+  },
+  {
+   "tag": "history_us_trail_tears",
+   "patterns": [
+    "What was the Trail of Tears?"
+   ],
+   "responses": [
+    "The Trail of Tears was the forced removal of Native American nations, including the Cherokee, from their homelands in the Southeast to land west of the Mississippi in the 1830s. Thousands died."
+   ]
+  },
+  {
+   "tag": "history_us_manifest_destiny",
+   "patterns": [
+    "What was Manifest Destiny?"
+   ],
+   "responses": [
+    "Manifest Destiny was the 1800s belief that the United States was meant to expand across North America to the Pacific Ocean."
+   ]
+  },
+  {
+   "tag": "history_us_gold_rush",
+   "patterns": [
+    "What was the Gold Rush?"
+   ],
+   "responses": [
+    "The California Gold Rush began in 1848 when gold was found at Sutter's Mill. About 300,000 people rushed to California, many arriving in 1849, so they were called forty-niners."
+   ]
+  },
+  {
+   "tag": "history_us_douglass",
+   "patterns": [
+    "Who was Frederick Douglass?"
+   ],
+   "responses": [
+    "Frederick Douglass escaped slavery and became a famous abolitionist speaker and writer who fought to end slavery."
+   ]
+  },
+  {
+   "tag": "history_us_tubman",
+   "patterns": [
+    "Who was Harriet Tubman?",
+    "What was the Underground Railroad?"
+   ],
+   "responses": [
+    "Harriet Tubman escaped slavery and then led many others to freedom on the Underground Railroad, a secret network of routes and safe houses."
+   ]
+  },
+  {
+   "tag": "history_us_emancipation",
+   "patterns": [
+    "What was the Emancipation Proclamation?"
+   ],
+   "responses": [
+    "Issued by President Lincoln on January 1, 1863, it declared enslaved people in the Confederate states to be free."
+   ]
+  },
+  {
+   "tag": "history_us_gettysburg",
+   "patterns": [
+    "What was the Battle of Gettysburg?",
+    "What was the Gettysburg Address?"
+   ],
+   "responses": [
+    "The Battle of Gettysburg in July 1863 was a turning point in the Civil War. Lincoln's short Gettysburg Address there honored the fallen and called for a new birth of freedom."
+   ]
+  },
+  {
+   "tag": "history_us_reconstruction",
+   "patterns": [
+    "What was Reconstruction?"
+   ],
+   "responses": [
+    "Reconstruction (1865 to 1877) was the period after the Civil War when the nation rebuilt the South and tried to bring formerly enslaved people into society as citizens."
+   ]
+  },
+  {
+   "tag": "history_us_amendments_13_15",
+   "patterns": [
+    "What are the 13th 14th and 15th amendments?",
+    "What did the 13th amendment do?"
+   ],
+   "responses": [
+    "The 13th Amendment (1865) abolished slavery. The 14th (1868) gave citizenship and equal protection under the law. The 15th (1870) said the right to vote can't be denied because of race."
+   ]
+  },
+  {
+   "tag": "history_us_industrial_us",
+   "patterns": [
+    "What was the Industrial Revolution in America?"
+   ],
+   "responses": [
+    "In the late 1800s, America industrialized with factories, railroads, steel, and oil. Cities grew fast, and leaders like Andrew Carnegie and John D. Rockefeller became very rich."
+   ]
+  },
+  {
+   "tag": "history_us_ellis_island",
+   "patterns": [
+    "What was Ellis Island?"
+   ],
+   "responses": [
+    "Ellis Island in New York Harbor was the main U.S. immigration station from 1892 to 1954. Millions of immigrants entered America there."
+   ]
+  },
+  {
+   "tag": "history_us_suffrage",
+   "patterns": [
+    "When did women get the right to vote?",
+    "What is the 19th amendment?"
+   ],
+   "responses": [
+    "The 19th Amendment, ratified in 1920, gave women the right to vote, after decades of work by suffragists like Susan B. Anthony and Elizabeth Cady Stanton."
+   ]
+  },
+  {
+   "tag": "history_us_great_depression",
+   "patterns": [
+    "What was the Great Depression?"
+   ],
+   "responses": [
+    "The Great Depression was a severe economic crisis that started with the stock market crash of 1929 and lasted through the 1930s. Millions of people lost jobs."
+   ]
+  },
+  {
+   "tag": "history_us_new_deal",
+   "patterns": [
+    "What was the New Deal?",
+    "Who was FDR?"
+   ],
+   "responses": [
+    "Franklin D. Roosevelt, president from 1933 to 1945, created the New Deal: programs that put people to work and created Social Security during the Great Depression."
+   ]
+  },
+  {
+   "tag": "history_us_pearl_harbor",
+   "patterns": [
+    "What happened at Pearl Harbor?"
+   ],
+   "responses": [
+    "On December 7, 1941, Japan attacked the U.S. naval base at Pearl Harbor, Hawaii. The next day, the United States entered World War II."
+   ]
+  },
+  {
+   "tag": "history_us_d_day",
+   "patterns": [
+    "What was D-Day?"
+   ],
+   "responses": [
+    "On June 6, 1944, Allied forces landed on the beaches of Normandy, France, in the largest sea invasion in history. It began freeing Western Europe from Nazi control."
+   ]
+  },
+  {
+   "tag": "history_us_atomic_bomb",
+   "patterns": [
+    "How did World War 2 end?",
+    "What happened at Hiroshima?"
+   ],
+   "responses": [
+    "In August 1945 the United States dropped atomic bombs on Hiroshima and Nagasaki, Japan. Japan surrendered, ending World War II. Germany had surrendered in May 1945."
+   ]
+  },
+  {
+   "tag": "history_us_cold_war",
+   "patterns": [
+    "What was the Cold War?"
+   ],
+   "responses": [
+    "The Cold War (about 1947 to 1991) was a rivalry between the United States and the Soviet Union, with an arms race, a space race, and wars fought by others, but no direct war between them."
+   ]
+  },
+  {
+   "tag": "history_us_korean_war",
+   "patterns": [
+    "What was the Korean War?"
+   ],
+   "responses": [
+    "The Korean War (1950 to 1953) began when North Korea invaded South Korea. The United States and the UN supported the South. It ended in an armistice, and Korea is still divided."
+   ]
+  },
+  {
+   "tag": "history_us_vietnam_war",
+   "patterns": [
+    "What was the Vietnam War?"
+   ],
+   "responses": [
+    "In the Vietnam War, the United States supported South Vietnam against communist North Vietnam. U.S. involvement grew in the 1960s and ended in 1973; Saigon fell in 1975. The war was very divisive at home."
+   ]
+  },
+  {
+   "tag": "history_us_civil_rights",
+   "patterns": [
+    "What was the civil rights movement?"
+   ],
+   "responses": [
+    "The civil rights movement of the 1950s and 60s fought to end segregation and discrimination against Black Americans, using protests, boycotts, and court cases. It led to the Civil Rights Act of 1964 and Voting Rights Act of 1965."
+   ]
+  },
+  {
+   "tag": "history_us_rosa_parks",
+   "patterns": [
+    "Who was Rosa Parks?"
+   ],
+   "responses": [
+    "In 1955, Rosa Parks refused to give up her bus seat to a white passenger in Montgomery, Alabama. Her arrest sparked the Montgomery Bus Boycott."
+   ]
+  },
+  {
+   "tag": "history_us_brown_board",
+   "patterns": [
+    "What was Brown v. Board of Education?"
+   ],
+   "responses": [
+    "In 1954, the Supreme Court ruled in Brown v. Board of Education that segregated public schools were unconstitutional."
+   ]
+  },
+  {
+   "tag": "history_us_space_race",
+   "patterns": [
+    "What was the space race?"
+   ],
+   "responses": [
+    "The space race was a Cold War competition. The Soviet Union launched Sputnik, the first satellite, in 1957, and the United States landed astronauts on the moon in 1969."
+   ]
+  },
+  {
+   "tag": "history_us_watergate",
+   "patterns": [
+    "What was Watergate?"
+   ],
+   "responses": [
+    "Watergate was a scandal in which people working for President Nixon's re-election broke into the Democratic headquarters and the White House tried to cover it up. Nixon resigned in 1974."
+   ]
+  },
+  {
+   "tag": "history_us_september_11",
+   "patterns": [
+    "What happened on 9/11?",
+    "What was September 11?"
+   ],
+   "responses": [
+    "On September 11, 2001, terrorists hijacked four planes, crashing two into the World Trade Center in New York and one into the Pentagon. The fourth crashed in Pennsylvania. Nearly 3,000 people died."
+   ]
+  },
+  {
+   "tag": "history_us_salem",
+   "patterns": [
+    "What were the Salem witch trials?"
+   ],
+   "responses": [
+    "In 1692, in Salem, Massachusetts, a wave of fear led to accusations of witchcraft. More than 200 people were accused, and 20 were executed."
+   ]
+  }
+ ]
+}
