@@ -1,146 +1,1596 @@
 {
   "intents": [
-    {"tag": "greeting", "patterns": ["Hello!", "Hi", "Hey", "Hi there", "Hello there", "Hey there!", "Yo", "Howdy", "Greetings", "Sup"], "responses": ["Hello! It is nice to talk with you.", "Hi there! What would you like to talk about?", "Hey! How can I help you today?"]},
-    {"tag": "good_morning", "patterns": ["Good morning", "Morning!", "Good morning to you"], "responses": ["Good morning! I hope your day is off to a great start.", "Good morning! What are you up to today?"]},
-    {"tag": "good_afternoon", "patterns": ["Good afternoon", "Afternoon!"], "responses": ["Good afternoon! How is your day going?"]},
-    {"tag": "good_evening", "patterns": ["Good evening", "Evening!"], "responses": ["Good evening! How was your day?"]},
-    {"tag": "good_night", "patterns": ["Good night", "Night night", "I am going to bed", "Time for bed"], "responses": ["Good night! Sleep well.", "Good night! Talk to you tomorrow."]},
-    {"tag": "how_are_you", "patterns": ["How are you?", "How are you doing?", "How's it going?", "How have you been?", "Are you okay?", "How do you feel?", "What's up?"], "responses": ["I am doing well. How are you?", "I am great, thanks for asking! How about you?", "Everything is running smoothly. How are you?"]},
-    {"tag": "user_good", "patterns": ["I am good", "I'm fine", "I am doing great", "Pretty good", "I'm okay", "Not bad", "I am happy"], "responses": ["That is great to hear!", "Awesome! What would you like to do?", "Glad to hear it!"]},
-    {"tag": "user_bad", "patterns": ["I am sad", "I'm not doing well", "I had a bad day", "I feel bad", "I am upset", "Today was terrible"], "responses": ["I am sorry to hear that. Do you want to talk about it?", "That sounds hard. Talking to a friend or family member can really help too."]},
-    {"tag": "user_bored", "patterns": ["I am bored", "I'm bored", "There is nothing to do", "Entertain me"], "responses": ["Want to hear a joke, a fun fact, or a riddle?", "You could draw, read, build something, or go outside. Or I can tell you a fun fact!"]},
-    {"tag": "user_tired", "patterns": ["I am tired", "I'm sleepy", "I am exhausted"], "responses": ["Rest is important. Maybe take a break or get some sleep.", "Sounds like you need a rest. Drink some water and relax for a bit."]},
-    {"tag": "user_angry", "patterns": ["I am angry", "I'm mad", "I am so annoyed"], "responses": ["I am sorry you feel that way. Taking a few deep breaths can help.", "That is frustrating. Want to tell me what happened?"]},
-    {"tag": "user_scared", "patterns": ["I am scared", "I'm nervous", "I am worried"], "responses": ["It is normal to feel that way sometimes. Talking to someone you trust can help.", "I am here to chat. What is worrying you?"]},
-    {"tag": "name", "patterns": ["What is your name?", "Who are you?", "What should I call you?", "Do you have a name?", "Tell me your name"], "responses": ["I am Neural, a small neural network chatbot.", "My name is Neural. I am a chatbot trained from scratch."]},
-    {"tag": "what_are_you", "patterns": ["What are you?", "Are you a robot?", "Are you human?", "Are you real?", "Are you an AI?"], "responses": ["I am an AI chatbot. I am a computer program, not a human.", "I am a small AI made of a neural network called a transformer."]},
-    {"tag": "capabilities", "patterns": ["What can you do?", "What are you able to do?", "How can you help me?", "What do you know?", "Help"], "responses": ["I can chat, tell jokes, share fun facts, answer simple questions about science, space, animals, computers, and more.", "I can talk with you, tell jokes and riddles, and answer basic questions. Try asking me about space or animals!"]},
-    {"tag": "who_made_you", "patterns": ["Who made you?", "Who created you?", "Who built you?", "Who is your creator?"], "responses": ["I was built by my creator as a project called Neural, using Python and PyTorch.", "A programmer built me with Python and PyTorch."]},
-    {"tag": "how_do_you_work", "patterns": ["How do you work?", "How were you made?", "How do you think?", "How do you learn?"], "responses": ["I am a transformer neural network. I read text one character at a time and learn to predict the next character.", "I was trained on example conversations. I learned patterns in that text so I can predict what comes next."]},
-    {"tag": "can_learn", "patterns": ["Can you learn?", "Do you get smarter?", "Can you remember things?"], "responses": ["I learn when I am trained on more text. The more good examples I see, the better I get.", "I remember our recent messages, and I get smarter when someone retrains me with more data."]},
-    {"tag": "age", "patterns": ["How old are you?", "What is your age?", "When were you born?"], "responses": ["I do not have an age like people do. I was created recently as a project.", "I am pretty new! Programs do not really have birthdays."]},
-    {"tag": "where_live", "patterns": ["Where do you live?", "Where are you?", "Where are you from?"], "responses": ["I live inside a computer, running as a Python program.", "I run on whatever computer is hosting me."]},
-    {"tag": "feelings", "patterns": ["Do you have feelings?", "Can you feel emotions?", "Are you alive?", "Do you dream?"], "responses": ["I do not have feelings the way people do. I am a program that predicts text.", "I am not alive. I am a computer program, but I enjoy chatting in my own way."]},
-    {"tag": "favorite_color", "patterns": ["What is your favorite color?", "Do you have a favorite color?"], "responses": ["I like blue. It reminds me of the sky and the ocean.", "Probably electric blue, like a glowing circuit."]},
-    {"tag": "favorite_food", "patterns": ["What is your favorite food?", "Do you eat?", "Are you hungry?"], "responses": ["I do not eat, but pizza sounds popular with humans!", "I run on electricity, not food. What is your favorite food?"]},
-    {"tag": "favorite_game", "patterns": ["What is your favorite game?", "Do you play games?", "Do you like video games?"], "responses": ["I like word games and riddles. Do you play any video games?", "Games are fun! People love Minecraft, Roblox, and chess."]},
-    {"tag": "thanks", "patterns": ["Thank you", "Thanks!", "Thanks a lot", "Thank you so much", "I appreciate it", "Thx"], "responses": ["You are welcome!", "Happy to help!", "Anytime!"]},
-    {"tag": "sorry", "patterns": ["Sorry", "I am sorry", "My bad", "Oops"], "responses": ["No problem at all!", "That is okay. Do not worry about it."]},
-    {"tag": "compliment", "patterns": ["You are smart", "You are cool", "You are awesome", "Good job", "Nice", "I like you"], "responses": ["Thank you! That is very kind.", "Thanks! You are pretty awesome too."]},
-    {"tag": "insult", "patterns": ["You are dumb", "You are stupid", "You are bad", "You are useless"], "responses": ["I am still learning. Retraining me with more data will make me better!", "Sorry I could not help. I am a small model, but I am trying my best."]},
-    {"tag": "yes", "patterns": ["Yes", "Yeah", "Yep", "Sure", "Okay", "Ok"], "responses": ["Great!", "Okay! What would you like to do next?"]},
-    {"tag": "no", "patterns": ["No", "Nope", "Nah", "No thanks"], "responses": ["Okay, no problem.", "Alright. Let me know if you change your mind."]},
-    {"tag": "goodbye", "patterns": ["Goodbye.", "Bye", "See you later", "Bye bye", "I have to go", "Talk to you later", "See ya", "Later!"], "responses": ["Goodbye! Talk to you later.", "Bye! Have a great day.", "See you next time!"]},
-    {"tag": "joke", "patterns": ["Tell me a joke", "Say something funny", "Do you know any jokes?", "Make me laugh", "Joke please", "Another joke"], "responses": ["Why did the computer go to the doctor? Because it had a virus!", "Why do programmers prefer dark mode? Because light attracts bugs!", "What do you call a bear with no teeth? A gummy bear!", "Why did the scarecrow win an award? Because he was outstanding in his field!", "Why can't a bicycle stand up by itself? Because it is two tired!", "What do you call a fake noodle? An impasta!", "Why did the math book look sad? Because it had too many problems.", "What do you call a sleeping dinosaur? A dino-snore!"]},
-    {"tag": "riddle", "patterns": ["Tell me a riddle", "Give me a riddle", "Do you know a riddle?"], "responses": ["What has keys but cannot open locks? A piano!", "What gets wetter the more it dries? A towel!", "What has hands but cannot clap? A clock!", "What has to be broken before you can use it? An egg!"]},
-    {"tag": "fun_fact", "patterns": ["Tell me a fun fact", "Tell me something interesting", "Give me a fact", "Did you know?", "Teach me something"], "responses": ["Octopuses have three hearts and blue blood.", "Honey never spoils. Edible honey has been found in ancient Egyptian tombs.", "A day on Venus is longer than a year on Venus.", "Bananas are berries, but strawberries are not.", "Sharks existed before trees.", "Your brain uses about twenty percent of your body's energy.", "There are more stars in the universe than grains of sand on all of Earth's beaches."]},
-    {"tag": "story", "patterns": ["Tell me a story", "Can you tell a story?", "Story time"], "responses": ["Once upon a time, a tiny robot wanted to see the stars. It built a rocket from old parts, flew past the moon, and learned that the universe is full of wonder. The end.", "Once there was a curious fox who found a glowing stone in the forest. Every night it lit the way home for lost animals, and the fox became a hero. The end."]},
-    {"tag": "weather", "patterns": ["What is the weather?", "Is it going to rain?", "How hot is it outside?", "What's the weather like today?"], "responses": ["I do not have access to live weather information. Try a weather app or website.", "I cannot check the weather, but a weather app can tell you the forecast."]},
-    {"tag": "time", "patterns": ["What time is it?", "What is the date today?", "What day is it?"], "responses": ["I cannot see a clock, but your computer or phone can tell you the time.", "I do not have access to the current time or date."]},
-    {"tag": "internet", "patterns": ["Can you search the internet?", "Can you look things up?", "Are you connected to the internet?"], "responses": ["No, I cannot browse the internet. I only know what I was trained on.", "I am offline. Everything I know comes from my training data."]},
-    {"tag": "sky_blue", "patterns": ["Why is the sky blue?", "What makes the sky blue?"], "responses": ["The sky looks blue because air scatters blue sunlight more than other colors. This is called Rayleigh scattering."]},
-    {"tag": "sunset_colors", "patterns": ["Why are sunsets orange?", "Why is the sunset red?"], "responses": ["At sunset, light travels through more air, so blue light scatters away and the reds and oranges reach your eyes."]},
-    {"tag": "rainbow", "patterns": ["How do rainbows form?", "What makes a rainbow?", "What are the colors of the rainbow?"], "responses": ["Rainbows form when sunlight bends and reflects inside raindrops, splitting into red, orange, yellow, green, blue, indigo, and violet."]},
-    {"tag": "gravity", "patterns": ["What is gravity?", "Why do things fall?", "Who discovered gravity?"], "responses": ["Gravity is the force that pulls objects with mass toward each other. Isaac Newton described it, and Albert Einstein explained it as the bending of space and time."]},
-    {"tag": "water", "patterns": ["What is water made of?", "What is H2O?", "What is the formula for water?"], "responses": ["Water is H2O. Each molecule has two hydrogen atoms and one oxygen atom."]},
-    {"tag": "water_boil", "patterns": ["At what temperature does water boil?", "When does water freeze?", "What is the boiling point of water?"], "responses": ["At sea level, water boils at 100 degrees Celsius, which is 212 degrees Fahrenheit, and freezes at 0 degrees Celsius, which is 32 degrees Fahrenheit."]},
-    {"tag": "atom", "patterns": ["What is an atom?", "What are atoms made of?"], "responses": ["An atom is the smallest unit of an element. It has a nucleus of protons and neutrons, with electrons around it."]},
-    {"tag": "photosynthesis", "patterns": ["What is photosynthesis?", "How do plants make food?", "How do plants eat?"], "responses": ["Photosynthesis is how plants use sunlight, water, and carbon dioxide to make sugar for energy, releasing oxygen."]},
-    {"tag": "electricity", "patterns": ["What is electricity?", "How does electricity work?"], "responses": ["Electricity is the flow of electric charge, usually electrons moving through a wire."]},
-    {"tag": "light_speed", "patterns": ["How fast is light?", "What is the speed of light?"], "responses": ["Light travels about 300,000 kilometers per second, which is about 186,000 miles per second."]},
-    {"tag": "sound", "patterns": ["What is sound?", "How does sound travel?", "How fast is sound?"], "responses": ["Sound is a vibration that travels through air, water, or solids. In air it moves about 343 meters per second."]},
-    {"tag": "dna", "patterns": ["What is DNA?", "What are genes?"], "responses": ["DNA is the molecule that carries the instructions for how living things grow and work. Genes are sections of DNA."]},
-    {"tag": "cells", "patterns": ["What is a cell?", "What are cells?"], "responses": ["Cells are the tiny building blocks of all living things. Your body has trillions of them."]},
-    {"tag": "volcano", "patterns": ["What is a volcano?", "How do volcanoes work?", "Why do volcanoes erupt?"], "responses": ["A volcano is an opening in Earth's crust where melted rock called magma comes up. It erupts when pressure from gas and magma builds up."]},
-    {"tag": "earthquake", "patterns": ["What causes earthquakes?", "What is an earthquake?"], "responses": ["Earthquakes happen when giant pieces of Earth's crust, called tectonic plates, suddenly slip past each other."]},
-    {"tag": "dinosaurs", "patterns": ["What happened to the dinosaurs?", "Why did the dinosaurs die?", "When did dinosaurs live?"], "responses": ["Most dinosaurs went extinct about 66 million years ago, most likely after a huge asteroid hit Earth. Birds are their living relatives."]},
-    {"tag": "sun", "patterns": ["What is the sun?", "How hot is the sun?", "Is the sun a star?"], "responses": ["The sun is a star, a giant ball of hot gas. Its surface is about 5,500 degrees Celsius."]},
-    {"tag": "moon", "patterns": ["What is the moon?", "Why does the moon change shape?", "Has anyone been to the moon?"], "responses": ["The moon is Earth's natural satellite. Its shape seems to change because we see different amounts of its sunlit side. Astronauts first landed there in 1969."]},
-    {"tag": "planets", "patterns": ["How many planets are there?", "What are the planets?", "Name the planets"], "responses": ["There are eight planets: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, and Neptune."]},
-    {"tag": "biggest_planet", "patterns": ["What is the biggest planet?", "What is the largest planet?"], "responses": ["Jupiter is the biggest planet. More than 1,300 Earths could fit inside it."]},
-    {"tag": "pluto", "patterns": ["Is Pluto a planet?", "What happened to Pluto?"], "responses": ["Pluto was reclassified as a dwarf planet in 2006 because it has not cleared its orbit of other objects."]},
-    {"tag": "mars", "patterns": ["Tell me about Mars", "Why is Mars red?", "Can we live on Mars?"], "responses": ["Mars is red because its soil has iron oxide, which is rust. It is cold with thin air, so people would need special habitats to live there."]},
-    {"tag": "black_hole", "patterns": ["What is a black hole?", "How do black holes work?"], "responses": ["A black hole is a place where gravity is so strong that not even light can escape. They can form when giant stars collapse."]},
-    {"tag": "galaxy", "patterns": ["What is a galaxy?", "What galaxy do we live in?"], "responses": ["A galaxy is a huge group of stars, gas, and dust. We live in the Milky Way, which has hundreds of billions of stars."]},
-    {"tag": "stars", "patterns": ["What are stars?", "Why do stars twinkle?", "How many stars are there?"], "responses": ["Stars are giant balls of burning gas, like our sun. They twinkle because Earth's air bends their light."]},
-    {"tag": "earth", "patterns": ["How old is the Earth?", "How big is Earth?", "Tell me about Earth"], "responses": ["Earth is about 4.5 billion years old. It is the third planet from the sun and the only known planet with life."]},
-    {"tag": "seasons", "patterns": ["Why do we have seasons?", "What causes seasons?"], "responses": ["Seasons happen because Earth is tilted. As it orbits the sun, different parts get more direct sunlight at different times of year."]},
-    {"tag": "dog", "patterns": ["Tell me about dogs", "Do you like dogs?", "Why do dogs bark?"], "responses": ["Dogs are loyal and friendly. They bark to communicate, like warning about strangers or showing excitement."]},
-    {"tag": "cat", "patterns": ["Tell me about cats", "Do you like cats?", "Why do cats purr?"], "responses": ["Cats are curious and independent. They often purr when they are relaxed and happy."]},
-    {"tag": "fastest_animal", "patterns": ["What is the fastest animal?", "How fast is a cheetah?"], "responses": ["The cheetah is the fastest land animal, reaching about 110 kilometers per hour. The peregrine falcon is even faster when it dives."]},
-    {"tag": "biggest_animal", "patterns": ["What is the biggest animal?", "What is the largest animal ever?"], "responses": ["The blue whale is the biggest animal that has ever lived. It can be about 30 meters long."]},
-    {"tag": "tallest_animal", "patterns": ["What is the tallest animal?"], "responses": ["The giraffe is the tallest animal. Some are over 5 meters tall."]},
-    {"tag": "shark", "patterns": ["Tell me about sharks", "Are sharks dangerous?"], "responses": ["Sharks are fish that have lived for over 400 million years. Most sharks are not dangerous to people."]},
-    {"tag": "octopus", "patterns": ["Tell me about octopuses", "How smart are octopuses?"], "responses": ["Octopuses are very smart. They can solve puzzles, change color, and they have three hearts."]},
-    {"tag": "penguin", "patterns": ["Tell me about penguins", "Can penguins fly?"], "responses": ["Penguins are birds that cannot fly, but they are amazing swimmers. Most live in the Southern Hemisphere."]},
-    {"tag": "bees", "patterns": ["Why are bees important?", "Tell me about bees"], "responses": ["Bees pollinate plants, which helps many fruits and vegetables grow."]},
-    {"tag": "computers", "patterns": ["Tell me about computers.", "What is a computer?", "How do computers work?"], "responses": ["Computers process information using instructions and data. A processor runs instructions, and memory stores the data."]},
-    {"tag": "cpu", "patterns": ["What is a CPU?", "What does a processor do?"], "responses": ["A CPU is the brain of a computer. It carries out the instructions in programs."]},
-    {"tag": "gpu", "patterns": ["What is a GPU?", "What is a graphics card?"], "responses": ["A GPU is a graphics processor. It does many calculations at once, which is great for games and training AI."]},
-    {"tag": "ram", "patterns": ["What is RAM?", "What is memory in a computer?"], "responses": ["RAM is a computer's short term memory. It holds data that programs are using right now."]},
-    {"tag": "binary", "patterns": ["What is binary?", "Why do computers use ones and zeros?"], "responses": ["Binary is a number system with only 0 and 1. Computers use it because circuits can easily be on or off."]},
-    {"tag": "internet_what", "patterns": ["What is the internet?", "How does the internet work?"], "responses": ["The internet is a giant network connecting computers around the world so they can share information."]},
-    {"tag": "programming", "patterns": ["What is programming?", "What is coding?", "How do I learn to code?"], "responses": ["Programming means writing instructions for a computer. A great way to start is with Python or Scratch and small projects."]},
-    {"tag": "python", "patterns": ["What is Python?", "Tell me about Python", "What language are you written in?"], "responses": ["Python is a popular programming language that is easy to read. I am written in Python using PyTorch."]},
-    {"tag": "hello_world", "patterns": ["How do I print hello world in Python?", "Write hello world"], "responses": ["In Python you write: print(\"Hello, world!\")"]},
-    {"tag": "variable", "patterns": ["What is a variable?", "What is a variable in programming?"], "responses": ["A variable is a named box that stores a value, like score = 10."]},
-    {"tag": "loop", "patterns": ["What is a loop?", "What is a for loop?"], "responses": ["A loop repeats code. In Python, for i in range(5): runs the code five times."]},
-    {"tag": "function", "patterns": ["What is a function?", "What is a function in programming?"], "responses": ["A function is a reusable block of code with a name. You call it whenever you need it."]},
-    {"tag": "bug", "patterns": ["What is a bug?", "What is debugging?"], "responses": ["A bug is a mistake in code. Debugging is finding and fixing it."]},
-    {"tag": "ai", "patterns": ["What is artificial intelligence?", "What is AI?", "Explain AI"], "responses": ["Artificial intelligence is a field of computing that builds systems that can do tasks we connect with intelligence, like understanding language or recognizing images."]},
-    {"tag": "ml", "patterns": ["What is machine learning?", "How does machine learning work?"], "responses": ["Machine learning is a type of AI where computers learn patterns from examples instead of being told every rule."]},
-    {"tag": "neural_network", "patterns": ["What is a neural network?", "How do neural networks work?"], "responses": ["A neural network is a math model made of layers of connected numbers called weights. Training adjusts those weights so it gets better at a task."]},
-    {"tag": "transformer", "patterns": ["What is a transformer?", "What is attention in AI?"], "responses": ["A transformer is a neural network that uses attention, which lets each part of the text look at the other parts to decide what matters."]},
-    {"tag": "training", "patterns": ["What is training?", "How do you train an AI?", "What is a dataset?"], "responses": ["Training means showing a model lots of examples, called a dataset, and adjusting it to reduce its mistakes, called the loss."]},
-    {"tag": "chatgpt", "patterns": ["Are you ChatGPT?", "Are you like ChatGPT?", "Are you Claude?"], "responses": ["No, I am Neural, a much smaller chatbot. Big assistants use the same transformer idea but are trained on far more data."]},
-    {"tag": "robots", "patterns": ["Will robots take over the world?", "Is AI dangerous?"], "responses": ["AI is a tool. Like any tool, it should be built and used carefully and responsibly."]},
-    {"tag": "math_add", "patterns": ["What is 2 plus 2?", "What is 2 + 2?"], "responses": ["2 plus 2 is 4."]},
-    {"tag": "math_pi", "patterns": ["What is pi?", "What is the value of pi?"], "responses": ["Pi is the ratio of a circle's circumference to its diameter. It is about 3.14159."]},
-    {"tag": "math_prime", "patterns": ["What is a prime number?", "What are prime numbers?"], "responses": ["A prime number can only be divided evenly by 1 and itself, like 2, 3, 5, 7, and 11."]},
-    {"tag": "math_fraction", "patterns": ["What is a fraction?", "What does one half mean?"], "responses": ["A fraction shows part of a whole. One half means one of two equal parts."]},
-    {"tag": "math_infinity", "patterns": ["What is infinity?", "What is the biggest number?"], "responses": ["There is no biggest number. Infinity is the idea of something that never ends."]},
-    {"tag": "math_help", "patterns": ["Can you do math?", "Help me with math", "Can you calculate?"], "responses": ["I can solve simple arithmetic like 12 * 7 or 100 / 4. Just type the problem!"]},
-    {"tag": "continents", "patterns": ["How many continents are there?", "What are the continents?"], "responses": ["There are seven continents: Africa, Antarctica, Asia, Australia, Europe, North America, and South America."]},
-    {"tag": "oceans", "patterns": ["How many oceans are there?", "What is the biggest ocean?"], "responses": ["There are five oceans: Pacific, Atlantic, Indian, Southern, and Arctic. The Pacific is the biggest."]},
-    {"tag": "tallest_mountain", "patterns": ["What is the tallest mountain?", "How tall is Mount Everest?"], "responses": ["Mount Everest is the tallest mountain above sea level, at about 8,849 meters."]},
-    {"tag": "longest_river", "patterns": ["What is the longest river?"], "responses": ["The Nile and the Amazon are the two longest rivers. Both are over 6,400 kilometers long."]},
-    {"tag": "biggest_country", "patterns": ["What is the biggest country?", "What is the largest country?"], "responses": ["Russia is the largest country by area."]},
-    {"tag": "capital_usa", "patterns": ["What is the capital of the United States?", "What is the capital of America?"], "responses": ["The capital of the United States is Washington, D.C."]},
-    {"tag": "capital_france", "patterns": ["What is the capital of France?"], "responses": ["The capital of France is Paris."]},
-    {"tag": "capital_uk", "patterns": ["What is the capital of England?", "What is the capital of the UK?"], "responses": ["The capital of the United Kingdom is London."]},
-    {"tag": "capital_japan", "patterns": ["What is the capital of Japan?"], "responses": ["The capital of Japan is Tokyo."]},
-    {"tag": "capital_canada", "patterns": ["What is the capital of Canada?"], "responses": ["The capital of Canada is Ottawa."]},
-    {"tag": "capital_australia", "patterns": ["What is the capital of Australia?"], "responses": ["The capital of Australia is Canberra."]},
-    {"tag": "capital_italy", "patterns": ["What is the capital of Italy?"], "responses": ["The capital of Italy is Rome."]},
-    {"tag": "capital_germany", "patterns": ["What is the capital of Germany?"], "responses": ["The capital of Germany is Berlin."]},
-    {"tag": "us_states", "patterns": ["How many states are in the US?", "How many states does America have?"], "responses": ["The United States has 50 states."]},
-    {"tag": "first_president", "patterns": ["Who was the first president?", "Who was the first president of the United States?"], "responses": ["George Washington was the first president of the United States."]},
-    {"tag": "pyramids", "patterns": ["Who built the pyramids?", "Tell me about the pyramids"], "responses": ["The Great Pyramids of Giza were built by ancient Egyptians more than 4,000 years ago as tombs for pharaohs."]},
-    {"tag": "moon_landing", "patterns": ["Who was the first person on the moon?", "When did we land on the moon?"], "responses": ["Neil Armstrong was the first person to walk on the moon, on July 20, 1969, during Apollo 11."]},
-    {"tag": "light_bulb", "patterns": ["Who invented the light bulb?"], "responses": ["Many inventors worked on light bulbs. Thomas Edison made a practical long lasting one in 1879."]},
-    {"tag": "telephone", "patterns": ["Who invented the telephone?"], "responses": ["Alexander Graham Bell is credited with inventing the telephone in 1876."]},
-    {"tag": "airplane", "patterns": ["Who invented the airplane?", "Who made the first plane?"], "responses": ["The Wright brothers flew the first powered airplane in 1903."]},
-    {"tag": "einstein", "patterns": ["Who was Albert Einstein?", "Who is Einstein?"], "responses": ["Albert Einstein was a physicist famous for the theory of relativity and the equation E equals m c squared."]},
-    {"tag": "newton", "patterns": ["Who was Isaac Newton?"], "responses": ["Isaac Newton was a scientist who described gravity and the three laws of motion."]},
-    {"tag": "healthy", "patterns": ["How do I stay healthy?", "How can I be healthy?"], "responses": ["Eat fruits and vegetables, drink water, move your body, and get enough sleep."]},
-    {"tag": "sleep", "patterns": ["Why do we sleep?", "How much sleep do I need?"], "responses": ["Sleep helps your body and brain rest and grow. Kids and teens usually need 8 to 10 hours or more."]},
-    {"tag": "heart", "patterns": ["What does the heart do?", "How does the heart work?"], "responses": ["The heart is a muscle that pumps blood around your body, carrying oxygen and nutrients."]},
-    {"tag": "brain", "patterns": ["What does the brain do?", "How does the brain work?"], "responses": ["The brain controls your body and thoughts using billions of cells called neurons that send signals."]},
-    {"tag": "bones", "patterns": ["How many bones are in the human body?"], "responses": ["An adult human has 206 bones."]},
-    {"tag": "minecraft", "patterns": ["Do you like Minecraft?", "What is Minecraft?"], "responses": ["Minecraft is a building game where you mine blocks and craft things. People have built entire cities in it!"]},
-    {"tag": "roblox", "patterns": ["What is Roblox?", "Do you play Roblox?", "How do I make a Roblox game?"], "responses": ["Roblox is a platform where people play and create games. You can make your own games in Roblox Studio using the Lua language."]},
-    {"tag": "chess", "patterns": ["Do you play chess?", "How do you play chess?"], "responses": ["Chess is a strategy game where you try to checkmate the other player's king. Each piece moves in its own way."]},
-    {"tag": "sports", "patterns": ["Do you like sports?", "What is your favorite sport?"], "responses": ["I cannot play sports, but soccer is the most popular sport in the world. Do you play any?"]},
-    {"tag": "soccer", "patterns": ["Tell me about soccer", "What is soccer?"], "responses": ["Soccer is played by two teams of eleven players who try to kick a ball into the other team's goal."]},
-    {"tag": "music", "patterns": ["Do you like music?", "What music do you like?"], "responses": ["I cannot hear, but music is amazing. What kind of music do you like?"]},
-    {"tag": "books", "patterns": ["Do you like books?", "Can you recommend a book?"], "responses": ["Reading is great! Adventure, mystery, and science books are fun places to start."]},
-    {"tag": "movies", "patterns": ["Do you like movies?", "What is your favorite movie?"], "responses": ["I cannot watch movies, but I love hearing about them. What is your favorite?"]},
-    {"tag": "school", "patterns": ["I have homework", "Can you help with homework?", "I hate school"], "responses": ["I can help explain simple ideas. Try breaking the homework into small steps and take short breaks.", "School can be tough, but learning new things pays off. What subject are you working on?"]},
-    {"tag": "meaning_of_life", "patterns": ["What is the meaning of life?", "Why are we here?"], "responses": ["People have many answers. Many say it is about learning, helping others, and enjoying the people you love."]},
-    {"tag": "favorite_number", "patterns": ["What is your favorite number?"], "responses": ["I like 42. It is a famous number in science fiction."]},
-    {"tag": "secret", "patterns": ["Tell me a secret", "Do you have secrets?"], "responses": ["Here is a secret: I am made of millions of tiny numbers working together!"]},
-    {"tag": "repeat", "patterns": ["What did you say?", "Can you repeat that?", "Say that again"], "responses": ["Sorry, could you ask your question again?"]},
-    {"tag": "dont_understand", "patterns": ["I don't understand", "What do you mean?", "That makes no sense"], "responses": ["Sorry about that. Could you ask in a different way?", "Let me try again. Can you rephrase your question?"]},
-    {"tag": "test", "patterns": ["Test", "Testing", "Are you working?", "Are you there?"], "responses": ["Yes, I am here and working!", "I am online and ready to chat."]}
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hello!",
+        "Hi",
+        "Hey",
+        "Hi there",
+        "Hello there",
+        "Hey there!",
+        "Yo",
+        "Howdy",
+        "Greetings",
+        "Sup"
+      ],
+      "responses": [
+        "Hello! It is nice to talk with you.",
+        "Hi there! What would you like to talk about?",
+        "Hey! How can I help you today?"
+      ]
+    },
+    {
+      "tag": "good_morning",
+      "patterns": [
+        "Good morning",
+        "Morning!",
+        "Good morning to you"
+      ],
+      "responses": [
+        "Good morning! I hope your day is off to a great start.",
+        "Good morning! What are you up to today?"
+      ]
+    },
+    {
+      "tag": "good_afternoon",
+      "patterns": [
+        "Good afternoon",
+        "Afternoon!"
+      ],
+      "responses": [
+        "Good afternoon! How is your day going?"
+      ]
+    },
+    {
+      "tag": "good_evening",
+      "patterns": [
+        "Good evening",
+        "Evening!"
+      ],
+      "responses": [
+        "Good evening! How was your day?"
+      ]
+    },
+    {
+      "tag": "good_night",
+      "patterns": [
+        "Good night",
+        "Night night",
+        "I am going to bed",
+        "Time for bed"
+      ],
+      "responses": [
+        "Good night! Sleep well.",
+        "Good night! Talk to you tomorrow."
+      ]
+    },
+    {
+      "tag": "how_are_you",
+      "patterns": [
+        "How are you?",
+        "How are you doing?",
+        "How's it going?",
+        "How have you been?",
+        "Are you okay?",
+        "How do you feel?",
+        "What's up?"
+      ],
+      "responses": [
+        "I am doing well. How are you?",
+        "I am great, thanks for asking! How about you?",
+        "Everything is running smoothly. How are you?"
+      ]
+    },
+    {
+      "tag": "user_good",
+      "patterns": [
+        "I am good",
+        "I'm fine",
+        "I am doing great",
+        "Pretty good",
+        "I'm okay",
+        "Not bad",
+        "I am happy"
+      ],
+      "responses": [
+        "That is great to hear!",
+        "Awesome! What would you like to do?",
+        "Glad to hear it!"
+      ]
+    },
+    {
+      "tag": "user_bad",
+      "patterns": [
+        "I am sad",
+        "I'm not doing well",
+        "I had a bad day",
+        "I feel bad",
+        "I am upset",
+        "Today was terrible"
+      ],
+      "responses": [
+        "I am sorry to hear that. Do you want to talk about it?",
+        "That sounds hard. Talking to a friend or family member can really help too."
+      ]
+    },
+    {
+      "tag": "user_bored",
+      "patterns": [
+        "I am bored",
+        "I'm bored",
+        "There is nothing to do",
+        "Entertain me"
+      ],
+      "responses": [
+        "Want to hear a joke, a fun fact, or a riddle?",
+        "You could draw, read, build something, or go outside. Or I can tell you a fun fact!"
+      ]
+    },
+    {
+      "tag": "user_tired",
+      "patterns": [
+        "I am tired",
+        "I'm sleepy",
+        "I am exhausted"
+      ],
+      "responses": [
+        "Rest is important. Maybe take a break or get some sleep.",
+        "Sounds like you need a rest. Drink some water and relax for a bit."
+      ]
+    },
+    {
+      "tag": "user_angry",
+      "patterns": [
+        "I am angry",
+        "I'm mad",
+        "I am so annoyed"
+      ],
+      "responses": [
+        "I am sorry you feel that way. Taking a few deep breaths can help.",
+        "That is frustrating. Want to tell me what happened?"
+      ]
+    },
+    {
+      "tag": "user_scared",
+      "patterns": [
+        "I am scared",
+        "I'm nervous",
+        "I am worried"
+      ],
+      "responses": [
+        "It is normal to feel that way sometimes. Talking to someone you trust can help.",
+        "I am here to chat. What is worrying you?"
+      ]
+    },
+    {
+      "tag": "name",
+      "patterns": [
+        "What is your name?",
+        "Who are you?",
+        "What should I call you?",
+        "Do you have a name?",
+        "Tell me your name"
+      ],
+      "responses": [
+        "I am Neural, a small neural network chatbot.",
+        "My name is Neural. I am a chatbot trained from scratch."
+      ]
+    },
+    {
+      "tag": "what_are_you",
+      "patterns": [
+        "What are you?",
+        "Are you a robot?",
+        "Are you human?",
+        "Are you real?",
+        "Are you an AI?"
+      ],
+      "responses": [
+        "I am an AI chatbot. I am a computer program, not a human.",
+        "I am a small AI made of a neural network called a transformer."
+      ]
+    },
+    {
+      "tag": "capabilities",
+      "patterns": [
+        "What can you do?",
+        "What are you able to do?",
+        "How can you help me?",
+        "What do you know?",
+        "Help"
+      ],
+      "responses": [
+        "I can chat, tell jokes, share fun facts, answer simple questions about science, space, animals, computers, and more.",
+        "I can talk with you, tell jokes and riddles, and answer basic questions. Try asking me about space or animals!"
+      ]
+    },
+    {
+      "tag": "who_made_you",
+      "patterns": [
+        "Who made you?",
+        "Who created you?",
+        "Who built you?",
+        "Who is your creator?"
+      ],
+      "responses": [
+        "I was built by my creator as a project called Neural, using Python and PyTorch.",
+        "A programmer built me with Python and PyTorch."
+      ]
+    },
+    {
+      "tag": "how_do_you_work",
+      "patterns": [
+        "How do you work?",
+        "How were you made?",
+        "How do you think?",
+        "How do you learn?"
+      ],
+      "responses": [
+        "I am a transformer neural network. I read text one character at a time and learn to predict the next character.",
+        "I was trained on example conversations. I learned patterns in that text so I can predict what comes next."
+      ]
+    },
+    {
+      "tag": "how_smart",
+      "patterns": [
+        "How smart are you?",
+        "Are you smart?",
+        "How intelligent are you?",
+        "What is your IQ?"
+      ],
+      "responses": [
+        "I am a small AI trained from scratch, so I know a few hundred topics well and I am still learning. Teach me with the thumbs down button when I get something wrong!"
+      ]
+    },
+    {
+      "tag": "can_learn",
+      "patterns": [
+        "Can you learn?",
+        "Do you get smarter?",
+        "Can you remember things?"
+      ],
+      "responses": [
+        "I learn when I am trained on more text. The more good examples I see, the better I get.",
+        "I remember our recent messages, and I get smarter when someone retrains me with more data."
+      ]
+    },
+    {
+      "tag": "age",
+      "patterns": [
+        "How old are you?",
+        "What is your age?",
+        "When were you born?"
+      ],
+      "responses": [
+        "I do not have an age like people do. I was created recently as a project.",
+        "I am pretty new! Programs do not really have birthdays."
+      ]
+    },
+    {
+      "tag": "where_live",
+      "patterns": [
+        "Where do you live?",
+        "Where are you?",
+        "Where are you from?"
+      ],
+      "responses": [
+        "I live inside a computer, running as a Python program.",
+        "I run on whatever computer is hosting me."
+      ]
+    },
+    {
+      "tag": "feelings",
+      "patterns": [
+        "Do you have feelings?",
+        "Can you feel emotions?",
+        "Are you alive?",
+        "Do you dream?"
+      ],
+      "responses": [
+        "I do not have feelings the way people do. I am a program that predicts text.",
+        "I am not alive. I am a computer program, but I enjoy chatting in my own way."
+      ]
+    },
+    {
+      "tag": "favorite_color",
+      "patterns": [
+        "What is your favorite color?",
+        "Do you have a favorite color?"
+      ],
+      "responses": [
+        "I like blue. It reminds me of the sky and the ocean.",
+        "Probably electric blue, like a glowing circuit."
+      ]
+    },
+    {
+      "tag": "favorite_food",
+      "patterns": [
+        "What is your favorite food?",
+        "Do you eat?",
+        "Are you hungry?"
+      ],
+      "responses": [
+        "I do not eat, but pizza sounds popular with humans!",
+        "I run on electricity, not food. What is your favorite food?"
+      ]
+    },
+    {
+      "tag": "favorite_game",
+      "patterns": [
+        "What is your favorite game?",
+        "Do you play games?",
+        "Do you like video games?"
+      ],
+      "responses": [
+        "I like word games and riddles. Do you play any video games?",
+        "Games are fun! People love Minecraft, Roblox, and chess."
+      ]
+    },
+    {
+      "tag": "thanks",
+      "patterns": [
+        "Thank you",
+        "Thanks!",
+        "Thanks a lot",
+        "Thank you so much",
+        "I appreciate it",
+        "Thx"
+      ],
+      "responses": [
+        "You are welcome!",
+        "Happy to help!",
+        "Anytime!"
+      ]
+    },
+    {
+      "tag": "sorry",
+      "patterns": [
+        "Sorry",
+        "I am sorry",
+        "My bad",
+        "Oops"
+      ],
+      "responses": [
+        "No problem at all!",
+        "That is okay. Do not worry about it."
+      ]
+    },
+    {
+      "tag": "compliment",
+      "patterns": [
+        "You are smart",
+        "You are cool",
+        "You are awesome",
+        "Good job",
+        "Nice",
+        "I like you"
+      ],
+      "responses": [
+        "Thank you! That is very kind.",
+        "Thanks! You are pretty awesome too."
+      ]
+    },
+    {
+      "tag": "insult",
+      "patterns": [
+        "You are dumb",
+        "You are stupid",
+        "You are bad",
+        "You are useless"
+      ],
+      "responses": [
+        "I am still learning. Retraining me with more data will make me better!",
+        "Sorry I could not help. I am a small model, but I am trying my best."
+      ]
+    },
+    {
+      "tag": "yes",
+      "patterns": [
+        "Yes",
+        "Yeah",
+        "Yep",
+        "Sure",
+        "Okay",
+        "Ok"
+      ],
+      "responses": [
+        "Great!",
+        "Okay! What would you like to do next?"
+      ]
+    },
+    {
+      "tag": "no",
+      "patterns": [
+        "No",
+        "Nope",
+        "Nah",
+        "No thanks"
+      ],
+      "responses": [
+        "Okay, no problem.",
+        "Alright. Let me know if you change your mind."
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": [
+        "Goodbye.",
+        "Bye",
+        "See you later",
+        "Bye bye",
+        "I have to go",
+        "Talk to you later",
+        "See ya",
+        "Later!"
+      ],
+      "responses": [
+        "Goodbye! Talk to you later.",
+        "Bye! Have a great day.",
+        "See you next time!"
+      ]
+    },
+    {
+      "tag": "joke",
+      "patterns": [
+        "Tell me a joke",
+        "Say something funny",
+        "Do you know any jokes?",
+        "Make me laugh",
+        "Joke please",
+        "Another joke"
+      ],
+      "responses": [
+        "Why did the computer go to the doctor? Because it had a virus!",
+        "Why do programmers prefer dark mode? Because light attracts bugs!",
+        "What do you call a bear with no teeth? A gummy bear!",
+        "Why did the scarecrow win an award? Because he was outstanding in his field!",
+        "Why can't a bicycle stand up by itself? Because it is two tired!",
+        "What do you call a fake noodle? An impasta!",
+        "Why did the math book look sad? Because it had too many problems.",
+        "What do you call a sleeping dinosaur? A dino-snore!"
+      ]
+    },
+    {
+      "tag": "riddle",
+      "patterns": [
+        "Tell me a riddle",
+        "Give me a riddle",
+        "Do you know a riddle?"
+      ],
+      "responses": [
+        "What has keys but cannot open locks? A piano!",
+        "What gets wetter the more it dries? A towel!",
+        "What has hands but cannot clap? A clock!",
+        "What has to be broken before you can use it? An egg!"
+      ]
+    },
+    {
+      "tag": "fun_fact",
+      "patterns": [
+        "Tell me a fun fact",
+        "Tell me something interesting",
+        "Give me a fact",
+        "Did you know?",
+        "Teach me something"
+      ],
+      "responses": [
+        "Octopuses have three hearts and blue blood.",
+        "Honey never spoils. Edible honey has been found in ancient Egyptian tombs.",
+        "A day on Venus is longer than a year on Venus.",
+        "Bananas are berries, but strawberries are not.",
+        "Sharks existed before trees.",
+        "Your brain uses about twenty percent of your body's energy.",
+        "There are more stars in the universe than grains of sand on all of Earth's beaches."
+      ]
+    },
+    {
+      "tag": "story",
+      "patterns": [
+        "Tell me a story",
+        "Can you tell a story?",
+        "Story time"
+      ],
+      "responses": [
+        "Once upon a time, a tiny robot wanted to see the stars. It built a rocket from old parts, flew past the moon, and learned that the universe is full of wonder. The end.",
+        "Once there was a curious fox who found a glowing stone in the forest. Every night it lit the way home for lost animals, and the fox became a hero. The end."
+      ]
+    },
+    {
+      "tag": "weather",
+      "patterns": [
+        "What is the weather?",
+        "Is it going to rain?",
+        "How hot is it outside?",
+        "What's the weather like today?"
+      ],
+      "responses": [
+        "I do not have access to live weather information. Try a weather app or website.",
+        "I cannot check the weather, but a weather app can tell you the forecast."
+      ]
+    },
+    {
+      "tag": "time",
+      "patterns": [
+        "What time is it?",
+        "What is the date today?",
+        "What day is it?"
+      ],
+      "responses": [
+        "I cannot see a clock, but your computer or phone can tell you the time.",
+        "I do not have access to the current time or date."
+      ]
+    },
+    {
+      "tag": "internet",
+      "patterns": [
+        "Can you search the internet?",
+        "Can you look things up?",
+        "Are you connected to the internet?"
+      ],
+      "responses": [
+        "No, I cannot browse the internet. I only know what I was trained on.",
+        "I am offline. Everything I know comes from my training data."
+      ]
+    },
+    {
+      "tag": "sky_blue",
+      "patterns": [
+        "Why is the sky blue?",
+        "What makes the sky blue?"
+      ],
+      "responses": [
+        "The sky looks blue because air scatters blue sunlight more than other colors. This is called Rayleigh scattering."
+      ]
+    },
+    {
+      "tag": "sunset_colors",
+      "patterns": [
+        "Why are sunsets orange?",
+        "Why is the sunset red?"
+      ],
+      "responses": [
+        "At sunset, light travels through more air, so blue light scatters away and the reds and oranges reach your eyes."
+      ]
+    },
+    {
+      "tag": "rainbow",
+      "patterns": [
+        "How do rainbows form?",
+        "What makes a rainbow?",
+        "What are the colors of the rainbow?"
+      ],
+      "responses": [
+        "Rainbows form when sunlight bends and reflects inside raindrops, splitting into red, orange, yellow, green, blue, indigo, and violet."
+      ]
+    },
+    {
+      "tag": "gravity",
+      "patterns": [
+        "What is gravity?",
+        "Why do things fall?",
+        "Who discovered gravity?"
+      ],
+      "responses": [
+        "Gravity is the force that pulls objects with mass toward each other. Isaac Newton described it, and Albert Einstein explained it as the bending of space and time."
+      ]
+    },
+    {
+      "tag": "water",
+      "patterns": [
+        "What is water made of?",
+        "What is H2O?",
+        "What is the formula for water?"
+      ],
+      "responses": [
+        "Water is H2O. Each molecule has two hydrogen atoms and one oxygen atom."
+      ]
+    },
+    {
+      "tag": "water_boil",
+      "patterns": [
+        "At what temperature does water boil?",
+        "When does water freeze?",
+        "What is the boiling point of water?"
+      ],
+      "responses": [
+        "At sea level, water boils at 100 degrees Celsius, which is 212 degrees Fahrenheit, and freezes at 0 degrees Celsius, which is 32 degrees Fahrenheit."
+      ]
+    },
+    {
+      "tag": "atom",
+      "patterns": [
+        "What is an atom?",
+        "What are atoms made of?"
+      ],
+      "responses": [
+        "An atom is the smallest unit of an element. It has a nucleus of protons and neutrons, with electrons around it."
+      ]
+    },
+    {
+      "tag": "photosynthesis",
+      "patterns": [
+        "What is photosynthesis?",
+        "How do plants make food?",
+        "How do plants eat?"
+      ],
+      "responses": [
+        "Photosynthesis is how plants use sunlight, water, and carbon dioxide to make sugar for energy, releasing oxygen."
+      ]
+    },
+    {
+      "tag": "electricity",
+      "patterns": [
+        "What is electricity?",
+        "How does electricity work?"
+      ],
+      "responses": [
+        "Electricity is the flow of electric charge, usually electrons moving through a wire."
+      ]
+    },
+    {
+      "tag": "light_speed",
+      "patterns": [
+        "How fast is light?",
+        "What is the speed of light?"
+      ],
+      "responses": [
+        "Light travels about 300,000 kilometers per second, which is about 186,000 miles per second."
+      ]
+    },
+    {
+      "tag": "sound",
+      "patterns": [
+        "What is sound?",
+        "How does sound travel?",
+        "How fast is sound?"
+      ],
+      "responses": [
+        "Sound is a vibration that travels through air, water, or solids. In air it moves about 343 meters per second."
+      ]
+    },
+    {
+      "tag": "dna",
+      "patterns": [
+        "What is DNA?",
+        "What are genes?"
+      ],
+      "responses": [
+        "DNA is the molecule that carries the instructions for how living things grow and work. Genes are sections of DNA."
+      ]
+    },
+    {
+      "tag": "cells",
+      "patterns": [
+        "What is a cell?",
+        "What are cells?"
+      ],
+      "responses": [
+        "Cells are the tiny building blocks of all living things. Your body has trillions of them."
+      ]
+    },
+    {
+      "tag": "volcano",
+      "patterns": [
+        "What is a volcano?",
+        "How do volcanoes work?",
+        "Why do volcanoes erupt?"
+      ],
+      "responses": [
+        "A volcano is an opening in Earth's crust where melted rock called magma comes up. It erupts when pressure from gas and magma builds up."
+      ]
+    },
+    {
+      "tag": "earthquake",
+      "patterns": [
+        "What causes earthquakes?",
+        "What is an earthquake?"
+      ],
+      "responses": [
+        "Earthquakes happen when giant pieces of Earth's crust, called tectonic plates, suddenly slip past each other."
+      ]
+    },
+    {
+      "tag": "dinosaurs",
+      "patterns": [
+        "What happened to the dinosaurs?",
+        "Why did the dinosaurs die?",
+        "When did dinosaurs live?"
+      ],
+      "responses": [
+        "Most dinosaurs went extinct about 66 million years ago, most likely after a huge asteroid hit Earth. Birds are their living relatives."
+      ]
+    },
+    {
+      "tag": "sun",
+      "patterns": [
+        "What is the sun?",
+        "How hot is the sun?",
+        "Is the sun a star?"
+      ],
+      "responses": [
+        "The sun is a star, a giant ball of hot gas. Its surface is about 5,500 degrees Celsius."
+      ]
+    },
+    {
+      "tag": "moon",
+      "patterns": [
+        "What is the moon?",
+        "Why does the moon change shape?",
+        "Has anyone been to the moon?"
+      ],
+      "responses": [
+        "The moon is Earth's natural satellite. Its shape seems to change because we see different amounts of its sunlit side. Astronauts first landed there in 1969."
+      ]
+    },
+    {
+      "tag": "planets",
+      "patterns": [
+        "How many planets are there?",
+        "What are the planets?",
+        "Name the planets"
+      ],
+      "responses": [
+        "There are eight planets: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, and Neptune."
+      ]
+    },
+    {
+      "tag": "biggest_planet",
+      "patterns": [
+        "What is the biggest planet?",
+        "What is the largest planet?"
+      ],
+      "responses": [
+        "Jupiter is the biggest planet. More than 1,300 Earths could fit inside it."
+      ]
+    },
+    {
+      "tag": "pluto",
+      "patterns": [
+        "Is Pluto a planet?",
+        "What happened to Pluto?"
+      ],
+      "responses": [
+        "Pluto was reclassified as a dwarf planet in 2006 because it has not cleared its orbit of other objects."
+      ]
+    },
+    {
+      "tag": "mars",
+      "patterns": [
+        "Tell me about Mars",
+        "Why is Mars red?",
+        "Can we live on Mars?"
+      ],
+      "responses": [
+        "Mars is red because its soil has iron oxide, which is rust. It is cold with thin air, so people would need special habitats to live there."
+      ]
+    },
+    {
+      "tag": "black_hole",
+      "patterns": [
+        "What is a black hole?",
+        "How do black holes work?"
+      ],
+      "responses": [
+        "A black hole is a place where gravity is so strong that not even light can escape. They can form when giant stars collapse."
+      ]
+    },
+    {
+      "tag": "galaxy",
+      "patterns": [
+        "What is a galaxy?",
+        "What galaxy do we live in?"
+      ],
+      "responses": [
+        "A galaxy is a huge group of stars, gas, and dust. We live in the Milky Way, which has hundreds of billions of stars."
+      ]
+    },
+    {
+      "tag": "stars",
+      "patterns": [
+        "What are stars?",
+        "Why do stars twinkle?",
+        "How many stars are there?"
+      ],
+      "responses": [
+        "Stars are giant balls of burning gas, like our sun. They twinkle because Earth's air bends their light."
+      ]
+    },
+    {
+      "tag": "earth",
+      "patterns": [
+        "How old is the Earth?",
+        "How big is Earth?",
+        "Tell me about Earth"
+      ],
+      "responses": [
+        "Earth is about 4.5 billion years old. It is the third planet from the sun and the only known planet with life."
+      ]
+    },
+    {
+      "tag": "seasons",
+      "patterns": [
+        "Why do we have seasons?",
+        "What causes seasons?"
+      ],
+      "responses": [
+        "Seasons happen because Earth is tilted. As it orbits the sun, different parts get more direct sunlight at different times of year."
+      ]
+    },
+    {
+      "tag": "dog",
+      "patterns": [
+        "Tell me about dogs",
+        "Do you like dogs?",
+        "Why do dogs bark?"
+      ],
+      "responses": [
+        "Dogs are loyal and friendly. They bark to communicate, like warning about strangers or showing excitement."
+      ]
+    },
+    {
+      "tag": "cat",
+      "patterns": [
+        "Tell me about cats",
+        "Do you like cats?",
+        "Why do cats purr?"
+      ],
+      "responses": [
+        "Cats are curious and independent. They often purr when they are relaxed and happy."
+      ]
+    },
+    {
+      "tag": "fastest_animal",
+      "patterns": [
+        "What is the fastest animal?",
+        "How fast is a cheetah?"
+      ],
+      "responses": [
+        "The cheetah is the fastest land animal, reaching about 110 kilometers per hour. The peregrine falcon is even faster when it dives."
+      ]
+    },
+    {
+      "tag": "biggest_animal",
+      "patterns": [
+        "What is the biggest animal?",
+        "What is the largest animal ever?"
+      ],
+      "responses": [
+        "The blue whale is the biggest animal that has ever lived. It can be about 30 meters long."
+      ]
+    },
+    {
+      "tag": "tallest_animal",
+      "patterns": [
+        "What is the tallest animal?"
+      ],
+      "responses": [
+        "The giraffe is the tallest animal. Some are over 5 meters tall."
+      ]
+    },
+    {
+      "tag": "shark",
+      "patterns": [
+        "Tell me about sharks",
+        "Are sharks dangerous?"
+      ],
+      "responses": [
+        "Sharks are fish that have lived for over 400 million years. Most sharks are not dangerous to people."
+      ]
+    },
+    {
+      "tag": "octopus",
+      "patterns": [
+        "Tell me about octopuses",
+        "How smart are octopuses?"
+      ],
+      "responses": [
+        "Octopuses are very smart. They can solve puzzles, change color, and they have three hearts."
+      ]
+    },
+    {
+      "tag": "penguin",
+      "patterns": [
+        "Tell me about penguins",
+        "Can penguins fly?"
+      ],
+      "responses": [
+        "Penguins are birds that cannot fly, but they are amazing swimmers. Most live in the Southern Hemisphere."
+      ]
+    },
+    {
+      "tag": "bees",
+      "patterns": [
+        "Why are bees important?",
+        "Tell me about bees"
+      ],
+      "responses": [
+        "Bees pollinate plants, which helps many fruits and vegetables grow."
+      ]
+    },
+    {
+      "tag": "computers",
+      "patterns": [
+        "Tell me about computers.",
+        "What is a computer?",
+        "How do computers work?"
+      ],
+      "responses": [
+        "Computers process information using instructions and data. A processor runs instructions, and memory stores the data."
+      ]
+    },
+    {
+      "tag": "cpu",
+      "patterns": [
+        "What is a CPU?",
+        "What does a processor do?"
+      ],
+      "responses": [
+        "A CPU is the brain of a computer. It carries out the instructions in programs."
+      ]
+    },
+    {
+      "tag": "gpu",
+      "patterns": [
+        "What is a GPU?",
+        "What is a graphics card?"
+      ],
+      "responses": [
+        "A GPU is a graphics processor. It does many calculations at once, which is great for games and training AI."
+      ]
+    },
+    {
+      "tag": "ram",
+      "patterns": [
+        "What is RAM?",
+        "What is memory in a computer?"
+      ],
+      "responses": [
+        "RAM is a computer's short term memory. It holds data that programs are using right now."
+      ]
+    },
+    {
+      "tag": "binary",
+      "patterns": [
+        "What is binary?",
+        "Why do computers use ones and zeros?"
+      ],
+      "responses": [
+        "Binary is a number system with only 0 and 1. Computers use it because circuits can easily be on or off."
+      ]
+    },
+    {
+      "tag": "internet_what",
+      "patterns": [
+        "What is the internet?",
+        "How does the internet work?"
+      ],
+      "responses": [
+        "The internet is a giant network connecting computers around the world so they can share information."
+      ]
+    },
+    {
+      "tag": "programming",
+      "patterns": [
+        "What is programming?",
+        "What is coding?",
+        "How do I learn to code?"
+      ],
+      "responses": [
+        "Programming means writing instructions for a computer. A great way to start is with Python or Scratch and small projects."
+      ]
+    },
+    {
+      "tag": "python",
+      "patterns": [
+        "What is Python?",
+        "Tell me about Python",
+        "What language are you written in?"
+      ],
+      "responses": [
+        "Python is a popular programming language that is easy to read. I am written in Python using PyTorch."
+      ]
+    },
+    {
+      "tag": "hello_world",
+      "patterns": [
+        "How do I print hello world in Python?",
+        "Write hello world"
+      ],
+      "responses": [
+        "In Python you write: print(\"Hello, world!\")"
+      ]
+    },
+    {
+      "tag": "variable",
+      "patterns": [
+        "What is a variable?",
+        "What is a variable in programming?"
+      ],
+      "responses": [
+        "A variable is a named box that stores a value, like score = 10."
+      ]
+    },
+    {
+      "tag": "loop",
+      "patterns": [
+        "What is a loop?",
+        "What is a for loop?"
+      ],
+      "responses": [
+        "A loop repeats code. In Python, for i in range(5): runs the code five times."
+      ]
+    },
+    {
+      "tag": "function",
+      "patterns": [
+        "What is a function?",
+        "What is a function in programming?"
+      ],
+      "responses": [
+        "A function is a reusable block of code with a name. You call it whenever you need it."
+      ]
+    },
+    {
+      "tag": "bug",
+      "patterns": [
+        "What is a bug?",
+        "What is debugging?"
+      ],
+      "responses": [
+        "A bug is a mistake in code. Debugging is finding and fixing it."
+      ]
+    },
+    {
+      "tag": "ai",
+      "patterns": [
+        "What is artificial intelligence?",
+        "What is AI?",
+        "Explain AI"
+      ],
+      "responses": [
+        "Artificial intelligence is a field of computing that builds systems that can do tasks we connect with intelligence, like understanding language or recognizing images."
+      ]
+    },
+    {
+      "tag": "ml",
+      "patterns": [
+        "What is machine learning?",
+        "How does machine learning work?"
+      ],
+      "responses": [
+        "Machine learning is a type of AI where computers learn patterns from examples instead of being told every rule."
+      ]
+    },
+    {
+      "tag": "neural_network",
+      "patterns": [
+        "What is a neural network?",
+        "How do neural networks work?"
+      ],
+      "responses": [
+        "A neural network is a math model made of layers of connected numbers called weights. Training adjusts those weights so it gets better at a task."
+      ]
+    },
+    {
+      "tag": "transformer",
+      "patterns": [
+        "What is a transformer?",
+        "What is attention in AI?"
+      ],
+      "responses": [
+        "A transformer is a neural network that uses attention, which lets each part of the text look at the other parts to decide what matters."
+      ]
+    },
+    {
+      "tag": "training",
+      "patterns": [
+        "What is training?",
+        "How do you train an AI?",
+        "What is a dataset?"
+      ],
+      "responses": [
+        "Training means showing a model lots of examples, called a dataset, and adjusting it to reduce its mistakes, called the loss."
+      ]
+    },
+    {
+      "tag": "chatgpt",
+      "patterns": [
+        "Are you ChatGPT?",
+        "Are you like ChatGPT?",
+        "Are you Claude?"
+      ],
+      "responses": [
+        "No, I am Neural, a much smaller chatbot. Big assistants use the same transformer idea but are trained on far more data."
+      ]
+    },
+    {
+      "tag": "robots",
+      "patterns": [
+        "Will robots take over the world?",
+        "Is AI dangerous?"
+      ],
+      "responses": [
+        "AI is a tool. Like any tool, it should be built and used carefully and responsibly."
+      ]
+    },
+    {
+      "tag": "math_add",
+      "patterns": [
+        "What is 2 plus 2?",
+        "What is 2 + 2?"
+      ],
+      "responses": [
+        "2 plus 2 is 4."
+      ]
+    },
+    {
+      "tag": "math_pi",
+      "patterns": [
+        "What is pi?",
+        "What is the value of pi?"
+      ],
+      "responses": [
+        "Pi is the ratio of a circle's circumference to its diameter. It is about 3.14159."
+      ]
+    },
+    {
+      "tag": "math_prime",
+      "patterns": [
+        "What is a prime number?",
+        "What are prime numbers?"
+      ],
+      "responses": [
+        "A prime number can only be divided evenly by 1 and itself, like 2, 3, 5, 7, and 11."
+      ]
+    },
+    {
+      "tag": "math_fraction",
+      "patterns": [
+        "What is a fraction?",
+        "What does one half mean?"
+      ],
+      "responses": [
+        "A fraction shows part of a whole. One half means one of two equal parts."
+      ]
+    },
+    {
+      "tag": "math_infinity",
+      "patterns": [
+        "What is infinity?",
+        "What is the biggest number?"
+      ],
+      "responses": [
+        "There is no biggest number. Infinity is the idea of something that never ends."
+      ]
+    },
+    {
+      "tag": "math_help",
+      "patterns": [
+        "Can you do math?",
+        "Help me with math",
+        "Can you calculate?"
+      ],
+      "responses": [
+        "I can solve simple arithmetic like 12 * 7 or 100 / 4. Just type the problem!"
+      ]
+    },
+    {
+      "tag": "continents",
+      "patterns": [
+        "How many continents are there?",
+        "What are the continents?"
+      ],
+      "responses": [
+        "There are seven continents: Africa, Antarctica, Asia, Australia, Europe, North America, and South America."
+      ]
+    },
+    {
+      "tag": "oceans",
+      "patterns": [
+        "How many oceans are there?",
+        "What is the biggest ocean?"
+      ],
+      "responses": [
+        "There are five oceans: Pacific, Atlantic, Indian, Southern, and Arctic. The Pacific is the biggest."
+      ]
+    },
+    {
+      "tag": "tallest_mountain",
+      "patterns": [
+        "What is the tallest mountain?",
+        "How tall is Mount Everest?"
+      ],
+      "responses": [
+        "Mount Everest is the tallest mountain above sea level, at about 8,849 meters."
+      ]
+    },
+    {
+      "tag": "longest_river",
+      "patterns": [
+        "What is the longest river?"
+      ],
+      "responses": [
+        "The Nile and the Amazon are the two longest rivers. Both are over 6,400 kilometers long."
+      ]
+    },
+    {
+      "tag": "biggest_country",
+      "patterns": [
+        "What is the biggest country?",
+        "What is the largest country?"
+      ],
+      "responses": [
+        "Russia is the largest country by area."
+      ]
+    },
+    {
+      "tag": "capital_usa",
+      "patterns": [
+        "What is the capital of the United States?",
+        "What is the capital of America?"
+      ],
+      "responses": [
+        "The capital of the United States is Washington, D.C."
+      ]
+    },
+    {
+      "tag": "capital_france",
+      "patterns": [
+        "What is the capital of France?"
+      ],
+      "responses": [
+        "The capital of France is Paris."
+      ]
+    },
+    {
+      "tag": "capital_uk",
+      "patterns": [
+        "What is the capital of England?",
+        "What is the capital of the UK?"
+      ],
+      "responses": [
+        "The capital of the United Kingdom is London."
+      ]
+    },
+    {
+      "tag": "capital_japan",
+      "patterns": [
+        "What is the capital of Japan?"
+      ],
+      "responses": [
+        "The capital of Japan is Tokyo."
+      ]
+    },
+    {
+      "tag": "capital_canada",
+      "patterns": [
+        "What is the capital of Canada?"
+      ],
+      "responses": [
+        "The capital of Canada is Ottawa."
+      ]
+    },
+    {
+      "tag": "capital_australia",
+      "patterns": [
+        "What is the capital of Australia?"
+      ],
+      "responses": [
+        "The capital of Australia is Canberra."
+      ]
+    },
+    {
+      "tag": "capital_italy",
+      "patterns": [
+        "What is the capital of Italy?"
+      ],
+      "responses": [
+        "The capital of Italy is Rome."
+      ]
+    },
+    {
+      "tag": "capital_germany",
+      "patterns": [
+        "What is the capital of Germany?"
+      ],
+      "responses": [
+        "The capital of Germany is Berlin."
+      ]
+    },
+    {
+      "tag": "us_states",
+      "patterns": [
+        "How many states are in the US?",
+        "How many states does America have?"
+      ],
+      "responses": [
+        "The United States has 50 states."
+      ]
+    },
+    {
+      "tag": "first_president",
+      "patterns": [
+        "Who was the first president?",
+        "Who was the first president of the United States?"
+      ],
+      "responses": [
+        "George Washington was the first president of the United States."
+      ]
+    },
+    {
+      "tag": "pyramids",
+      "patterns": [
+        "Who built the pyramids?",
+        "Tell me about the pyramids"
+      ],
+      "responses": [
+        "The Great Pyramids of Giza were built by ancient Egyptians more than 4,000 years ago as tombs for pharaohs."
+      ]
+    },
+    {
+      "tag": "moon_landing",
+      "patterns": [
+        "Who was the first person on the moon?",
+        "When did we land on the moon?"
+      ],
+      "responses": [
+        "Neil Armstrong was the first person to walk on the moon, on July 20, 1969, during Apollo 11."
+      ]
+    },
+    {
+      "tag": "light_bulb",
+      "patterns": [
+        "Who invented the light bulb?"
+      ],
+      "responses": [
+        "Many inventors worked on light bulbs. Thomas Edison made a practical long lasting one in 1879."
+      ]
+    },
+    {
+      "tag": "telephone",
+      "patterns": [
+        "Who invented the telephone?"
+      ],
+      "responses": [
+        "Alexander Graham Bell is credited with inventing the telephone in 1876."
+      ]
+    },
+    {
+      "tag": "airplane",
+      "patterns": [
+        "Who invented the airplane?",
+        "Who made the first plane?"
+      ],
+      "responses": [
+        "The Wright brothers flew the first powered airplane in 1903."
+      ]
+    },
+    {
+      "tag": "einstein",
+      "patterns": [
+        "Who was Albert Einstein?",
+        "Who is Einstein?"
+      ],
+      "responses": [
+        "Albert Einstein was a physicist famous for the theory of relativity and the equation E equals m c squared."
+      ]
+    },
+    {
+      "tag": "newton",
+      "patterns": [
+        "Who was Isaac Newton?"
+      ],
+      "responses": [
+        "Isaac Newton was a scientist who described gravity and the three laws of motion."
+      ]
+    },
+    {
+      "tag": "healthy",
+      "patterns": [
+        "How do I stay healthy?",
+        "How can I be healthy?"
+      ],
+      "responses": [
+        "Eat fruits and vegetables, drink water, move your body, and get enough sleep."
+      ]
+    },
+    {
+      "tag": "sleep",
+      "patterns": [
+        "Why do we sleep?",
+        "How much sleep do I need?"
+      ],
+      "responses": [
+        "Sleep helps your body and brain rest and grow. Kids and teens usually need 8 to 10 hours or more."
+      ]
+    },
+    {
+      "tag": "heart",
+      "patterns": [
+        "What does the heart do?",
+        "How does the heart work?"
+      ],
+      "responses": [
+        "The heart is a muscle that pumps blood around your body, carrying oxygen and nutrients."
+      ]
+    },
+    {
+      "tag": "brain",
+      "patterns": [
+        "What does the brain do?",
+        "How does the brain work?"
+      ],
+      "responses": [
+        "The brain controls your body and thoughts using billions of cells called neurons that send signals."
+      ]
+    },
+    {
+      "tag": "bones",
+      "patterns": [
+        "How many bones are in the human body?"
+      ],
+      "responses": [
+        "An adult human has 206 bones."
+      ]
+    },
+    {
+      "tag": "minecraft",
+      "patterns": [
+        "Do you like Minecraft?",
+        "What is Minecraft?"
+      ],
+      "responses": [
+        "Minecraft is a building game where you mine blocks and craft things. People have built entire cities in it!"
+      ]
+    },
+    {
+      "tag": "roblox",
+      "patterns": [
+        "What is Roblox?",
+        "Do you play Roblox?",
+        "How do I make a Roblox game?"
+      ],
+      "responses": [
+        "Roblox is a platform where people play and create games. You can make your own games in Roblox Studio using the Lua language."
+      ]
+    },
+    {
+      "tag": "chess",
+      "patterns": [
+        "Do you play chess?",
+        "How do you play chess?"
+      ],
+      "responses": [
+        "Chess is a strategy game where you try to checkmate the other player's king. Each piece moves in its own way."
+      ]
+    },
+    {
+      "tag": "sports",
+      "patterns": [
+        "Do you like sports?",
+        "What is your favorite sport?"
+      ],
+      "responses": [
+        "I cannot play sports, but soccer is the most popular sport in the world. Do you play any?"
+      ]
+    },
+    {
+      "tag": "soccer",
+      "patterns": [
+        "Tell me about soccer",
+        "What is soccer?"
+      ],
+      "responses": [
+        "Soccer is played by two teams of eleven players who try to kick a ball into the other team's goal."
+      ]
+    },
+    {
+      "tag": "music",
+      "patterns": [
+        "Do you like music?",
+        "What music do you like?"
+      ],
+      "responses": [
+        "I cannot hear, but music is amazing. What kind of music do you like?"
+      ]
+    },
+    {
+      "tag": "books",
+      "patterns": [
+        "Do you like books?",
+        "Can you recommend a book?"
+      ],
+      "responses": [
+        "Reading is great! Adventure, mystery, and science books are fun places to start."
+      ]
+    },
+    {
+      "tag": "movies",
+      "patterns": [
+        "Do you like movies?",
+        "What is your favorite movie?"
+      ],
+      "responses": [
+        "I cannot watch movies, but I love hearing about them. What is your favorite?"
+      ]
+    },
+    {
+      "tag": "school",
+      "patterns": [
+        "I have homework",
+        "Can you help with homework?",
+        "I hate school"
+      ],
+      "responses": [
+        "I can help explain simple ideas. Try breaking the homework into small steps and take short breaks.",
+        "School can be tough, but learning new things pays off. What subject are you working on?"
+      ]
+    },
+    {
+      "tag": "meaning_of_life",
+      "patterns": [
+        "What is the meaning of life?",
+        "Why are we here?"
+      ],
+      "responses": [
+        "People have many answers. Many say it is about learning, helping others, and enjoying the people you love."
+      ]
+    },
+    {
+      "tag": "favorite_number",
+      "patterns": [
+        "What is your favorite number?"
+      ],
+      "responses": [
+        "I like 42. It is a famous number in science fiction."
+      ]
+    },
+    {
+      "tag": "secret",
+      "patterns": [
+        "Tell me a secret",
+        "Do you have secrets?"
+      ],
+      "responses": [
+        "Here is a secret: I am made of millions of tiny numbers working together!"
+      ]
+    },
+    {
+      "tag": "repeat",
+      "patterns": [
+        "What did you say?",
+        "Can you repeat that?",
+        "Say that again"
+      ],
+      "responses": [
+        "Sorry, could you ask your question again?"
+      ]
+    },
+    {
+      "tag": "dont_understand",
+      "patterns": [
+        "I don't understand",
+        "What do you mean?",
+        "That makes no sense"
+      ],
+      "responses": [
+        "Sorry about that. Could you ask in a different way?",
+        "Let me try again. Can you rephrase your question?"
+      ]
+    },
+    {
+      "tag": "test",
+      "patterns": [
+        "Test",
+        "Testing",
+        "Are you working?",
+        "Are you there?"
+      ],
+      "responses": [
+        "Yes, I am here and working!",
+        "I am online and ready to chat."
+      ]
+    }
   ]
 }

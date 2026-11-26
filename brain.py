@@ -119,8 +119,12 @@ class KnowledgeBase:
                 score *= 0.6
             elif key_msg - key_pat and key_pat - key_msg:
                 score *= 0.7   # a key word was swapped (spain vs japan)
-            elif len(key_msg - key_pat) > len(key_msg & key_pat):
-                score *= 0.85
+            elif key_msg - key_pat:
+                score *= 0.85  # you mentioned something it doesn't cover
+            elif key_pat - key_msg:
+                # The known question is about something you didn't mention
+                # ("how smart are octopuses" vs "how smart are you").
+                score *= 0.8
             if score > best_score:
                 best_score, best_intent = score, intent
 
