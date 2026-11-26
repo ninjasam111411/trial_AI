@@ -18,6 +18,7 @@ import re
 
 from config import EXTRA_FILE, TRAINING_FILE, load_intents
 from learning import ChatLog, Speller, TaughtStore
+from style import humanize, kind_for
 
 random.seed(42)
 
@@ -87,18 +88,24 @@ def build():
         for right in fixes:
             real_typos.setdefault(right, []).append(typo)
 
+    def talk(intent, answer):
+        """Casual, human-sounding version of an answer (taught answers stay exact)."""
+        if intent["tag"].startswith("taught_"):
+            return answer
+        return humanize(answer, kind_for(intent))
+
     examples = []
     for intent in all_intents:
         repeat = 3 if intent["tag"].startswith("taught_") else 1
         for pattern in intent["patterns"]:
             for question in variants(pattern):
                 for answer in intent["responses"]:
-                    examples.extend([f"User: {question}\nBot: {answer}"] * repeat)
+                    examples.extend([f"User: {question}\nBot: {talk(intent, answer)}"] * repeat)
             # Misspelled versions of the question -> same correct answer.
             for _ in range(3):
                 typo = typo_sentence(pattern, real_typos)
                 if typo:
-                    examples.append(f"User: {typo}\nBot: {random.choice(intent['responses'])}")
+                    examples.append(f"User: {typo}\nBot: {talk(intent, random.choice(intent['responses']))}")
 
     # Learn from real chats.
     good = confirmed = 0
@@ -115,7 +122,7 @@ def build():
             confirmed += 1
 
     # Multi-turn conversations so it learns to use chat history.
-    pairs = [(random.choice(i["patterns"]), random.choice(i["responses"]))
+    pairs = [(random.choice(i["patterns"]), talk(i, random.choice(i["responses"])))
              for i in all_intents for _ in range(3)]
     for _ in range(600):
         turns = random.sample(pairs, k=min(len(pairs), random.randint(2, 3)))

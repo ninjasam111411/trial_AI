@@ -18,7 +18,9 @@ def load_intents():
     intents = []
     for path in [INTENTS_FILE] + sorted(KNOWLEDGE_DIR.glob("*.json")):
         if path.exists():
-            intents += json.loads(path.read_text(encoding="utf-8"))["intents"]
+            for intent in json.loads(path.read_text(encoding="utf-8"))["intents"]:
+                intent["_pack"] = path.stem
+                intents.append(intent)
     return intents
 TRAINING_FILE = DATA_DIR / "training.txt"
 EXTRA_FILE = DATA_DIR / "extra.txt"

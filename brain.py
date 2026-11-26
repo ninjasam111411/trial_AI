@@ -22,6 +22,7 @@ from pathlib import Path
 
 from config import MODEL_FILE, load_intents
 from learning import ChatLog, Speller, TaughtStore, words_in
+from style import humanize, kind_for
 
 MATCH_THRESHOLD = 0.72
 
@@ -212,7 +213,7 @@ class Brain:
         self.speller.base.update(words_in(question + " " + answer))
         self.reload_knowledge()
 
-    def respond(self, message, history=(), learn=True):
+    def respond(self, message, history=(), learn=True, style="casual"):
         """Returns a dict: answer, source, corrected (or None).
         learn=False answers without saving anything (used by tests)."""
         corrected, changes = self.speller.correct(message)
@@ -248,6 +249,9 @@ class Brain:
             if intent and score >= MATCH_THRESHOLD:
                 options = [r for r in intent["responses"] if r != self.last_reply]
                 answer = random.choice(options or intent["responses"])
+                self.last_reply = answer
+                if style == "casual" and not intent["tag"].startswith("taught_"):
+                    answer = humanize(answer, kind_for(intent))
                 source = "knowledge"
 
         if answer is None and self.neural:
@@ -259,7 +263,8 @@ class Brain:
                       "press 👎 and teach me the right answer!")
             source = "fallback"
 
-        self.last_reply = answer
+        if source != "knowledge":
+            self.last_reply = answer
         return {"answer": answer, "source": source,
                 "corrected": corrected if changes else None}
 

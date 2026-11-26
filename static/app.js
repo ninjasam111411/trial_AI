@@ -303,7 +303,8 @@ async function sendMessage(text) {
   try {
     const data = await api("/api/chat", {
       method: "POST",
-      body: JSON.stringify({ message: text, conversation_id: currentId }),
+      body: JSON.stringify({ message: text, conversation_id: currentId,
+                             style: store.get("neural-style") === "plain" ? "plain" : "casual" }),
     });
     await new Promise((r) => setTimeout(r, Math.max(0, 350 - (Date.now() - started))));
     typing.remove();
@@ -519,6 +520,13 @@ $("#undo-update").onclick = async () => {
     $("#update-msg").textContent = "Undoing the last update.";
     waitForRestart(updateState.boot_id);
   } catch (err) { alert(err.message); }
+};
+
+// ---------- answer style ----------
+$("#casual").checked = store.get("neural-style") !== "plain";
+$("#casual").onchange = (e) => {
+  store.set("neural-style", e.target.checked ? "casual" : "plain");
+  toast(e.target.checked ? "Casual answers on" : "Textbook-style answers on");
 };
 
 // ---------- start ----------
