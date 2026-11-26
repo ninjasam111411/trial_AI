@@ -1,0 +1,248 @@
+{
+ "intents": [
+  {
+   "tag": "saturn_rings",
+   "patterns": [
+    "Why does Saturn have rings?",
+    "What are Saturn's rings made of?"
+   ],
+   "responses": [
+    "Saturn's rings are made of billions of pieces of ice and rock, from tiny grains to chunks as big as houses."
+   ]
+  },
+  {
+   "tag": "hottest_planet",
+   "patterns": [
+    "What is the hottest planet?"
+   ],
+   "responses": [
+    "Venus is the hottest planet. Its thick clouds trap heat, making it hotter than Mercury, even though Mercury is closer to the sun."
+   ]
+  },
+  {
+   "tag": "smallest_planet",
+   "patterns": [
+    "What is the smallest planet?"
+   ],
+   "responses": [
+    "Mercury is the smallest planet in our solar system."
+   ]
+  },
+  {
+   "tag": "closest_star",
+   "patterns": [
+    "What is the closest star?"
+   ],
+   "responses": [
+    "The sun is the closest star. After the sun, the nearest is Proxima Centauri, about 4.2 light years away."
+   ]
+  },
+  {
+   "tag": "light_year",
+   "patterns": [
+    "What is a light year?"
+   ],
+   "responses": [
+    "A light year is the distance light travels in one year, about 9.5 trillion kilometers."
+   ]
+  },
+  {
+   "tag": "iss",
+   "patterns": [
+    "What is the space station?",
+    "What is the ISS?"
+   ],
+   "responses": [
+    "The International Space Station is a science lab orbiting Earth about every 90 minutes, where astronauts live and do experiments."
+   ]
+  },
+  {
+   "tag": "astronaut",
+   "patterns": [
+    "How do I become an astronaut?",
+    "How do astronauts train?"
+   ],
+   "responses": [
+    "Astronauts usually study science, engineering, or medicine, get lots of experience, stay very fit, and train for years in things like spacewalks and survival."
+   ]
+  },
+  {
+   "tag": "comet",
+   "patterns": [
+    "What is a comet?",
+    "What is a shooting star?"
+   ],
+   "responses": [
+    "A comet is a ball of ice and dust that grows a glowing tail near the sun. A shooting star is a tiny space rock burning up in our atmosphere."
+   ]
+  },
+  {
+   "tag": "aliens",
+   "patterns": [
+    "Are aliens real?",
+    "Is there life on other planets?"
+   ],
+   "responses": [
+    "No one has found alien life yet. Scientists are searching, especially on Mars and moons like Europa and Enceladus that may have water."
+   ]
+  },
+  {
+   "tag": "big_bang",
+   "patterns": [
+    "What is the Big Bang?",
+    "How did the universe start?"
+   ],
+   "responses": [
+    "The Big Bang is the idea that the universe began about 13.8 billion years ago from an extremely hot, dense state and has been expanding ever since."
+   ]
+  },
+  {
+   "tag": "eclipse",
+   "patterns": [
+    "What is an eclipse?",
+    "What is a solar eclipse?"
+   ],
+   "responses": [
+    "A solar eclipse is when the moon passes between Earth and the sun. A lunar eclipse is when Earth's shadow falls on the moon."
+   ]
+  },
+  {
+   "tag": "rainforest",
+   "patterns": [
+    "What is a rainforest?",
+    "Why are rainforests important?"
+   ],
+   "responses": [
+    "Rainforests are warm, wet forests full of life. They are home to about half of the world's plant and animal species and help clean the air."
+   ]
+  },
+  {
+   "tag": "desert",
+   "patterns": [
+    "What is the biggest desert?"
+   ],
+   "responses": [
+    "The biggest desert is Antarctica, because a desert means very little rain or snow. The biggest hot desert is the Sahara."
+   ]
+  },
+  {
+   "tag": "elephant",
+   "patterns": [
+    "Tell me about elephants",
+    "How smart are elephants?"
+   ],
+   "responses": [
+    "Elephants are the largest land animals. They are very smart, have great memories, and live in close family groups."
+   ]
+  },
+  {
+   "tag": "dolphin",
+   "patterns": [
+    "Tell me about dolphins",
+    "Are dolphins smart?"
+   ],
+   "responses": [
+    "Dolphins are smart, playful mammals that breathe air. They talk to each other with clicks and whistles."
+   ]
+  },
+  {
+   "tag": "owl",
+   "patterns": [
+    "Tell me about owls",
+    "Why can owls turn their heads?"
+   ],
+   "responses": [
+    "Owls are night hunters with amazing hearing. They can turn their heads about 270 degrees because their eyes can't move in their sockets."
+   ]
+  },
+  {
+   "tag": "butterfly",
+   "patterns": [
+    "How do caterpillars become butterflies?",
+    "What is metamorphosis?"
+   ],
+   "responses": [
+    "A caterpillar forms a chrysalis, and inside, its body completely rebuilds into a butterfly. That change is called metamorphosis."
+   ]
+  },
+  {
+   "tag": "frog",
+   "patterns": [
+    "Tell me about frogs",
+    "Are frogs amphibians?"
+   ],
+   "responses": [
+    "Frogs are amphibians. They start life as tadpoles in water, then grow legs and lungs so they can live on land too."
+   ]
+  },
+  {
+   "tag": "turtle",
+   "patterns": [
+    "Tell me about turtles",
+    "How long do turtles live?"
+   ],
+   "responses": [
+    "Turtles have shells that are part of their skeleton. Some tortoises can live more than 100 years."
+   ]
+  },
+  {
+   "tag": "snake",
+   "patterns": [
+    "Tell me about snakes",
+    "Are all snakes venomous?"
+   ],
+   "responses": [
+    "Snakes are reptiles with no legs. Most snakes are not venomous, and they smell with their tongues."
+   ]
+  },
+  {
+   "tag": "horse",
+   "patterns": [
+    "Tell me about horses",
+    "How fast can a horse run?"
+   ],
+   "responses": [
+    "Horses are strong, fast animals that have worked with people for thousands of years. They can gallop around 50 kilometers per hour."
+   ]
+  },
+  {
+   "tag": "spider",
+   "patterns": [
+    "Are spiders insects?",
+    "Tell me about spiders"
+   ],
+   "responses": [
+    "Spiders are not insects. They are arachnids with eight legs, while insects have six. Most spiders are harmless and eat pests."
+   ]
+  },
+  {
+   "tag": "ants",
+   "patterns": [
+    "Tell me about ants",
+    "How strong are ants?"
+   ],
+   "responses": [
+    "Ants live in big colonies with a queen. They can carry many times their own body weight."
+   ]
+  },
+  {
+   "tag": "whale_song",
+   "patterns": [
+    "Do whales sing?"
+   ],
+   "responses": [
+    "Yes. Humpback whales sing long, complex songs that can travel for miles underwater."
+   ]
+  },
+  {
+   "tag": "koala",
+   "patterns": [
+    "Tell me about koalas",
+    "Are koalas bears?"
+   ],
+   "responses": [
+    "Koalas aren't bears. They are marsupials from Australia that carry babies in a pouch and eat eucalyptus leaves."
+   ]
+  }
+ ]
+}

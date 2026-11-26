@@ -1,0 +1,457 @@
+{
+ "intents": [
+  {
+   "tag": "english_reading_writing_thesis",
+   "patterns": [
+    "What is a thesis statement?",
+    "How do I write a thesis?"
+   ],
+   "responses": [
+    "A thesis statement is one or two sentences, usually at the end of your introduction, that state your main argument and what your essay will prove."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_topic_sentence",
+   "patterns": [
+    "What is a topic sentence?"
+   ],
+   "responses": [
+    "A topic sentence is the first sentence of a paragraph. It tells the reader the main idea of that paragraph."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_hook",
+   "patterns": [
+    "What is a hook in writing?",
+    "How do I start an essay?"
+   ],
+   "responses": [
+    "A hook is an opening sentence that grabs attention: a surprising fact, a question, a short story, or a strong quote. Then lead into your thesis."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_conclusion",
+   "patterns": [
+    "How do I write a conclusion?"
+   ],
+   "responses": [
+    "Restate your thesis in new words, sum up your main points, and end with a final thought about why it matters. Don't add new evidence."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_transitions",
+   "patterns": [
+    "What are transition words?",
+    "Give me transition words"
+   ],
+   "responses": [
+    "Transitions connect ideas: first, next, finally (order); however, on the other hand (contrast); for example, for instance (examples); therefore, as a result (cause and effect)."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_evidence",
+   "patterns": [
+    "How do I use evidence in an essay?",
+    "What is textual evidence?"
+   ],
+   "responses": [
+    "Make a claim, give evidence like a quote or fact, then explain how the evidence supports your claim. Some teachers call this claim, evidence, reasoning."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_five_paragraph",
+   "patterns": [
+    "What is a five paragraph essay?"
+   ],
+   "responses": [
+    "A five-paragraph essay has an introduction with a thesis, three body paragraphs that each support one point, and a conclusion."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_essay_types",
+   "patterns": [
+    "What are the types of essays?",
+    "What is an argumentative essay?"
+   ],
+   "responses": [
+    "Narrative tells a story. Descriptive paints a picture. Expository explains or informs. Persuasive and argumentative essays try to convince, and argumentative essays use evidence and address the other side."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_counterargument",
+   "patterns": [
+    "What is a counterargument?"
+   ],
+   "responses": [
+    "A counterargument is the opposing view. Strong argumentative essays explain it fairly, then show why their own position is still stronger."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_outline",
+   "patterns": [
+    "How do I make an outline?"
+   ],
+   "responses": [
+    "List your thesis, then each main point with the evidence you'll use under it. An outline is a map so writing goes faster."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_revise_edit",
+   "patterns": [
+    "What is the difference between revising and editing?"
+   ],
+   "responses": [
+    "Revising improves the big picture: ideas, order, and clarity. Editing fixes small things: spelling, grammar, and punctuation. Revise first, then edit."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_main_idea",
+   "patterns": [
+    "What is the main idea?",
+    "How do I find the main idea?"
+   ],
+   "responses": [
+    "The main idea is the most important point the author makes. Ask: what is this mostly about? Titles, first sentences, and repeated ideas are good clues."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_theme",
+   "patterns": [
+    "What is a theme?",
+    "What is the theme of a story?"
+   ],
+   "responses": [
+    "A theme is the message or lesson about life in a story, like friendship is worth sacrifice. It's different from the topic, which is just what the story is about."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_summary_paraphrase",
+   "patterns": [
+    "What is the difference between summarizing and paraphrasing?"
+   ],
+   "responses": [
+    "A summary gives the main ideas in a shorter form. A paraphrase restates a specific passage in your own words, at about the same length."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_inference",
+   "patterns": [
+    "What is an inference?",
+    "How do I make an inference?"
+   ],
+   "responses": [
+    "An inference is a conclusion you draw using clues from the text plus what you already know. Clues plus background knowledge equals inference."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_context_clues",
+   "patterns": [
+    "What are context clues?"
+   ],
+   "responses": [
+    "Context clues are hints in nearby words and sentences that help you figure out the meaning of an unfamiliar word."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_authors_purpose",
+   "patterns": [
+    "What is the author's purpose?",
+    "What is PIE in reading?"
+   ],
+   "responses": [
+    "The author's purpose is why they wrote it. A common trick is PIE: to persuade, to inform, or to entertain."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_point_of_view",
+   "patterns": [
+    "What is point of view?",
+    "What is first person and third person?"
+   ],
+   "responses": [
+    "First person uses I and we, told by a character. Second person uses you. Third person uses he, she, and they; third person omniscient knows everyone's thoughts, while limited follows one character."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_tone_mood",
+   "patterns": [
+    "What is the difference between tone and mood?"
+   ],
+   "responses": [
+    "Tone is the author's attitude toward the subject, like sarcastic or serious. Mood is the feeling the reader gets, like spooky or hopeful."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_plot_structure",
+   "patterns": [
+    "What are the parts of a plot?",
+    "What is a plot diagram?"
+   ],
+   "responses": [
+    "Exposition introduces characters and setting, rising action builds conflict, the climax is the turning point, falling action follows it, and the resolution wraps things up."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_conflict",
+   "patterns": [
+    "What are the types of conflict?",
+    "What is internal conflict?"
+   ],
+   "responses": [
+    "Internal conflict is a struggle inside a character's mind. External conflicts include character vs character, vs nature, vs society, and vs technology or fate."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_characterization",
+   "patterns": [
+    "What is characterization?",
+    "Direct vs indirect characterization"
+   ],
+   "responses": [
+    "Characterization is how an author shows what a character is like. Direct characterization tells you outright; indirect shows you through speech, thoughts, actions, and how others react."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_protagonist",
+   "patterns": [
+    "What is a protagonist?",
+    "What is an antagonist?"
+   ],
+   "responses": [
+    "The protagonist is the main character. The antagonist is the person or force working against them."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_setting",
+   "patterns": [
+    "What is setting?"
+   ],
+   "responses": [
+    "Setting is where and when a story takes place. It can shape the mood and the conflict."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_foreshadowing",
+   "patterns": [
+    "What is foreshadowing?"
+   ],
+   "responses": [
+    "Foreshadowing is when the author drops hints about what will happen later in the story."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_flashback",
+   "patterns": [
+    "What is a flashback?"
+   ],
+   "responses": [
+    "A flashback interrupts the story to show something that happened earlier."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_irony",
+   "patterns": [
+    "What is irony?",
+    "What are the types of irony?"
+   ],
+   "responses": [
+    "Irony is a contrast between what's expected and what happens. Verbal irony is saying the opposite of what you mean. Situational irony is when events turn out the opposite of what's expected. Dramatic irony is when the audience knows something a character doesn't."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_symbolism",
+   "patterns": [
+    "What is symbolism?",
+    "What is a symbol in literature?"
+   ],
+   "responses": [
+    "A symbol is an object, person, or color that stands for a bigger idea, like a dove for peace."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_primary_secondary_lit",
+   "patterns": [
+    "What is a narrator?",
+    "What is an unreliable narrator?"
+   ],
+   "responses": [
+    "The narrator is who tells the story. An unreliable narrator can't be fully trusted, because they're confused, biased, or lying."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_mla",
+   "patterns": [
+    "What is MLA format?",
+    "How do I cite a source?"
+   ],
+   "responses": [
+    "MLA format is a common style for English papers: 12-point font, double spacing, one-inch margins, in-text citations like (Smith 42), and a Works Cited page at the end."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_plagiarism",
+   "patterns": [
+    "What is plagiarism?"
+   ],
+   "responses": [
+    "Plagiarism is using someone else's words or ideas without giving them credit. Always quote and cite sources, even when you paraphrase."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_simile",
+   "patterns": [
+    "What is a simile?"
+   ],
+   "responses": [
+    "A simile compares two things using like or as: She was as brave as a lion."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_metaphor",
+   "patterns": [
+    "What is a metaphor?",
+    "Simile vs metaphor"
+   ],
+   "responses": [
+    "A metaphor compares two things directly without like or as: Time is a thief. A simile uses like or as; a metaphor doesn't."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_personification",
+   "patterns": [
+    "What is personification?"
+   ],
+   "responses": [
+    "Personification gives human qualities to non-human things: The wind whispered through the trees."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_hyperbole",
+   "patterns": [
+    "What is hyperbole?"
+   ],
+   "responses": [
+    "Hyperbole is extreme exaggeration for effect: I've told you a million times."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_alliteration",
+   "patterns": [
+    "What is alliteration?"
+   ],
+   "responses": [
+    "Alliteration is repeating the same starting sound in nearby words: Sally sells seashells."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_onomatopoeia",
+   "patterns": [
+    "What is onomatopoeia?"
+   ],
+   "responses": [
+    "Onomatopoeia is a word that sounds like what it means: buzz, crash, sizzle, boom."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_idiom",
+   "patterns": [
+    "What is an idiom?",
+    "Give me an example of an idiom"
+   ],
+   "responses": [
+    "An idiom is a phrase whose meaning isn't literal: It's raining cats and dogs means it's raining hard."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_imagery",
+   "patterns": [
+    "What is imagery?"
+   ],
+   "responses": [
+    "Imagery is descriptive language that appeals to the five senses so the reader can picture, hear, smell, taste, or feel the scene."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_oxymoron",
+   "patterns": [
+    "What is an oxymoron?"
+   ],
+   "responses": [
+    "An oxymoron puts two opposite words together: jumbo shrimp, deafening silence."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_allusion",
+   "patterns": [
+    "What is an allusion?"
+   ],
+   "responses": [
+    "An allusion is a brief reference to a well-known person, place, event, or story, like calling someone a Romeo."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_assonance",
+   "patterns": [
+    "What is assonance?",
+    "What is consonance?"
+   ],
+   "responses": [
+    "Assonance repeats vowel sounds: the rain in Spain. Consonance repeats consonant sounds, often at the end of words: pitter patter."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_rhyme_scheme",
+   "patterns": [
+    "What is a rhyme scheme?"
+   ],
+   "responses": [
+    "A rhyme scheme is the pattern of rhymes at the ends of lines, labeled with letters. ABAB means lines one and three rhyme, and lines two and four rhyme."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_stanza",
+   "patterns": [
+    "What is a stanza?"
+   ],
+   "responses": [
+    "A stanza is a group of lines in a poem, like a paragraph in prose."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_sonnet",
+   "patterns": [
+    "What is a sonnet?"
+   ],
+   "responses": [
+    "A sonnet is a 14-line poem, usually in iambic pentameter. Shakespearean sonnets have three four-line sections and a final rhyming couplet."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_haiku",
+   "patterns": [
+    "What is a haiku?"
+   ],
+   "responses": [
+    "A haiku is a short Japanese poem form with three lines of five, seven, and five syllables, often about nature."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_iambic",
+   "patterns": [
+    "What is iambic pentameter?"
+   ],
+   "responses": [
+    "Iambic pentameter is a rhythm of ten syllables per line in five pairs, each going da-DUM. Shakespeare used it a lot."
+   ]
+  },
+  {
+   "tag": "english_reading_writing_free_verse",
+   "patterns": [
+    "What is free verse?"
+   ],
+   "responses": [
+    "Free verse is poetry without a set rhyme scheme or regular rhythm."
+   ]
+  }
+ ]
+}

@@ -1,0 +1,211 @@
+{
+ "intents": [
+  {
+   "tag": "literature_romeo_juliet",
+   "patterns": [
+    "What is Romeo and Juliet about?",
+    "Romeo and Juliet summary"
+   ],
+   "responses": [
+    "Shakespeare's tragedy about two young lovers from feuding families in Verona. They marry in secret, and a chain of misunderstandings leads to both of their deaths, which finally ends the feud."
+   ]
+  },
+  {
+   "tag": "literature_macbeth",
+   "patterns": [
+    "What is Macbeth about?",
+    "Macbeth summary"
+   ],
+   "responses": [
+    "Shakespeare's tragedy about a Scottish general who, after witches predict he will be king, murders King Duncan with his wife's encouragement. Guilt and ambition destroy them both."
+   ]
+  },
+  {
+   "tag": "literature_hamlet",
+   "patterns": [
+    "What is Hamlet about?",
+    "Hamlet summary"
+   ],
+   "responses": [
+    "Shakespeare's tragedy about a Danish prince whose father's ghost tells him he was murdered by Hamlet's uncle, now king. Hamlet's struggle over revenge ends in many deaths."
+   ]
+  },
+  {
+   "tag": "literature_mockingbird",
+   "patterns": [
+    "What is To Kill a Mockingbird about?",
+    "Who wrote To Kill a Mockingbird?"
+   ],
+   "responses": [
+    "Harper Lee's 1960 novel, told by young Scout Finch in 1930s Alabama. Her father, lawyer Atticus Finch, defends a Black man, Tom Robinson, falsely accused of a crime. Themes: racism, justice, and growing up."
+   ]
+  },
+  {
+   "tag": "literature_gatsby",
+   "patterns": [
+    "What is The Great Gatsby about?",
+    "Who wrote The Great Gatsby?"
+   ],
+   "responses": [
+    "F. Scott Fitzgerald's 1925 novel about the mysterious millionaire Jay Gatsby and his obsession with Daisy Buchanan, told by narrator Nick Carraway. It explores wealth and the American Dream in the 1920s."
+   ]
+  },
+  {
+   "tag": "literature_mice_men",
+   "patterns": [
+    "What is Of Mice and Men about?"
+   ],
+   "responses": [
+    "John Steinbeck's 1937 novella about George and Lennie, two migrant workers during the Great Depression who dream of owning a farm. It explores friendship, loneliness, and broken dreams."
+   ]
+  },
+  {
+   "tag": "literature_nineteen84",
+   "patterns": [
+    "What is 1984 about?",
+    "Who wrote 1984?"
+   ],
+   "responses": [
+    "George Orwell's 1949 novel about Winston Smith, who lives under a totalitarian government that watches everyone (Big Brother) and controls the truth."
+   ]
+  },
+  {
+   "tag": "literature_animal_farm",
+   "patterns": [
+    "What is Animal Farm about?"
+   ],
+   "responses": [
+    "George Orwell's 1945 fable in which farm animals overthrow their human farmer, but the pigs who lead them become just as corrupt. It's an allegory of the Russian Revolution."
+   ]
+  },
+  {
+   "tag": "literature_lord_flies",
+   "patterns": [
+    "What is Lord of the Flies about?"
+   ],
+   "responses": [
+    "William Golding's 1954 novel about a group of boys stranded on an island who try to govern themselves, but fall into savagery. It explores human nature."
+   ]
+  },
+  {
+   "tag": "literature_outsiders",
+   "patterns": [
+    "What is The Outsiders about?"
+   ],
+   "responses": [
+    "S. E. Hinton's 1967 novel narrated by Ponyboy Curtis, a teenager in a gang called the Greasers, and their conflict with the wealthier Socs. Themes include class, family, and identity."
+   ]
+  },
+  {
+   "tag": "literature_giver",
+   "patterns": [
+    "What is The Giver about?"
+   ],
+   "responses": [
+    "Lois Lowry's 1993 novel about Jonas, who lives in a community with no pain or choice. When he is chosen to receive the community's memories, he learns what they've given up."
+   ]
+  },
+  {
+   "tag": "literature_fahrenheit",
+   "patterns": [
+    "What is Fahrenheit 451 about?"
+   ],
+   "responses": [
+    "Ray Bradbury's 1953 novel about Guy Montag, a fireman whose job is burning books in a future society that bans them. He begins to question it."
+   ]
+  },
+  {
+   "tag": "literature_pride_prejudice",
+   "patterns": [
+    "What is Pride and Prejudice about?"
+   ],
+   "responses": [
+    "Jane Austen's 1813 novel about Elizabeth Bennet and the proud Mr. Darcy, who misjudge each other before falling in love. It explores manners, class, and first impressions."
+   ]
+  },
+  {
+   "tag": "literature_odyssey",
+   "patterns": [
+    "What is The Odyssey about?"
+   ],
+   "responses": [
+    "An ancient Greek epic poem credited to Homer about the hero Odysseus's ten-year journey home after the Trojan War, facing monsters, gods, and temptations."
+   ]
+  },
+  {
+   "tag": "literature_frankenstein",
+   "patterns": [
+    "What is Frankenstein about?",
+    "Who wrote Frankenstein?"
+   ],
+   "responses": [
+    "Mary Shelley's 1818 novel about scientist Victor Frankenstein, who creates a living being and then abandons it, with tragic results. The creature, not the scientist, is the monster people often picture."
+   ]
+  },
+  {
+   "tag": "literature_huck_finn",
+   "patterns": [
+    "What is Huckleberry Finn about?"
+   ],
+   "responses": [
+    "Mark Twain's 1884 novel about Huck Finn, a boy who travels down the Mississippi River with Jim, a man escaping slavery. It criticizes racism in American society."
+   ]
+  },
+  {
+   "tag": "literature_crucible",
+   "patterns": [
+    "What is The Crucible about?"
+   ],
+   "responses": [
+    "Arthur Miller's 1953 play set during the Salem witch trials of 1692, where fear and false accusations spread. It was also a comment on McCarthyism in the 1950s."
+   ]
+  },
+  {
+   "tag": "literature_anne_frank",
+   "patterns": [
+    "Who was Anne Frank?",
+    "What is The Diary of Anne Frank?"
+   ],
+   "responses": [
+    "Anne Frank was a Jewish girl who hid with her family in Amsterdam during the Holocaust and kept a diary. She died in a concentration camp in 1945, and her diary became one of the most read books in the world."
+   ]
+  },
+  {
+   "tag": "literature_night_wiesel",
+   "patterns": [
+    "What is Night by Elie Wiesel about?"
+   ],
+   "responses": [
+    "Night is Elie Wiesel's memoir of surviving Nazi concentration camps as a teenager during the Holocaust."
+   ]
+  },
+  {
+   "tag": "literature_poe",
+   "patterns": [
+    "Who was Edgar Allan Poe?"
+   ],
+   "responses": [
+    "Edgar Allan Poe was an American writer from the 1800s famous for dark stories and poems like The Raven and The Tell-Tale Heart. He also helped invent the detective story."
+   ]
+  },
+  {
+   "tag": "literature_genres",
+   "patterns": [
+    "What are the genres of literature?",
+    "What is a genre?"
+   ],
+   "responses": [
+    "A genre is a type of writing. Main genres include fiction, nonfiction, poetry, and drama, with sub-genres like mystery, fantasy, science fiction, and biography."
+   ]
+  },
+  {
+   "tag": "literature_fiction_nonfiction",
+   "patterns": [
+    "What is the difference between fiction and nonfiction?"
+   ],
+   "responses": [
+    "Fiction is made up by the author, like novels. Nonfiction is based on real facts and events, like biographies and history books."
+   ]
+  }
+ ]
+}

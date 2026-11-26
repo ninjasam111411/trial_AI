@@ -1,0 +1,163 @@
+{
+ "intents": [
+  {
+   "tag": "noun",
+   "patterns": [
+    "What is a noun?"
+   ],
+   "responses": [
+    "A noun is a person, place, thing, or idea, like dog, school, or happiness."
+   ]
+  },
+  {
+   "tag": "verb",
+   "patterns": [
+    "What is a verb?"
+   ],
+   "responses": [
+    "A verb is an action or state of being, like run, think, or is."
+   ]
+  },
+  {
+   "tag": "adjective",
+   "patterns": [
+    "What is an adjective?"
+   ],
+   "responses": [
+    "An adjective describes a noun, like big, blue, or funny."
+   ]
+  },
+  {
+   "tag": "adverb",
+   "patterns": [
+    "What is an adverb?"
+   ],
+   "responses": [
+    "An adverb describes a verb, adjective, or other adverb, often ending in -ly, like quickly or quietly."
+   ]
+  },
+  {
+   "tag": "their_there",
+   "patterns": [
+    "What is the difference between their there and they're?",
+    "their vs there vs they're",
+    "their vs there",
+    "When do I use their or there?"
+   ],
+   "responses": [
+    "Their means belonging to them. There is a place. They're is short for they are. Example: They're over there with their dog."
+   ]
+  },
+  {
+   "tag": "your_youre",
+   "patterns": [
+    "What is the difference between your and you're?",
+    "your vs you're",
+    "When do I use your or you're?"
+   ],
+   "responses": [
+    "Your means belonging to you. You're is short for you are. Example: You're going to love your gift."
+   ]
+  },
+  {
+   "tag": "its_its",
+   "patterns": [
+    "What is the difference between its and it's?",
+    "its vs it's"
+   ],
+   "responses": [
+    "It's means it is. Its means belonging to it. Example: It's wagging its tail."
+   ]
+  },
+  {
+   "tag": "to_too_two",
+   "patterns": [
+    "What is the difference between to too and two?",
+    "to vs too",
+    "to vs too vs two"
+   ],
+   "responses": [
+    "To shows direction, too means also or very, and two is the number 2. Example: I want to go too, with my two friends."
+   ]
+  },
+  {
+   "tag": "synonym",
+   "patterns": [
+    "What is a synonym?",
+    "What is an antonym?"
+   ],
+   "responses": [
+    "A synonym means the same thing, like happy and glad. An antonym means the opposite, like hot and cold."
+   ]
+  },
+  {
+   "tag": "paragraph",
+   "patterns": [
+    "How do I write a good paragraph?"
+   ],
+   "responses": [
+    "Start with a topic sentence, add two or three supporting details, and finish with a closing sentence."
+   ]
+  },
+  {
+   "tag": "essay",
+   "patterns": [
+    "How do I write an essay?"
+   ],
+   "responses": [
+    "Start with an introduction and your main idea, write a paragraph for each supporting point, and end with a conclusion that sums it up."
+   ]
+  },
+  {
+   "tag": "spanish_hello",
+   "patterns": [
+    "How do you say hello in Spanish?",
+    "Hello in Spanish"
+   ],
+   "responses": [
+    "Hello in Spanish is hola. Good morning is buenos dias, and thank you is gracias."
+   ]
+  },
+  {
+   "tag": "french_hello",
+   "patterns": [
+    "How do you say hello in French?",
+    "Hello in French"
+   ],
+   "responses": [
+    "Hello in French is bonjour. Thank you is merci."
+   ]
+  },
+  {
+   "tag": "languages_count",
+   "patterns": [
+    "How many languages are there?",
+    "What is the most spoken language?"
+   ],
+   "responses": [
+    "There are about 7,000 languages. English and Mandarin Chinese are the most spoken in the world."
+   ]
+  },
+  {
+   "tag": "slang_r",
+   "patterns": [
+    "What does r mean in texting?",
+    "What does u mean?"
+   ],
+   "responses": [
+    "In texting, r means are, u means you, and ur means your or you're. I understand those too!"
+   ]
+  },
+  {
+   "tag": "lol",
+   "patterns": [
+    "What does lol mean?",
+    "What does brb mean?",
+    "What does idk mean?"
+   ],
+   "responses": [
+    "Lol means laughing out loud, brb means be right back, and idk means I don't know."
+   ]
+  }
+ ]
+}

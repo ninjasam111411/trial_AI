@@ -115,7 +115,8 @@ def chat():
     if len(message) > 500:
         return jsonify({"error": "Message is too long (500 characters max)."}), 400
 
-    result = brain.respond(message, memory.history(cid))
+    style = "plain" if data.get("style") == "plain" else "casual"
+    result = brain.respond(message, memory.history(cid), style=style)
     entry_id = brain.chat_log.add(cid, message, result["answer"],
                                   result["source"], result["corrected"])
 

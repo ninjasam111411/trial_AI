@@ -1,0 +1,190 @@
+{
+ "intents": [
+  {
+   "tag": "study_tips",
+   "patterns": [
+    "How do I study better?",
+    "Study tips",
+    "How do I focus on homework?"
+   ],
+   "responses": [
+    "Study in short sessions with breaks, put your phone away, quiz yourself instead of just rereading, and get good sleep before tests."
+   ]
+  },
+  {
+   "tag": "test_nervous",
+   "patterns": [
+    "I have a test tomorrow",
+    "I'm nervous about my test"
+   ],
+   "responses": [
+    "You've got this! Review the main ideas, quiz yourself, then get a good night's sleep. Being rested helps more than cramming."
+   ]
+  },
+  {
+   "tag": "make_friends",
+   "patterns": [
+    "How do I make friends?",
+    "I don't have any friends"
+   ],
+   "responses": [
+    "Try joining a club, team, or activity you enjoy. Ask people questions about themselves and listen. Friendships grow with time."
+   ]
+  },
+  {
+   "tag": "save_money",
+   "patterns": [
+    "How do I save money?",
+    "How can I save up for something?"
+   ],
+   "responses": [
+    "Set a goal, put a little aside every time you get money, and wait a day before buying things you don't need."
+   ]
+  },
+  {
+   "tag": "cook_eggs",
+   "patterns": [
+    "How do I cook eggs?",
+    "How do I make scrambled eggs?"
+   ],
+   "responses": [
+    "Crack eggs into a bowl, whisk with a pinch of salt, then stir them in a buttered pan on medium-low heat until just set. Ask an adult if you're new to the stove."
+   ]
+  },
+  {
+   "tag": "pancakes",
+   "patterns": [
+    "How do I make pancakes?"
+   ],
+   "responses": [
+    "Mix flour, milk, an egg, a little sugar, baking powder, and salt. Pour scoops onto a hot greased pan and flip when bubbles form."
+   ]
+  },
+  {
+   "tag": "water_drink",
+   "patterns": [
+    "How much water should I drink?"
+   ],
+   "responses": [
+    "A good guide is to drink when you're thirsty and have water with meals. You need more when it's hot or you're active."
+   ]
+  },
+  {
+   "tag": "exercise",
+   "patterns": [
+    "How do I get stronger?",
+    "What exercise should I do?"
+   ],
+   "responses": [
+    "Pick something fun you'll keep doing, like sports, biking, or dancing. Bodyweight moves like push-ups and squats are a great start."
+   ]
+  },
+  {
+   "tag": "bored_ideas",
+   "patterns": [
+    "What should I do this weekend?",
+    "Give me something to do"
+   ],
+   "responses": [
+    "You could go outside, try a new recipe, build something in a game, start a drawing, read a book, or learn a new skill online."
+   ]
+  },
+  {
+   "tag": "gift_ideas",
+   "patterns": [
+    "What should I get my friend for their birthday?",
+    "Gift ideas"
+   ],
+   "responses": [
+    "Think about what they love. Something related to their hobby, a handmade card, or an experience you do together are all great choices."
+   ]
+  },
+  {
+   "tag": "good_habits",
+   "patterns": [
+    "How do I build good habits?"
+   ],
+   "responses": [
+    "Start very small, do it at the same time every day, and track your streak. Tiny habits grow into big ones."
+   ]
+  },
+  {
+   "tag": "procrastinate",
+   "patterns": [
+    "How do I stop procrastinating?",
+    "I keep putting things off"
+   ],
+   "responses": [
+    "Break the task into one tiny first step and do just that for five minutes. Starting is usually the hardest part."
+   ]
+  },
+  {
+   "tag": "calm_down",
+   "patterns": [
+    "How do I calm down?",
+    "I feel stressed"
+   ],
+   "responses": [
+    "Try slow breathing: in for four seconds, hold for four, out for four. A walk, music, or talking to someone you trust can help too."
+   ]
+  },
+  {
+   "tag": "sleep_better",
+   "patterns": [
+    "How do I fall asleep?",
+    "I can't sleep"
+   ],
+   "responses": [
+    "Put screens away before bed, keep your room dark and cool, and try going to bed at the same time each night."
+   ]
+  },
+  {
+   "tag": "time_management",
+   "patterns": [
+    "How do I manage my time?"
+   ],
+   "responses": [
+    "Write a short to-do list, do the most important thing first, and give yourself breaks. A timer helps you stay focused."
+   ]
+  },
+  {
+   "tag": "recipe_idea",
+   "patterns": [
+    "What should I eat for dinner?",
+    "What should I make for lunch?"
+   ],
+   "responses": [
+    "How about tacos, pasta with veggies, a stir fry, or a big sandwich? Quick, tasty, and easy to change up."
+   ]
+  },
+  {
+   "tag": "pet_care",
+   "patterns": [
+    "How do I take care of a dog?",
+    "How do I take care of a pet?"
+   ],
+   "responses": [
+    "Pets need fresh food and water, exercise, a clean space, vet checkups, and lots of attention and love."
+   ]
+  },
+  {
+   "tag": "first_aid_cut",
+   "patterns": [
+    "What do I do for a small cut?"
+   ],
+   "responses": [
+    "Wash it with clean water, press gently to stop bleeding, and cover it with a bandage. For deep cuts or heavy bleeding, get an adult or medical help."
+   ]
+  },
+  {
+   "tag": "emergency",
+   "patterns": [
+    "What number do I call in an emergency?",
+    "What do I do in an emergency?"
+   ],
+   "responses": [
+    "In the United States, call 911 for emergencies. Stay calm, say where you are, and explain what's happening."
+   ]
+  }
+ ]
+}

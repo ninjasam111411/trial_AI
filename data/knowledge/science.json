@@ -1,0 +1,301 @@
+{
+ "intents": [
+  {
+   "tag": "photosynthesis_why",
+   "patterns": [
+    "Why do plants need sunlight?",
+    "Why do plants need light?"
+   ],
+   "responses": [
+    "Plants use sunlight as energy to turn water and carbon dioxide into sugar. Without light they can't make food."
+   ]
+  },
+  {
+   "tag": "matter_states",
+   "patterns": [
+    "What are the states of matter?",
+    "What are solids liquids and gases?"
+   ],
+   "responses": [
+    "The main states of matter are solid, liquid, and gas. Plasma, like in lightning and stars, is a fourth state."
+   ]
+  },
+  {
+   "tag": "evaporation",
+   "patterns": [
+    "What is evaporation?",
+    "Where does water go when it dries?"
+   ],
+   "responses": [
+    "Evaporation is when a liquid turns into a gas. When a puddle dries, the water evaporates into the air as water vapor."
+   ]
+  },
+  {
+   "tag": "water_cycle",
+   "patterns": [
+    "What is the water cycle?",
+    "How does rain happen?",
+    "Where does rain come from?"
+   ],
+   "responses": [
+    "Water evaporates from oceans and lakes, cools into clouds, falls as rain or snow, and flows back to the sea. Then it starts again."
+   ]
+  },
+  {
+   "tag": "clouds",
+   "patterns": [
+    "What are clouds made of?",
+    "How do clouds form?"
+   ],
+   "responses": [
+    "Clouds are made of tiny water droplets or ice crystals. They form when warm, wet air rises and cools."
+   ]
+  },
+  {
+   "tag": "lightning",
+   "patterns": [
+    "What is lightning?",
+    "What causes thunder?"
+   ],
+   "responses": [
+    "Lightning is a giant spark of electricity in a storm. Thunder is the sound of air expanding suddenly because lightning heats it so fast."
+   ]
+  },
+  {
+   "tag": "magnets",
+   "patterns": [
+    "How do magnets work?",
+    "What is a magnet?"
+   ],
+   "responses": [
+    "Magnets have a north and a south pole. Opposite poles pull together and the same poles push apart. Earth itself is a giant magnet."
+   ]
+  },
+  {
+   "tag": "friction",
+   "patterns": [
+    "What is friction?"
+   ],
+   "responses": [
+    "Friction is a force that slows things down when two surfaces rub together. It's why you can walk without slipping."
+   ]
+  },
+  {
+   "tag": "energy",
+   "patterns": [
+    "What is energy?",
+    "What are types of energy?"
+   ],
+   "responses": [
+    "Energy is the ability to do work or cause change. Some types are heat, light, motion, sound, electrical, and chemical energy."
+   ]
+  },
+  {
+   "tag": "renewable",
+   "patterns": [
+    "What is renewable energy?",
+    "What is solar power?"
+   ],
+   "responses": [
+    "Renewable energy comes from sources that don't run out, like sunlight, wind, and flowing water. Solar panels turn sunlight into electricity."
+   ]
+  },
+  {
+   "tag": "climate_change",
+   "patterns": [
+    "What is climate change?",
+    "What is global warming?"
+   ],
+   "responses": [
+    "Climate change is the long-term warming of Earth, mostly caused by burning fossil fuels, which adds heat-trapping gases like carbon dioxide to the air."
+   ]
+  },
+  {
+   "tag": "oxygen",
+   "patterns": [
+    "Why do we need oxygen?",
+    "Why do we breathe?"
+   ],
+   "responses": [
+    "Your cells use oxygen to turn food into energy. Breathing brings oxygen in and lets carbon dioxide out."
+   ]
+  },
+  {
+   "tag": "blood_red",
+   "patterns": [
+    "Why is blood red?"
+   ],
+   "responses": [
+    "Blood is red because of hemoglobin, a protein with iron in it that carries oxygen."
+   ]
+  },
+  {
+   "tag": "bacteria",
+   "patterns": [
+    "What are bacteria?",
+    "Are all germs bad?"
+   ],
+   "responses": [
+    "Bacteria are tiny living things made of one cell. Some make you sick, but many are helpful, like the ones in your gut that help digest food."
+   ]
+  },
+  {
+   "tag": "virus",
+   "patterns": [
+    "What is a virus?",
+    "How do viruses make you sick?"
+   ],
+   "responses": [
+    "A virus is a tiny germ that can only reproduce inside living cells. It makes you sick by taking over cells to copy itself."
+   ]
+  },
+  {
+   "tag": "vaccines",
+   "patterns": [
+    "How do vaccines work?",
+    "What does a vaccine do?"
+   ],
+   "responses": [
+    "A vaccine trains your immune system to recognize a germ, so your body can fight it off quickly if you're ever exposed."
+   ]
+  },
+  {
+   "tag": "periodic_table",
+   "patterns": [
+    "What is the periodic table?",
+    "How many elements are there?"
+   ],
+   "responses": [
+    "The periodic table organizes all the chemical elements. There are 118 known elements, like hydrogen, oxygen, carbon, and gold."
+   ]
+  },
+  {
+   "tag": "gold",
+   "patterns": [
+    "What is the symbol for gold?",
+    "Why is gold Au?"
+   ],
+   "responses": [
+    "Gold's symbol is Au, from the Latin word aurum."
+   ]
+  },
+  {
+   "tag": "density",
+   "patterns": [
+    "Why do things float?",
+    "Why does ice float?"
+   ],
+   "responses": [
+    "Things float when they are less dense than the liquid they're in. Ice floats because water expands when it freezes, making ice less dense."
+   ]
+  },
+  {
+   "tag": "temperature",
+   "patterns": [
+    "What is absolute zero?",
+    "What is the coldest temperature?"
+   ],
+   "responses": [
+    "Absolute zero is the coldest possible temperature, minus 273.15 degrees Celsius. At that point particles have the least possible motion."
+   ]
+  },
+  {
+   "tag": "newton_laws",
+   "patterns": [
+    "What are Newton's laws?",
+    "What are the laws of motion?"
+   ],
+   "responses": [
+    "1: Objects keep doing what they're doing unless a force acts on them. 2: Force equals mass times acceleration. 3: Every action has an equal and opposite reaction."
+   ]
+  },
+  {
+   "tag": "fossils",
+   "patterns": [
+    "What are fossils?",
+    "How are fossils made?"
+   ],
+   "responses": [
+    "Fossils are remains or traces of ancient living things preserved in rock, usually formed when they were buried in mud that slowly turned to stone."
+   ]
+  },
+  {
+   "tag": "evolution",
+   "patterns": [
+    "What is evolution?",
+    "Who was Charles Darwin?"
+   ],
+   "responses": [
+    "Evolution is how living things change over many generations through natural selection. Charles Darwin explained it in 1859."
+   ]
+  },
+  {
+   "tag": "food_chain",
+   "patterns": [
+    "What is a food chain?"
+   ],
+   "responses": [
+    "A food chain shows who eats whom. Plants make food from sunlight, plant eaters eat plants, and meat eaters eat other animals."
+   ]
+  },
+  {
+   "tag": "recycling",
+   "patterns": [
+    "Why should we recycle?",
+    "What is recycling?"
+   ],
+   "responses": [
+    "Recycling turns used materials like paper, plastic, glass, and metal into new things, which saves resources and reduces trash."
+   ]
+  },
+  {
+   "tag": "tides",
+   "patterns": [
+    "What causes tides?",
+    "Why does the ocean have tides?"
+   ],
+   "responses": [
+    "Tides are caused mainly by the moon's gravity pulling on Earth's oceans, with some help from the sun."
+   ]
+  },
+  {
+   "tag": "ozone",
+   "patterns": [
+    "What is the ozone layer?"
+   ],
+   "responses": [
+    "The ozone layer is part of the atmosphere that blocks much of the sun's harmful ultraviolet light."
+   ]
+  },
+  {
+   "tag": "eyes_see",
+   "patterns": [
+    "How do eyes work?",
+    "How do we see colors?"
+   ],
+   "responses": [
+    "Light enters your eye and hits the retina. Cells called rods and cones turn it into signals, and your brain turns those into images and colors."
+   ]
+  },
+  {
+   "tag": "hiccups",
+   "patterns": [
+    "Why do we get hiccups?",
+    "What are hiccups?"
+   ],
+   "responses": [
+    "Hiccups happen when your diaphragm, a muscle under your lungs, suddenly twitches, and your vocal cords snap shut, making the hic sound."
+   ]
+  },
+  {
+   "tag": "yawn",
+   "patterns": [
+    "Why do we yawn?",
+    "Why are yawns contagious?"
+   ],
+   "responses": [
+    "Scientists aren't completely sure. Yawning may help cool the brain, and we often yawn when we see others yawn because we're social creatures."
+   ]
+  }
+ ]
+}
