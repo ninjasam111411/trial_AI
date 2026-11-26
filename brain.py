@@ -135,6 +135,8 @@ class KnowledgeBase:
             if len(words) <= 2 and topic and all(len(w) >= 3 for w in topic) \
                     and topic <= (pattern_words - STOPWORDS):
                 score = max(score, 0.8)
+            if intent["tag"].startswith("taught_"):
+                score += 0.06  # what people taught it beats the built-in answer
             if score > best_score:
                 best_score, best_intent = score, intent
 
@@ -178,6 +180,29 @@ class NeuralModel:
         return self.tokenizer.decode(out).strip()
 
 
+# ---- Learning from what people tell it ----------------------------------
+TEACH_INVITE = "tell me and I'll remember"
+QUESTION_STARTS = ("what", "who", "why", "how", "when", "where", "which", "whats", "whos",
+                   "is", "are", "can", "could", "do", "does", "did", "will", "would",
+                   "should", "tell", "explain", "give", "show", "say", "define")
+CORRECTION_RE = re.compile(
+    r"^(?:actually|no+|nope|wrong|that'?s (?:wrong|not right)|not quite)[\s,.!:-]+(?:it'?s\s+)?(.+)",
+    re.I)
+
+
+def is_statement(text):
+    t = text.strip().lower()
+    words = t.split()
+    return (len(words) >= 3 and not t.endswith("?")
+            and words[0].strip(",.!") not in QUESTION_STARTS)
+
+
+def tidy(text):
+    text = text.strip()
+    text = text[0].upper() + text[1:] if text else text
+    return text if text.endswith((".", "!", "?")) else text + "."
+
+
 # ---- Putting it together -------------------------------------------------
 SPELL_RE = re.compile(r"(?:how|hw|hwo) (?:do you|do u|do i|to|would you) spell ([a-z']+)", re.I)
 
@@ -196,6 +221,10 @@ class Brain:
 
     def reload_knowledge(self):
         self.knowledge = KnowledgeBase(self.taught.as_intents())
+        # Facts it knows, to spot when the neural net just pastes in a
+        # memorized fact that doesn't fit the question.
+        self.known_facts = [_normalize(r) for i in load_intents() if kind_for(i) == "fact"
+                            for r in i["responses"] if len(r) > 25]
 
     def reload_model(self):
         self.neural = None
@@ -220,6 +249,12 @@ class Brain:
         if learn:
             self.speller.observe(message)
         answer, source = None, None
+
+        # Did they just answer a question I couldn't, or correct me?
+        learned = self.learn_from_chat(message, corrected, history) if learn else None
+        if learned:
+            return {"answer": learned, "source": "learned",
+                    "corrected": corrected if changes else None}
 
         spell = SPELL_RE.search(message) or SPELL_RE.search(corrected)
         if spell:
@@ -255,18 +290,56 @@ class Brain:
                 source = "knowledge"
 
         if answer is None and self.neural:
-            answer = self.neural.generate(corrected, history)
-            source = "neural"
+            guess = self.neural.generate(corrected, history)
+            g = _normalize(guess)
+            # The question didn't match that fact, so a pasted-in memorized
+            # fact is almost certainly the wrong answer. Admit it instead.
+            if guess and not any(f in g for f in self.known_facts):
+                answer, source = guess, "neural"
 
         if not answer:
-            answer = ("I'm still learning about that. If I got it wrong, "
-                      "press 👎 and teach me the right answer!")
+            if self.neural is None:
+                answer = ("I don't know that one yet, and my neural network is still being "
+                          f"trained (check the Brain panel). If you know the answer, {TEACH_INVITE} it!")
+            else:
+                answer = f"Hmm, I don't know that one yet. If you know the answer, {TEACH_INVITE} it!"
             source = "fallback"
 
         if source != "knowledge":
             self.last_reply = answer
         return {"answer": answer, "source": source,
                 "corrected": corrected if changes else None}
+
+    def learn_from_chat(self, message, corrected, history):
+        """Two natural ways to teach Neural just by chatting:
+        1. It said it didn't know, and you reply with the answer.
+        2. You correct it: "actually, it's ..." / "no, ..."
+        Returns a reply if it learned something, else None."""
+        history = list(history)
+        bot = next((m for m in reversed(history) if m["role"] == "Bot"), None)
+        if not bot:
+            return None
+        idx = len(history) - 1 - history[::-1].index(bot)
+        question = next((m["message"] for m in reversed(history[:idx]) if m["role"] == "User"), None)
+        if not question:
+            return None
+
+        fact = None
+        m = CORRECTION_RE.match(corrected.strip())
+        if TEACH_INVITE in bot["message"] and is_statement(message):
+            fact = m.group(1) if m else corrected
+        else:
+            # Only correct guesses (neural/fallback); built-in answers are checked
+            # facts, and 👎 + teach still works for those.
+            if m and len(corrected.split()) >= 2 and bot.get("source") in ("neural", "fallback"):
+                fact = m.group(1)
+        if not fact:
+            return None
+
+        # Save the spelling-fixed question so it matches however it's typed later.
+        self.teach(self.speller.correct(question)[0], tidy(fact))
+        return (f"Ooh, got it, thanks for teaching me! Next time someone asks "
+                f"\"{question}\", I'll tell them that.")
 
     def stats(self):
         return {

@@ -10,7 +10,8 @@ const SOURCES = {
   neural: "neural net",
   calculator: "calculator",
   spelling: "spelling",
-  fallback: "",
+  learned: "learned from you",
+  fallback: "doesn't know yet",
 };
 
 let currentId = null;
