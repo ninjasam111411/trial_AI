@@ -82,11 +82,24 @@ function toast(text, kind = "") {
 
 function scrollDown() { messagesEl.scrollTop = messagesEl.scrollHeight; }
 
+// ---------- thinking orbs ----------
+const orbs = new Set();
+function makeOrb(canvas, state, size) {
+  if (!window.ThinkingOrbs) return null;
+  const orb = ThinkingOrbs.createOrb(canvas, {
+    state, size, dark: document.documentElement.dataset.theme !== "light",
+  });
+  orbs.add(orb);
+  return orb;
+}
+function dropOrb(orb) { if (orb) { orb.destroy(); orbs.delete(orb); } }
+
 // ---------- theme ----------
 function applyTheme(t) {
   document.documentElement.dataset.theme = t;
   $("#theme").textContent = t === "dark" ? "☀️ Light mode" : "🌙 Dark mode";
   store.set("neural-theme", t);
+  orbs.forEach((o) => o.setDark(t !== "light"));
 }
 applyTheme(store.get("neural-theme") || "dark");
 $("#theme").onclick = () =>
@@ -147,16 +160,20 @@ async function openChat(id) {
 }
 
 // ---------- messages ----------
+function addReadAs(msg, corrected) {
+  if (!corrected) return;
+  const note = el("div", "read-as", "✎ Read as: ");
+  note.append(el("b", "", corrected));
+  msg.append(note);
+}
+
 function addUser(text, corrected) {
   const msg = el("div", "msg user");
   msg.append(el("div", "bubble", text));
-  if (corrected) {
-    const note = el("div", "read-as", "✎ Read as: ");
-    note.append(el("b", "", corrected));
-    msg.append(note);
-  }
+  addReadAs(msg, corrected);
   thread.append(msg);
   scrollDown();
+  return msg;
 }
 
 function addBot(text, source, id, question, rating, animate = false) {
@@ -275,13 +292,25 @@ function showTeach(body, question, id) {
   scrollDown();
 }
 
+// While Neural thinks, an orb animates and changes as it works:
+// searching its knowledge first, then composing a reply.
 function showTyping() {
   const msg = el("div", "msg bot");
-  msg.append(el("div", "logo"));
-  const dots = el("div", "typing");
-  dots.innerHTML = "<span></span><span></span><span></span>";
-  msg.append(dots);
+  const box = el("div", "thinking");
+  const canvas = el("canvas");
+  const label = el("span", "label", "Searching my knowledge...");
+  box.append(canvas, label);
+  msg.append(box);
   thread.append(msg);
+  const orb = makeOrb(canvas, "searching", 34);
+  const steps = [[700, "composing", "Writing a reply..."], [2500, "weaving", "Thinking it through..."],
+                 [6000, "breathing", "Almost there..."]];
+  const timers = steps.map(([ms, state, text]) => setTimeout(() => {
+    orb?.setState(state);
+    label.textContent = text;
+    label.style.animation = "none"; void label.offsetWidth; label.style.animation = "";
+  }, ms));
+  msg.stop = () => { timers.forEach(clearTimeout); dropOrb(orb); msg.remove(); };
   scrollDown();
   return msg;
 }
@@ -295,8 +324,7 @@ async function sendMessage(text) {
   input.value = "";
   autoGrow();
 
-  const userMsg = el("div");  // placeholder so the order stays right
-  thread.append(userMsg);
+  const userMsg = addUser(text);  // show your message right away
   const typing = showTyping();
   const started = Date.now();
 
@@ -306,10 +334,9 @@ async function sendMessage(text) {
       body: JSON.stringify({ message: text, conversation_id: currentId,
                              style: store.get("neural-style") === "plain" ? "plain" : "casual" }),
     });
-    await new Promise((r) => setTimeout(r, Math.max(0, 350 - (Date.now() - started))));
-    typing.remove();
-    userMsg.remove();
-    addUser(text, data.corrected);
+    await new Promise((r) => setTimeout(r, Math.max(0, 650 - (Date.now() - started))));
+    typing.stop();
+    addReadAs(userMsg, data.corrected);
     addBot(data.answer, data.source, data.id, text, null, true);
     if (!currentId) { currentId = data.conversation_id; }
     loadChatList().then(() => {
@@ -317,9 +344,8 @@ async function sendMessage(text) {
       if (active) $("#title").textContent = active.textContent;
     });
   } catch (err) {
-    typing.remove();
-    userMsg.remove();
-    addUser(text);
+    typing.stop();
+
     addBot("⚠ " + (err.message || "Could not reach Neural. Is app.py running?"), "fallback");
   } finally {
     busy = false;
@@ -348,6 +374,7 @@ send.disabled = true;
 
 // ---------- brain panel ----------
 const modal = $("#brain-modal");
+let trainOrb = null;
 let pollTimer = null;
 
 function fmt(n) { return typeof n === "number" ? n.toLocaleString() : n; }
@@ -398,7 +425,9 @@ async function refreshStats() {
   status.textContent = t.running ? "Training..." : s.model_ready ? "Model ready" : "Knowledge only";
 
   $("#retrain").disabled = $("#fresh").disabled = t.running;
-  $("#train-progress").hidden = !t.running;
+  $("#train-live").hidden = !t.running;
+  if (t.running && !trainOrb) trainOrb = makeOrb($("#train-orb"), "weaving", 28);
+  if (!t.running && trainOrb) { dropOrb(trainOrb); trainOrb = null; }
   $("#train-progress div").style.width = Math.round((t.progress || 0) * 100) + "%";
   $("#train-stage").textContent = t.error
     ? "Training failed: " + t.error
@@ -433,6 +462,7 @@ $("#fresh").onclick = () => startTraining(true);
 
 // ---------- updates from GitHub ----------
 const updateBar = $("#update-bar");
+let updateOrb = null;
 let updateState = null;
 
 function timeAgo(t) {
@@ -451,6 +481,9 @@ function showUpdate(u) {
   $("#update-msg").textContent = u.message ? `"${u.message}" · ${n} file${n === 1 ? "" : "s"} changed` : "";
   $("#update-stage").textContent = u.applying ? `${u.stage}...` : (u.error && u.available ? u.error : "");
   $("#update-now").disabled = $("#update-later").disabled = u.applying;
+  $("#update-icon").hidden = !!u.applying;
+  $("#update-orb").hidden = !u.applying;
+  if (u.applying && !updateOrb) updateOrb = makeOrb($("#update-orb"), "connecting", 28);
 
   // Brain panel
   let info;
@@ -530,6 +563,7 @@ $("#casual").onchange = (e) => {
 };
 
 // ---------- start ----------
+makeOrb($("#hero-orb"), "working", 96);
 loadChatList();
 refreshStats().catch(() => {});
 refreshUpdate();

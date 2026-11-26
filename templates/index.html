@@ -32,7 +32,8 @@
     </header>
 
     <div id="update-bar" class="update-bar" hidden>
-      <span class="update-icon">✨</span>
+      <span class="update-icon" id="update-icon">✨</span>
+      <canvas id="update-orb" hidden></canvas>
       <div class="update-text">
         <b>An update is ready.</b> <span id="update-msg"></span>
         <div id="update-stage" class="muted small"></div>
@@ -43,7 +44,7 @@
 
     <section id="messages">
       <div id="empty" class="empty">
-        <div class="logo big"></div>
+        <canvas id="hero-orb" class="hero-orb" aria-label="Neural"></canvas>
         <h1>Hi, I'm Neural.</h1>
         <p>A small AI that learns from every chat. Rate my answers and teach me when I'm wrong.</p>
         <div class="suggestions">
@@ -79,7 +80,10 @@
       <div id="stats" class="stats"></div>
       <div class="train-box">
         <div id="train-info" class="muted"></div>
-        <div id="train-progress" class="progress" hidden><div></div></div>
+        <div id="train-live" class="train-live" hidden>
+          <canvas id="train-orb"></canvas>
+          <div class="progress" id="train-progress"><div></div></div>
+        </div>
         <div id="train-stage" class="muted small"></div>
         <div class="train-actions">
           <button id="retrain" class="primary">Retrain with what I've learned</button>
@@ -110,6 +114,7 @@
     </div>
   </div>
 
+  <script src="{{ url_for('static', filename='vendor/thinking-orbs.js') }}"></script>
   <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>
