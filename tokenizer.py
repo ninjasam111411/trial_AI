@@ -33,10 +33,15 @@ def parse_chat(text):
 
 
 class Tokenizer:
-    def __init__(self, path):
-        self.tok = HFTokenizer.from_file(str(path))
+    def __init__(self, path=None, tok=None):
+        self.tok = tok or HFTokenizer.from_file(str(path))
         self.vocab_size = self.tok.get_vocab_size()
         self.end_id, self.user_id, self.bot_id = (self.tok.token_to_id(s) for s in SPECIAL)
+
+    @classmethod
+    def from_string(cls, json_text):
+        """Load a tokenizer saved inside a model file (no temp files needed)."""
+        return cls(tok=HFTokenizer.from_str(json_text))
 
     @staticmethod
     def train(texts, path, vocab_size=8000):

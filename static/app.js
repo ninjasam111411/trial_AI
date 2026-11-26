@@ -407,6 +407,11 @@ async function refreshStats() {
     txt.append(el("div", "", "parameters, trained from scratch"));
     txt.append(el("div", "muted", `${s.model.layers} layers · width ${s.model.dim} · reads ${s.model.context} tokens · vocab ${fmt(s.model.vocab)}`));
     card.append(num, txt);
+  } else if (s.model_error) {
+    card.append(el("div", "", "The neural network couldn't load: " + s.model_error +
+                   ". Try Train a new model, or send this message to get it fixed."));
+  } else if (s.training.running) {
+    card.append(el("div", "", "Training your first neural network... You can keep chatting meanwhile."));
   } else {
     card.append(el("div", "", "No neural network yet. Train one below."));
   }
@@ -497,6 +502,7 @@ function showUpdate(u) {
   if (u.installed) info += ` Installed version: ${u.installed}.`;
   $("#version-info").textContent = info;
   $("#check-updates").hidden = !u.enabled;
+  $("#panel-update").hidden = !(u.available && !u.applying);
   $("#undo-update").hidden = !u.can_undo;
 }
 
@@ -529,13 +535,22 @@ async function followUpdate() {
   }
 }
 
-$("#update-now").onclick = async () => {
+async function applyUpdate() {
   try {
     await api("/api/update/apply", { method: "POST" });
+    modal.hidden = true;
+    store.set("neural-update-dismissed", "");
     updateBar.hidden = false;
+    toast("Updating Neural...");
     followUpdate();
-  } catch (err) { $("#update-stage").textContent = err.message; }
-};
+  } catch (err) {
+    updateBar.hidden = false;
+    $("#update-stage").textContent = err.message;
+    toast("Update failed: " + err.message, "bad");
+  }
+}
+$("#update-now").onclick = applyUpdate;
+$("#panel-update").onclick = applyUpdate;
 $("#update-later").onclick = () => {
   store.set("neural-update-dismissed", updateState.commit);
   updateBar.hidden = true;

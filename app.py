@@ -25,7 +25,7 @@ from flask import Flask, Response, g, jsonify, render_template, request
 import memory
 import updater
 from brain import Brain
-from config import BASE_DIR, TRAIN_INFO_FILE
+from config import BASE_DIR, MODEL_FILE, TRAIN_INFO_FILE
 from learning import Speller, _read_json
 
 app = Flask(__name__)
@@ -178,15 +178,22 @@ def run_training(fresh, preset):
         for i, cmd in enumerate(cmds):
             training["stage"] = "Building dataset" if i == 0 else "Training"
             proc = subprocess.Popen(cmd, cwd=BASE_DIR, stdout=subprocess.PIPE,
-                                    stderr=subprocess.STDOUT, text=True, bufsize=1)
+                                    stderr=subprocess.STDOUT, text=True, bufsize=1,
+                                    encoding="utf-8", errors="replace")
+            training["proc"] = proc
             for line in proc.stdout:
                 line = line.strip()
                 training["log"] = (training["log"] + [line])[-8:]
                 m = re.match(r"Step (\d+)/(\d+)", line)
                 if m:
                     training["progress"] = int(m.group(1)) / int(m.group(2))
+                if "(saved)" in line and brain.neural is None:
+                    brain.reload_model()  # chat with it while it keeps training
+            if training.get("stopping"):
+                break
             if proc.wait() != 0:
-                raise RuntimeError(f"{cmd[2]} failed")
+                last = training["log"][-1] if training["log"] else ""
+                raise RuntimeError(f"{cmd[2]} failed: {last}")
         brain.speller = Speller()  # pick up newly learned words
         brain.reload_model()
         training["stage"] = "Done"
@@ -195,6 +202,7 @@ def run_training(fresh, preset):
         training["stage"] = "Failed"
     finally:
         training["running"] = False
+        training.pop("proc", None)
 
 
 @app.post("/api/retrain")
@@ -206,7 +214,7 @@ def retrain():
     body = request.get_json(silent=True) or {}
     fresh = brain.neural is None or bool(body.get("fresh"))
     preset = body.get("preset") if body.get("preset") in FRESH_STEPS else "tiny"
-    training.update(running=True, stage="Starting", progress=0, log=[], error=None)
+    training.update(running=True, stage="Starting", progress=0, log=[], error=None, stopping=False)
     threading.Thread(target=run_training, args=(fresh, preset), daemon=True).start()
     return jsonify({"ok": True, "fresh": fresh, "preset": preset})
 
@@ -216,14 +224,27 @@ def stats():
     return jsonify({
         **brain.stats(),
         "last_training": _read_json(TRAIN_INFO_FILE, None),
-        "training": training,
+        "training": {k: v for k, v in training.items() if k != "proc"},
         "admin_required": bool(ADMIN_KEY),
     })
 
 
 # ---- Updates from GitHub -------------------------------------------------
+def stop_training():
+    """Stop training (the best version so far is already saved)."""
+    proc = training.get("proc")
+    if proc and proc.poll() is None:
+        training["stopping"] = True
+        proc.terminate()
+        try:
+            proc.wait(timeout=10)
+        except subprocess.TimeoutExpired:
+            proc.kill()
+
+
 def restart():
     """Restart Neural so the update takes effect."""
+    stop_training()
     if os.environ.get("NEURAL_LAUNCHER") == "1":
         os._exit(3)  # launcher.py starts us again
     os.execv(sys.executable, [sys.executable] + sys.argv)
@@ -243,8 +264,6 @@ def update_check():
 def update_apply():
     if not is_admin():
         return jsonify({"error": "Admin password needed to update."}), 403
-    if training["running"]:
-        return jsonify({"error": "Wait for training to finish, then update."}), 409
     if not updater.apply_async(restart):
         return jsonify({"error": "No update to apply."}), 409
     return jsonify({"ok": True})
@@ -262,9 +281,12 @@ def update_undo():
 def autotrain_if_needed():
     """First run with no model yet: train a tiny starter model in the background.
     Neural still answers from its knowledge while it trains."""
-    if brain.neural is None and not training["running"] and os.environ.get("NEURAL_AUTOTRAIN", "1") == "1":
+    # Only when there's no model file at all. If one exists (even from a
+    # training run that was stopped early), use it instead of starting over.
+    if not MODEL_FILE.exists() and not training["running"] \
+            and os.environ.get("NEURAL_AUTOTRAIN", "1") == "1":
         print("  No neural network yet - training a starter model in the background...")
-        training.update(running=True, stage="Starting", progress=0, log=[], error=None)
+        training.update(running=True, stage="Starting", progress=0, log=[], error=None, stopping=False)
         threading.Thread(target=run_training, args=(True, "tiny"), daemon=True).start()
 
 
