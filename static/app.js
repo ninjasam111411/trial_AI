@@ -374,6 +374,7 @@ $("#open-brain").onclick = () => {
   modal.hidden = false;
   document.body.classList.remove("side-open");
   refreshStats();
+  refreshUpdate();
 };
 modal.addEventListener("click", (e) => {
   if (e.target === modal || e.target.closest("[data-close]")) modal.hidden = true;
@@ -391,6 +392,99 @@ async function startTraining(fresh) {
 $("#retrain").onclick = () => startTraining(false);
 $("#fresh").onclick = () => startTraining(true);
 
+// ---------- updates from GitHub ----------
+const updateBar = $("#update-bar");
+let updateState = null;
+
+function timeAgo(t) {
+  const s = Math.round(Date.now() / 1000 - t);
+  if (s < 60) return "just now";
+  if (s < 3600) return Math.round(s / 60) + " min ago";
+  if (s < 86400) return Math.round(s / 3600) + " hours ago";
+  return Math.round(s / 86400) + " days ago";
+}
+
+function showUpdate(u) {
+  updateState = u;
+  const dismissed = store.get("neural-update-dismissed");
+  updateBar.hidden = !(u.applying || (u.available && dismissed !== u.commit));
+  const n = u.changed.length;
+  $("#update-msg").textContent = u.message ? `"${u.message}" · ${n} file${n === 1 ? "" : "s"} changed` : "";
+  $("#update-stage").textContent = u.applying ? `${u.stage}...` : (u.error && u.available ? u.error : "");
+  $("#update-now").disabled = $("#update-later").disabled = u.applying;
+
+  // Brain panel
+  let info;
+  if (!u.enabled) info = u.is_git ? "This copy uses Git: update it with git pull." : "Automatic updates are turned off.";
+  else if (u.checking) info = "Checking GitHub...";
+  else if (u.available) info = `Update available: "${u.message}".`;
+  else if (u.online === false) info = u.error || "Offline. Neural works fine without the internet.";
+  else if (u.last_check) info = `Up to date. Checked ${timeAgo(u.last_check)}.`;
+  else info = "Will check for updates when you're online.";
+  if (u.installed) info += ` Installed version: ${u.installed}.`;
+  $("#version-info").textContent = info;
+  $("#check-updates").hidden = !u.enabled;
+  $("#undo-update").hidden = !u.can_undo;
+}
+
+async function refreshUpdate() {
+  try { showUpdate(await api("/api/update")); } catch {}
+}
+
+async function waitForRestart(bootId) {
+  $("#update-stage").textContent = "Restarting...";
+  for (let i = 0; i < 120; i++) {
+    await new Promise((r) => setTimeout(r, 1500));
+    try {
+      const u = await (await fetch("/api/update")).json();
+      if (u.boot_id !== bootId) { location.reload(); return; }
+    } catch {}  // server is restarting
+  }
+  $("#update-stage").textContent = "Neural didn't come back. Start it again with start.bat / start.sh.";
+}
+
+async function followUpdate() {
+  const bootId = updateState.boot_id;
+  while (true) {
+    await new Promise((r) => setTimeout(r, 1000));
+    let u;
+    try { u = await (await fetch("/api/update")).json(); } catch { return waitForRestart(bootId); }
+    showUpdate(u);
+    if (u.boot_id !== bootId) return location.reload();
+    if (u.stage === "Restarting") return waitForRestart(bootId);
+    if (!u.applying) return;  // failed; message is shown
+  }
+}
+
+$("#update-now").onclick = async () => {
+  try {
+    await api("/api/update/apply", { method: "POST" });
+    updateBar.hidden = false;
+    followUpdate();
+  } catch (err) { $("#update-stage").textContent = err.message; }
+};
+$("#update-later").onclick = () => {
+  store.set("neural-update-dismissed", updateState.commit);
+  updateBar.hidden = true;
+};
+$("#check-updates").onclick = async () => {
+  $("#version-info").textContent = "Checking GitHub...";
+  store.set("neural-update-dismissed", "");
+  showUpdate(await api("/api/update/check", { method: "POST" }));
+};
+$("#undo-update").onclick = async () => {
+  if (!confirm("Go back to the version from before the last update?")) return;
+  try {
+    await api("/api/update/undo", { method: "POST" });
+    modal.hidden = true;
+    updateBar.hidden = false;
+    $("#update-msg").textContent = "Undoing the last update.";
+    waitForRestart(updateState.boot_id);
+  } catch (err) { alert(err.message); }
+};
+
 // ---------- start ----------
 loadChatList();
 refreshStats().catch(() => {});
+refreshUpdate();
+setInterval(refreshUpdate, 60 * 1000);

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Start Neural on Mac/Linux:  ./start.sh
+# Start Neural on Mac/Linux:  ./start.sh   (needs internet only the first time)
 cd "$(dirname "$0")"
 if [ ! -d .venv ]; then
   echo "First run: setting things up, this takes a few minutes..."
@@ -7,4 +7,4 @@ if [ ! -d .venv ]; then
   .venv/bin/pip install --upgrade pip
   .venv/bin/pip install -r requirements.txt
 fi
-.venv/bin/python app.py
+exec .venv/bin/python launcher.py

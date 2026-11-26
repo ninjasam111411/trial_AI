@@ -31,6 +31,16 @@
       <div id="model-status" class="status"></div>
     </header>
 
+    <div id="update-bar" class="update-bar" hidden>
+      <span class="update-icon">✨</span>
+      <div class="update-text">
+        <b>An update is ready.</b> <span id="update-msg"></span>
+        <div id="update-stage" class="muted small"></div>
+      </div>
+      <button id="update-now" class="primary">Update now</button>
+      <button id="update-later" class="ghost">Not now</button>
+    </div>
+
     <section id="messages">
       <div id="empty" class="empty">
         <div class="logo big"></div>
@@ -84,6 +94,14 @@
             run <code>python download_data.py</code> and pretrain first (see the README).</p>
         </details>
         <p class="muted small">Retraining adds taught answers, 👍 chats and real typos people made to the training data, then keeps training the neural network.</p>
+      </div>
+      <div class="update-box">
+        <h3>Updates</h3>
+        <div id="version-info" class="muted"></div>
+        <div class="train-actions">
+          <button id="check-updates" class="ghost">Check for updates</button>
+          <button id="undo-update" class="link" hidden>Undo last update</button>
+        </div>
       </div>
     </div>
   </div>

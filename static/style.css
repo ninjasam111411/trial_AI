@@ -240,3 +240,16 @@ main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
 .fresh-row { display: flex; gap: 8px; margin: 10px 0 6px; }
 .fresh-row select { flex: 1; padding: 8px 10px; border-radius: 10px; background: var(--bg);
   color: var(--text); border: 1px solid var(--border); font: inherit; }
+
+/* ---------- Updates ---------- */
+.update-bar { display: flex; align-items: center; gap: 12px; margin: 10px auto 0; width: calc(100% - 40px);
+  max-width: 780px; padding: 10px 12px 10px 14px; border-radius: 14px;
+  background: linear-gradient(135deg, rgba(124,92,255,.20), rgba(34,211,238,.12));
+  border: 1px solid rgba(124,92,255,.45); animation: rise .25s ease-out; }
+.update-bar[hidden] { display: none; }
+.update-icon { font-size: 20px; }
+.update-text { flex: 1; min-width: 0; font-size: 14px; }
+.update-text span { color: var(--muted); }
+.update-box { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border); }
+.update-box h3 { margin: 0 0 6px; font-size: 15px; }
+@media (max-width: 800px) { .update-bar { flex-wrap: wrap; } }

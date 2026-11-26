@@ -23,6 +23,7 @@ import uuid
 from flask import Flask, Response, g, jsonify, render_template, request
 
 import memory
+import updater
 from brain import Brain
 from config import BASE_DIR, TRAIN_INFO_FILE
 from learning import Speller, _read_json
@@ -219,6 +220,44 @@ def stats():
     })
 
 
+# ---- Updates from GitHub -------------------------------------------------
+def restart():
+    """Restart Neural so the update takes effect."""
+    if os.environ.get("NEURAL_LAUNCHER") == "1":
+        os._exit(3)  # launcher.py starts us again
+    os.execv(sys.executable, [sys.executable] + sys.argv)
+
+
+@app.get("/api/update")
+def update_status():
+    return jsonify(updater.state)
+
+
+@app.post("/api/update/check")
+def update_check():
+    return jsonify(updater.check())
+
+
+@app.post("/api/update/apply")
+def update_apply():
+    if not is_admin():
+        return jsonify({"error": "Admin password needed to update."}), 403
+    if training["running"]:
+        return jsonify({"error": "Wait for training to finish, then update."}), 409
+    if not updater.apply_async(restart):
+        return jsonify({"error": "No update to apply."}), 409
+    return jsonify({"ok": True})
+
+
+@app.post("/api/update/undo")
+def update_undo():
+    if not is_admin():
+        return jsonify({"error": "Admin password needed."}), 403
+    if not updater.undo_last(restart):
+        return jsonify({"error": "Nothing to undo."}), 409
+    return jsonify({"ok": True})
+
+
 def autotrain_if_needed():
     """First run with no model yet: train a tiny starter model in the background.
     Neural still answers from its knowledge while it trains."""
@@ -229,10 +268,11 @@ def autotrain_if_needed():
 
 
 if __name__ == "__main__":
+    updater.start_background_checks()
     autotrain_if_needed()
     host = os.environ.get("HOST", "127.0.0.1")
     port = int(os.environ.get("PORT", 5000))
-    if host == "127.0.0.1" and not os.environ.get("NO_BROWSER"):
+    if host == "127.0.0.1" and not os.environ.get("NO_BROWSER") and not os.environ.get("NEURAL_RESTARTED"):
         threading.Timer(1.2, lambda: webbrowser.open(f"http://127.0.0.1:{port}")).start()
     print(f"\n  Neural is running at http://127.0.0.1:{port}\n")
     app.run(host=host, port=port, debug=False, threaded=True)

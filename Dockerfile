@@ -15,7 +15,7 @@ USER user
 # Train a starter model while building, so the site is ready right away.
 RUN python build_dataset.py && python train.py --preset tiny --steps 800 --dropout 0.1
 
-ENV HOST=0.0.0.0 PORT=7860 NO_BROWSER=1
+ENV HOST=0.0.0.0 PORT=7860 NO_BROWSER=1 NEURAL_UPDATES=0
 EXPOSE 7860
 # One worker so the whole app shares one brain; threads handle many users.
 CMD ["gunicorn", "-w", "1", "--threads", "8", "--timeout", "120", "-b", "0.0.0.0:7860", "app:app"]

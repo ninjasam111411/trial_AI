@@ -31,6 +31,30 @@ http://127.0.0.1:5000. If there's no model yet, it starts training a tiny one
 in the background (you can chat with its built-in knowledge meanwhile). Watch
 progress in **🧠 Brain & training**.
 
+## Works offline, updates itself
+
+After the first run installs everything, Neural needs **no internet**: the
+model, tokenizer, spell checker and app all run on your computer.
+
+When you are online, it checks this GitHub repo (the `main` branch) every
+few hours. If anything changed, a banner asks **"An update is ready. Update
+now?"**. Say yes and Neural:
+
+1. downloads the new version,
+2. backs up every file it's about to replace (`saved/backups/`),
+3. replaces only the files that changed (and installs new packages if needed),
+4. restarts itself and reloads the page.
+
+It compares the actual file contents, not a version number, so no change is
+missed. Your chats, learned data, trained model and downloaded training text
+are never touched. If you edited a file and GitHub didn't change it, your
+edit stays. If both changed, GitHub's version is used and yours is kept in
+the backup. Changed your mind? **🧠 Brain & training → Undo last update**.
+
+Settings (optional): `NEURAL_UPDATES=0` turns updates off,
+`NEURAL_UPDATE_REPO` / `NEURAL_UPDATE_BRANCH` point at a different repo or
+branch. Copies made with `git clone` skip this (use `git pull`).
+
 ## Make it smarter (bigger model + real training data)
 
 The tiny starter model only learns from Neural's own Q&A, so it's good at those
@@ -139,4 +163,5 @@ running Neural (not uploaded to GitHub). Your browser keeps a cookie
 | `build_dataset.py` | Chat data from knowledge, learned chats and typos |
 | `learning.py`, `memory.py` | Spell checker, ratings, taught answers, saved chats |
 | `data/intents.json` | Built-in knowledge |
+| `updater.py`, `launcher.py` | Update checks from GitHub, restarting after an update |
 | `Dockerfile` | Runs it as a website |
