@@ -20,7 +20,7 @@ import random
 import re
 from pathlib import Path
 
-from config import INTENTS_FILE, MODEL_FILE
+from config import MODEL_FILE, load_intents
 from learning import ChatLog, Speller, TaughtStore, words_in
 
 MATCH_THRESHOLD = 0.72
@@ -89,12 +89,13 @@ should will tell give say please hey hi hello this that there and or so just som
 very really much many more most tell u ur r""".split())
 
 
+KEY_STOPWORDS = STOPWORDS - {"you", "your", "u", "ur", "i", "me", "my"}
+
+
 class KnowledgeBase:
     def __init__(self, extra_intents=()):
         self.entries = []  # (normalized pattern, word set, intent)
-        intents = []
-        if INTENTS_FILE.exists():
-            intents = json.loads(INTENTS_FILE.read_text(encoding="utf-8"))["intents"]
+        intents = load_intents()
         self.topic_count = len(intents)
         for intent in list(intents) + list(extra_intents):
             for pattern in intent["patterns"]:
@@ -114,17 +115,19 @@ class KnowledgeBase:
             score = max(ratio, 0.5 * ratio + 0.5 * overlap)
             # The important words must agree: "tell me about frogs" is not
             # "tell me about dogs", even though the sentences look alike.
-            key_msg, key_pat = words - STOPWORDS, pattern_words - STOPWORDS
-            if key_msg and key_pat and not (key_msg & key_pat):
+            # "you"/"I" count here: "how smart are YOU" is not about octopuses.
+            key_msg, key_pat = words - KEY_STOPWORDS, pattern_words - KEY_STOPWORDS
+            shared = key_msg & key_pat
+            if key_msg and key_pat and not shared:
                 score *= 0.6
             elif key_msg - key_pat and key_pat - key_msg:
                 score *= 0.7   # a key word was swapped (spain vs japan)
             elif key_msg - key_pat:
-                score *= 0.85  # you mentioned something it doesn't cover
+                # you mentioned something extra it doesn't cover
+                score *= 0.85 if len(shared) < 2 else 0.95
             elif key_pat - key_msg:
-                # The known question is about something you didn't mention
-                # ("how smart are octopuses" vs "how smart are you").
-                score *= 0.8
+                # the known question has an extra detail ("abraham" lincoln)
+                score *= 0.9
             if score > best_score:
                 best_score, best_intent = score, intent
 

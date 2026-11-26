@@ -9,6 +9,17 @@ DATA_DIR = BASE_DIR / "data"
 SAVE_DIR = Path(os.environ.get("NEURAL_DATA_DIR", BASE_DIR / "saved"))
 
 INTENTS_FILE = DATA_DIR / "intents.json"
+KNOWLEDGE_DIR = DATA_DIR / "knowledge"            # more topic packs (*.json)
+
+
+def load_intents():
+    """All built-in knowledge: intents.json plus every pack in data/knowledge/."""
+    import json
+    intents = []
+    for path in [INTENTS_FILE] + sorted(KNOWLEDGE_DIR.glob("*.json")):
+        if path.exists():
+            intents += json.loads(path.read_text(encoding="utf-8"))["intents"]
+    return intents
 TRAINING_FILE = DATA_DIR / "training.txt"
 EXTRA_FILE = DATA_DIR / "extra.txt"
 

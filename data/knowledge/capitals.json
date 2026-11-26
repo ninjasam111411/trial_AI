@@ -1,0 +1,1170 @@
+{
+ "intents": [
+  {
+   "tag": "capital_country_afghanistan",
+   "patterns": [
+    "What is the capital of Afghanistan?",
+    "capital of Afghanistan",
+    "What's Afghanistan's capital?"
+   ],
+   "responses": [
+    "The capital of Afghanistan is Kabul."
+   ]
+  },
+  {
+   "tag": "capital_country_argentina",
+   "patterns": [
+    "What is the capital of Argentina?",
+    "capital of Argentina",
+    "What's Argentina's capital?"
+   ],
+   "responses": [
+    "The capital of Argentina is Buenos Aires."
+   ]
+  },
+  {
+   "tag": "capital_country_austria",
+   "patterns": [
+    "What is the capital of Austria?",
+    "capital of Austria",
+    "What's Austria's capital?"
+   ],
+   "responses": [
+    "The capital of Austria is Vienna."
+   ]
+  },
+  {
+   "tag": "capital_country_bangladesh",
+   "patterns": [
+    "What is the capital of Bangladesh?",
+    "capital of Bangladesh",
+    "What's Bangladesh's capital?"
+   ],
+   "responses": [
+    "The capital of Bangladesh is Dhaka."
+   ]
+  },
+  {
+   "tag": "capital_country_belgium",
+   "patterns": [
+    "What is the capital of Belgium?",
+    "capital of Belgium",
+    "What's Belgium's capital?"
+   ],
+   "responses": [
+    "The capital of Belgium is Brussels."
+   ]
+  },
+  {
+   "tag": "capital_country_brazil",
+   "patterns": [
+    "What is the capital of Brazil?",
+    "capital of Brazil",
+    "What's Brazil's capital?"
+   ],
+   "responses": [
+    "The capital of Brazil is Brasilia."
+   ]
+  },
+  {
+   "tag": "capital_country_chile",
+   "patterns": [
+    "What is the capital of Chile?",
+    "capital of Chile",
+    "What's Chile's capital?"
+   ],
+   "responses": [
+    "The capital of Chile is Santiago."
+   ]
+  },
+  {
+   "tag": "capital_country_china",
+   "patterns": [
+    "What is the capital of China?",
+    "capital of China",
+    "What's China's capital?"
+   ],
+   "responses": [
+    "The capital of China is Beijing."
+   ]
+  },
+  {
+   "tag": "capital_country_colombia",
+   "patterns": [
+    "What is the capital of Colombia?",
+    "capital of Colombia",
+    "What's Colombia's capital?"
+   ],
+   "responses": [
+    "The capital of Colombia is Bogota."
+   ]
+  },
+  {
+   "tag": "capital_country_cuba",
+   "patterns": [
+    "What is the capital of Cuba?",
+    "capital of Cuba",
+    "What's Cuba's capital?"
+   ],
+   "responses": [
+    "The capital of Cuba is Havana."
+   ]
+  },
+  {
+   "tag": "capital_country_denmark",
+   "patterns": [
+    "What is the capital of Denmark?",
+    "capital of Denmark",
+    "What's Denmark's capital?"
+   ],
+   "responses": [
+    "The capital of Denmark is Copenhagen."
+   ]
+  },
+  {
+   "tag": "capital_country_egypt",
+   "patterns": [
+    "What is the capital of Egypt?",
+    "capital of Egypt",
+    "What's Egypt's capital?"
+   ],
+   "responses": [
+    "The capital of Egypt is Cairo."
+   ]
+  },
+  {
+   "tag": "capital_country_ethiopia",
+   "patterns": [
+    "What is the capital of Ethiopia?",
+    "capital of Ethiopia",
+    "What's Ethiopia's capital?"
+   ],
+   "responses": [
+    "The capital of Ethiopia is Addis Ababa."
+   ]
+  },
+  {
+   "tag": "capital_country_finland",
+   "patterns": [
+    "What is the capital of Finland?",
+    "capital of Finland",
+    "What's Finland's capital?"
+   ],
+   "responses": [
+    "The capital of Finland is Helsinki."
+   ]
+  },
+  {
+   "tag": "capital_country_greece",
+   "patterns": [
+    "What is the capital of Greece?",
+    "capital of Greece",
+    "What's Greece's capital?"
+   ],
+   "responses": [
+    "The capital of Greece is Athens."
+   ]
+  },
+  {
+   "tag": "capital_country_iceland",
+   "patterns": [
+    "What is the capital of Iceland?",
+    "capital of Iceland",
+    "What's Iceland's capital?"
+   ],
+   "responses": [
+    "The capital of Iceland is Reykjavik."
+   ]
+  },
+  {
+   "tag": "capital_country_india",
+   "patterns": [
+    "What is the capital of India?",
+    "capital of India",
+    "What's India's capital?"
+   ],
+   "responses": [
+    "The capital of India is New Delhi."
+   ]
+  },
+  {
+   "tag": "capital_country_indonesia",
+   "patterns": [
+    "What is the capital of Indonesia?",
+    "capital of Indonesia",
+    "What's Indonesia's capital?"
+   ],
+   "responses": [
+    "The capital of Indonesia is Jakarta."
+   ]
+  },
+  {
+   "tag": "capital_country_iran",
+   "patterns": [
+    "What is the capital of Iran?",
+    "capital of Iran",
+    "What's Iran's capital?"
+   ],
+   "responses": [
+    "The capital of Iran is Tehran."
+   ]
+  },
+  {
+   "tag": "capital_country_iraq",
+   "patterns": [
+    "What is the capital of Iraq?",
+    "capital of Iraq",
+    "What's Iraq's capital?"
+   ],
+   "responses": [
+    "The capital of Iraq is Baghdad."
+   ]
+  },
+  {
+   "tag": "capital_country_ireland",
+   "patterns": [
+    "What is the capital of Ireland?",
+    "capital of Ireland",
+    "What's Ireland's capital?"
+   ],
+   "responses": [
+    "The capital of Ireland is Dublin."
+   ]
+  },
+  {
+   "tag": "capital_country_israel",
+   "patterns": [
+    "What is the capital of Israel?",
+    "capital of Israel",
+    "What's Israel's capital?"
+   ],
+   "responses": [
+    "The capital of Israel is Jerusalem."
+   ]
+  },
+  {
+   "tag": "capital_country_jamaica",
+   "patterns": [
+    "What is the capital of Jamaica?",
+    "capital of Jamaica",
+    "What's Jamaica's capital?"
+   ],
+   "responses": [
+    "The capital of Jamaica is Kingston."
+   ]
+  },
+  {
+   "tag": "capital_country_kenya",
+   "patterns": [
+    "What is the capital of Kenya?",
+    "capital of Kenya",
+    "What's Kenya's capital?"
+   ],
+   "responses": [
+    "The capital of Kenya is Nairobi."
+   ]
+  },
+  {
+   "tag": "capital_country_mexico",
+   "patterns": [
+    "What is the capital of Mexico?",
+    "capital of Mexico",
+    "What's Mexico's capital?"
+   ],
+   "responses": [
+    "The capital of Mexico is Mexico City."
+   ]
+  },
+  {
+   "tag": "capital_country_morocco",
+   "patterns": [
+    "What is the capital of Morocco?",
+    "capital of Morocco",
+    "What's Morocco's capital?"
+   ],
+   "responses": [
+    "The capital of Morocco is Rabat."
+   ]
+  },
+  {
+   "tag": "capital_country_netherlands",
+   "patterns": [
+    "What is the capital of the Netherlands?",
+    "capital of Netherlands",
+    "What's Netherlands's capital?"
+   ],
+   "responses": [
+    "The capital of the Netherlands is Amsterdam."
+   ]
+  },
+  {
+   "tag": "capital_country_new_zealand",
+   "patterns": [
+    "What is the capital of New Zealand?",
+    "capital of New Zealand",
+    "What's New Zealand's capital?"
+   ],
+   "responses": [
+    "The capital of New Zealand is Wellington."
+   ]
+  },
+  {
+   "tag": "capital_country_nigeria",
+   "patterns": [
+    "What is the capital of Nigeria?",
+    "capital of Nigeria",
+    "What's Nigeria's capital?"
+   ],
+   "responses": [
+    "The capital of Nigeria is Abuja."
+   ]
+  },
+  {
+   "tag": "capital_country_north_korea",
+   "patterns": [
+    "What is the capital of North Korea?",
+    "capital of North Korea",
+    "What's North Korea's capital?"
+   ],
+   "responses": [
+    "The capital of North Korea is Pyongyang."
+   ]
+  },
+  {
+   "tag": "capital_country_norway",
+   "patterns": [
+    "What is the capital of Norway?",
+    "capital of Norway",
+    "What's Norway's capital?"
+   ],
+   "responses": [
+    "The capital of Norway is Oslo."
+   ]
+  },
+  {
+   "tag": "capital_country_pakistan",
+   "patterns": [
+    "What is the capital of Pakistan?",
+    "capital of Pakistan",
+    "What's Pakistan's capital?"
+   ],
+   "responses": [
+    "The capital of Pakistan is Islamabad."
+   ]
+  },
+  {
+   "tag": "capital_country_peru",
+   "patterns": [
+    "What is the capital of Peru?",
+    "capital of Peru",
+    "What's Peru's capital?"
+   ],
+   "responses": [
+    "The capital of Peru is Lima."
+   ]
+  },
+  {
+   "tag": "capital_country_philippines",
+   "patterns": [
+    "What is the capital of the Philippines?",
+    "capital of Philippines",
+    "What's Philippines's capital?"
+   ],
+   "responses": [
+    "The capital of the Philippines is Manila."
+   ]
+  },
+  {
+   "tag": "capital_country_poland",
+   "patterns": [
+    "What is the capital of Poland?",
+    "capital of Poland",
+    "What's Poland's capital?"
+   ],
+   "responses": [
+    "The capital of Poland is Warsaw."
+   ]
+  },
+  {
+   "tag": "capital_country_portugal",
+   "patterns": [
+    "What is the capital of Portugal?",
+    "capital of Portugal",
+    "What's Portugal's capital?"
+   ],
+   "responses": [
+    "The capital of Portugal is Lisbon."
+   ]
+  },
+  {
+   "tag": "capital_country_russia",
+   "patterns": [
+    "What is the capital of Russia?",
+    "capital of Russia",
+    "What's Russia's capital?"
+   ],
+   "responses": [
+    "The capital of Russia is Moscow."
+   ]
+  },
+  {
+   "tag": "capital_country_saudi_arabia",
+   "patterns": [
+    "What is the capital of Saudi Arabia?",
+    "capital of Saudi Arabia",
+    "What's Saudi Arabia's capital?"
+   ],
+   "responses": [
+    "The capital of Saudi Arabia is Riyadh."
+   ]
+  },
+  {
+   "tag": "capital_country_south_africa",
+   "patterns": [
+    "What is the capital of South Africa?",
+    "capital of South Africa",
+    "What's South Africa's capital?"
+   ],
+   "responses": [
+    "The capital of South Africa is Pretoria (the executive capital; Cape Town and Bloemfontein are also capitals)."
+   ]
+  },
+  {
+   "tag": "capital_country_south_korea",
+   "patterns": [
+    "What is the capital of South Korea?",
+    "capital of South Korea",
+    "What's South Korea's capital?"
+   ],
+   "responses": [
+    "The capital of South Korea is Seoul."
+   ]
+  },
+  {
+   "tag": "capital_country_spain",
+   "patterns": [
+    "What is the capital of Spain?",
+    "capital of Spain",
+    "What's Spain's capital?"
+   ],
+   "responses": [
+    "The capital of Spain is Madrid."
+   ]
+  },
+  {
+   "tag": "capital_country_sweden",
+   "patterns": [
+    "What is the capital of Sweden?",
+    "capital of Sweden",
+    "What's Sweden's capital?"
+   ],
+   "responses": [
+    "The capital of Sweden is Stockholm."
+   ]
+  },
+  {
+   "tag": "capital_country_switzerland",
+   "patterns": [
+    "What is the capital of Switzerland?",
+    "capital of Switzerland",
+    "What's Switzerland's capital?"
+   ],
+   "responses": [
+    "The capital of Switzerland is Bern."
+   ]
+  },
+  {
+   "tag": "capital_country_thailand",
+   "patterns": [
+    "What is the capital of Thailand?",
+    "capital of Thailand",
+    "What's Thailand's capital?"
+   ],
+   "responses": [
+    "The capital of Thailand is Bangkok."
+   ]
+  },
+  {
+   "tag": "capital_country_turkey",
+   "patterns": [
+    "What is the capital of Turkey?",
+    "capital of Turkey",
+    "What's Turkey's capital?"
+   ],
+   "responses": [
+    "The capital of Turkey is Ankara."
+   ]
+  },
+  {
+   "tag": "capital_country_ukraine",
+   "patterns": [
+    "What is the capital of Ukraine?",
+    "capital of Ukraine",
+    "What's Ukraine's capital?"
+   ],
+   "responses": [
+    "The capital of Ukraine is Kyiv."
+   ]
+  },
+  {
+   "tag": "capital_country_vietnam",
+   "patterns": [
+    "What is the capital of Vietnam?",
+    "capital of Vietnam",
+    "What's Vietnam's capital?"
+   ],
+   "responses": [
+    "The capital of Vietnam is Hanoi."
+   ]
+  },
+  {
+   "tag": "capital_country_venezuela",
+   "patterns": [
+    "What is the capital of Venezuela?",
+    "capital of Venezuela",
+    "What's Venezuela's capital?"
+   ],
+   "responses": [
+    "The capital of Venezuela is Caracas."
+   ]
+  },
+  {
+   "tag": "capital_country_scotland",
+   "patterns": [
+    "What is the capital of Scotland?",
+    "capital of Scotland",
+    "What's Scotland's capital?"
+   ],
+   "responses": [
+    "The capital of Scotland is Edinburgh."
+   ]
+  },
+  {
+   "tag": "capital_country_wales",
+   "patterns": [
+    "What is the capital of Wales?",
+    "capital of Wales",
+    "What's Wales's capital?"
+   ],
+   "responses": [
+    "The capital of Wales is Cardiff."
+   ]
+  },
+  {
+   "tag": "capital_country_ghana",
+   "patterns": [
+    "What is the capital of Ghana?",
+    "capital of Ghana",
+    "What's Ghana's capital?"
+   ],
+   "responses": [
+    "The capital of Ghana is Accra."
+   ]
+  },
+  {
+   "tag": "capital_country_czech_republic",
+   "patterns": [
+    "What is the capital of Czech Republic?",
+    "capital of Czech Republic",
+    "What's Czech Republic's capital?"
+   ],
+   "responses": [
+    "The capital of Czech Republic is Prague."
+   ]
+  },
+  {
+   "tag": "capital_country_hungary",
+   "patterns": [
+    "What is the capital of Hungary?",
+    "capital of Hungary",
+    "What's Hungary's capital?"
+   ],
+   "responses": [
+    "The capital of Hungary is Budapest."
+   ]
+  },
+  {
+   "tag": "capital_country_romania",
+   "patterns": [
+    "What is the capital of Romania?",
+    "capital of Romania",
+    "What's Romania's capital?"
+   ],
+   "responses": [
+    "The capital of Romania is Bucharest."
+   ]
+  },
+  {
+   "tag": "capital_country_malaysia",
+   "patterns": [
+    "What is the capital of Malaysia?",
+    "capital of Malaysia",
+    "What's Malaysia's capital?"
+   ],
+   "responses": [
+    "The capital of Malaysia is Kuala Lumpur."
+   ]
+  },
+  {
+   "tag": "capital_country_singapore",
+   "patterns": [
+    "What is the capital of Singapore?",
+    "capital of Singapore",
+    "What's Singapore's capital?"
+   ],
+   "responses": [
+    "The capital of Singapore is Singapore (it is a city-state)."
+   ]
+  },
+  {
+   "tag": "capital_state_alabama",
+   "patterns": [
+    "What is the capital of Alabama?",
+    "capital of Alabama",
+    "What's Alabama's capital?"
+   ],
+   "responses": [
+    "The capital of Alabama is Montgomery."
+   ]
+  },
+  {
+   "tag": "capital_state_alaska",
+   "patterns": [
+    "What is the capital of Alaska?",
+    "capital of Alaska",
+    "What's Alaska's capital?"
+   ],
+   "responses": [
+    "The capital of Alaska is Juneau."
+   ]
+  },
+  {
+   "tag": "capital_state_arizona",
+   "patterns": [
+    "What is the capital of Arizona?",
+    "capital of Arizona",
+    "What's Arizona's capital?"
+   ],
+   "responses": [
+    "The capital of Arizona is Phoenix."
+   ]
+  },
+  {
+   "tag": "capital_state_arkansas",
+   "patterns": [
+    "What is the capital of Arkansas?",
+    "capital of Arkansas",
+    "What's Arkansas's capital?"
+   ],
+   "responses": [
+    "The capital of Arkansas is Little Rock."
+   ]
+  },
+  {
+   "tag": "capital_state_california",
+   "patterns": [
+    "What is the capital of California?",
+    "capital of California",
+    "What's California's capital?"
+   ],
+   "responses": [
+    "The capital of California is Sacramento."
+   ]
+  },
+  {
+   "tag": "capital_state_colorado",
+   "patterns": [
+    "What is the capital of Colorado?",
+    "capital of Colorado",
+    "What's Colorado's capital?"
+   ],
+   "responses": [
+    "The capital of Colorado is Denver."
+   ]
+  },
+  {
+   "tag": "capital_state_connecticut",
+   "patterns": [
+    "What is the capital of Connecticut?",
+    "capital of Connecticut",
+    "What's Connecticut's capital?"
+   ],
+   "responses": [
+    "The capital of Connecticut is Hartford."
+   ]
+  },
+  {
+   "tag": "capital_state_delaware",
+   "patterns": [
+    "What is the capital of Delaware?",
+    "capital of Delaware",
+    "What's Delaware's capital?"
+   ],
+   "responses": [
+    "The capital of Delaware is Dover."
+   ]
+  },
+  {
+   "tag": "capital_state_florida",
+   "patterns": [
+    "What is the capital of Florida?",
+    "capital of Florida",
+    "What's Florida's capital?"
+   ],
+   "responses": [
+    "The capital of Florida is Tallahassee."
+   ]
+  },
+  {
+   "tag": "capital_state_georgia",
+   "patterns": [
+    "What is the capital of Georgia?",
+    "capital of Georgia",
+    "What's Georgia's capital?"
+   ],
+   "responses": [
+    "The capital of Georgia is Atlanta."
+   ]
+  },
+  {
+   "tag": "capital_state_hawaii",
+   "patterns": [
+    "What is the capital of Hawaii?",
+    "capital of Hawaii",
+    "What's Hawaii's capital?"
+   ],
+   "responses": [
+    "The capital of Hawaii is Honolulu."
+   ]
+  },
+  {
+   "tag": "capital_state_idaho",
+   "patterns": [
+    "What is the capital of Idaho?",
+    "capital of Idaho",
+    "What's Idaho's capital?"
+   ],
+   "responses": [
+    "The capital of Idaho is Boise."
+   ]
+  },
+  {
+   "tag": "capital_state_illinois",
+   "patterns": [
+    "What is the capital of Illinois?",
+    "capital of Illinois",
+    "What's Illinois's capital?"
+   ],
+   "responses": [
+    "The capital of Illinois is Springfield."
+   ]
+  },
+  {
+   "tag": "capital_state_indiana",
+   "patterns": [
+    "What is the capital of Indiana?",
+    "capital of Indiana",
+    "What's Indiana's capital?"
+   ],
+   "responses": [
+    "The capital of Indiana is Indianapolis."
+   ]
+  },
+  {
+   "tag": "capital_state_iowa",
+   "patterns": [
+    "What is the capital of Iowa?",
+    "capital of Iowa",
+    "What's Iowa's capital?"
+   ],
+   "responses": [
+    "The capital of Iowa is Des Moines."
+   ]
+  },
+  {
+   "tag": "capital_state_kansas",
+   "patterns": [
+    "What is the capital of Kansas?",
+    "capital of Kansas",
+    "What's Kansas's capital?"
+   ],
+   "responses": [
+    "The capital of Kansas is Topeka."
+   ]
+  },
+  {
+   "tag": "capital_state_kentucky",
+   "patterns": [
+    "What is the capital of Kentucky?",
+    "capital of Kentucky",
+    "What's Kentucky's capital?"
+   ],
+   "responses": [
+    "The capital of Kentucky is Frankfort."
+   ]
+  },
+  {
+   "tag": "capital_state_louisiana",
+   "patterns": [
+    "What is the capital of Louisiana?",
+    "capital of Louisiana",
+    "What's Louisiana's capital?"
+   ],
+   "responses": [
+    "The capital of Louisiana is Baton Rouge."
+   ]
+  },
+  {
+   "tag": "capital_state_maine",
+   "patterns": [
+    "What is the capital of Maine?",
+    "capital of Maine",
+    "What's Maine's capital?"
+   ],
+   "responses": [
+    "The capital of Maine is Augusta."
+   ]
+  },
+  {
+   "tag": "capital_state_maryland",
+   "patterns": [
+    "What is the capital of Maryland?",
+    "capital of Maryland",
+    "What's Maryland's capital?"
+   ],
+   "responses": [
+    "The capital of Maryland is Annapolis."
+   ]
+  },
+  {
+   "tag": "capital_state_massachusetts",
+   "patterns": [
+    "What is the capital of Massachusetts?",
+    "capital of Massachusetts",
+    "What's Massachusetts's capital?"
+   ],
+   "responses": [
+    "The capital of Massachusetts is Boston."
+   ]
+  },
+  {
+   "tag": "capital_state_michigan",
+   "patterns": [
+    "What is the capital of Michigan?",
+    "capital of Michigan",
+    "What's Michigan's capital?"
+   ],
+   "responses": [
+    "The capital of Michigan is Lansing."
+   ]
+  },
+  {
+   "tag": "capital_state_minnesota",
+   "patterns": [
+    "What is the capital of Minnesota?",
+    "capital of Minnesota",
+    "What's Minnesota's capital?"
+   ],
+   "responses": [
+    "The capital of Minnesota is Saint Paul."
+   ]
+  },
+  {
+   "tag": "capital_state_mississippi",
+   "patterns": [
+    "What is the capital of Mississippi?",
+    "capital of Mississippi",
+    "What's Mississippi's capital?"
+   ],
+   "responses": [
+    "The capital of Mississippi is Jackson."
+   ]
+  },
+  {
+   "tag": "capital_state_missouri",
+   "patterns": [
+    "What is the capital of Missouri?",
+    "capital of Missouri",
+    "What's Missouri's capital?"
+   ],
+   "responses": [
+    "The capital of Missouri is Jefferson City."
+   ]
+  },
+  {
+   "tag": "capital_state_montana",
+   "patterns": [
+    "What is the capital of Montana?",
+    "capital of Montana",
+    "What's Montana's capital?"
+   ],
+   "responses": [
+    "The capital of Montana is Helena."
+   ]
+  },
+  {
+   "tag": "capital_state_nebraska",
+   "patterns": [
+    "What is the capital of Nebraska?",
+    "capital of Nebraska",
+    "What's Nebraska's capital?"
+   ],
+   "responses": [
+    "The capital of Nebraska is Lincoln."
+   ]
+  },
+  {
+   "tag": "capital_state_nevada",
+   "patterns": [
+    "What is the capital of Nevada?",
+    "capital of Nevada",
+    "What's Nevada's capital?"
+   ],
+   "responses": [
+    "The capital of Nevada is Carson City."
+   ]
+  },
+  {
+   "tag": "capital_state_new_hampshire",
+   "patterns": [
+    "What is the capital of New Hampshire?",
+    "capital of New Hampshire",
+    "What's New Hampshire's capital?"
+   ],
+   "responses": [
+    "The capital of New Hampshire is Concord."
+   ]
+  },
+  {
+   "tag": "capital_state_new_jersey",
+   "patterns": [
+    "What is the capital of New Jersey?",
+    "capital of New Jersey",
+    "What's New Jersey's capital?"
+   ],
+   "responses": [
+    "The capital of New Jersey is Trenton."
+   ]
+  },
+  {
+   "tag": "capital_state_new_mexico",
+   "patterns": [
+    "What is the capital of New Mexico?",
+    "capital of New Mexico",
+    "What's New Mexico's capital?"
+   ],
+   "responses": [
+    "The capital of New Mexico is Santa Fe."
+   ]
+  },
+  {
+   "tag": "capital_state_new_york",
+   "patterns": [
+    "What is the capital of New York?",
+    "capital of New York",
+    "What's New York's capital?"
+   ],
+   "responses": [
+    "The capital of New York is Albany."
+   ]
+  },
+  {
+   "tag": "capital_state_north_carolina",
+   "patterns": [
+    "What is the capital of North Carolina?",
+    "capital of North Carolina",
+    "What's North Carolina's capital?"
+   ],
+   "responses": [
+    "The capital of North Carolina is Raleigh."
+   ]
+  },
+  {
+   "tag": "capital_state_north_dakota",
+   "patterns": [
+    "What is the capital of North Dakota?",
+    "capital of North Dakota",
+    "What's North Dakota's capital?"
+   ],
+   "responses": [
+    "The capital of North Dakota is Bismarck."
+   ]
+  },
+  {
+   "tag": "capital_state_ohio",
+   "patterns": [
+    "What is the capital of Ohio?",
+    "capital of Ohio",
+    "What's Ohio's capital?"
+   ],
+   "responses": [
+    "The capital of Ohio is Columbus."
+   ]
+  },
+  {
+   "tag": "capital_state_oklahoma",
+   "patterns": [
+    "What is the capital of Oklahoma?",
+    "capital of Oklahoma",
+    "What's Oklahoma's capital?"
+   ],
+   "responses": [
+    "The capital of Oklahoma is Oklahoma City."
+   ]
+  },
+  {
+   "tag": "capital_state_oregon",
+   "patterns": [
+    "What is the capital of Oregon?",
+    "capital of Oregon",
+    "What's Oregon's capital?"
+   ],
+   "responses": [
+    "The capital of Oregon is Salem."
+   ]
+  },
+  {
+   "tag": "capital_state_pennsylvania",
+   "patterns": [
+    "What is the capital of Pennsylvania?",
+    "capital of Pennsylvania",
+    "What's Pennsylvania's capital?"
+   ],
+   "responses": [
+    "The capital of Pennsylvania is Harrisburg."
+   ]
+  },
+  {
+   "tag": "capital_state_rhode_island",
+   "patterns": [
+    "What is the capital of Rhode Island?",
+    "capital of Rhode Island",
+    "What's Rhode Island's capital?"
+   ],
+   "responses": [
+    "The capital of Rhode Island is Providence."
+   ]
+  },
+  {
+   "tag": "capital_state_south_carolina",
+   "patterns": [
+    "What is the capital of South Carolina?",
+    "capital of South Carolina",
+    "What's South Carolina's capital?"
+   ],
+   "responses": [
+    "The capital of South Carolina is Columbia."
+   ]
+  },
+  {
+   "tag": "capital_state_south_dakota",
+   "patterns": [
+    "What is the capital of South Dakota?",
+    "capital of South Dakota",
+    "What's South Dakota's capital?"
+   ],
+   "responses": [
+    "The capital of South Dakota is Pierre."
+   ]
+  },
+  {
+   "tag": "capital_state_tennessee",
+   "patterns": [
+    "What is the capital of Tennessee?",
+    "capital of Tennessee",
+    "What's Tennessee's capital?"
+   ],
+   "responses": [
+    "The capital of Tennessee is Nashville."
+   ]
+  },
+  {
+   "tag": "capital_state_texas",
+   "patterns": [
+    "What is the capital of Texas?",
+    "capital of Texas",
+    "What's Texas's capital?"
+   ],
+   "responses": [
+    "The capital of Texas is Austin."
+   ]
+  },
+  {
+   "tag": "capital_state_utah",
+   "patterns": [
+    "What is the capital of Utah?",
+    "capital of Utah",
+    "What's Utah's capital?"
+   ],
+   "responses": [
+    "The capital of Utah is Salt Lake City."
+   ]
+  },
+  {
+   "tag": "capital_state_vermont",
+   "patterns": [
+    "What is the capital of Vermont?",
+    "capital of Vermont",
+    "What's Vermont's capital?"
+   ],
+   "responses": [
+    "The capital of Vermont is Montpelier."
+   ]
+  },
+  {
+   "tag": "capital_state_virginia",
+   "patterns": [
+    "What is the capital of Virginia?",
+    "capital of Virginia",
+    "What's Virginia's capital?"
+   ],
+   "responses": [
+    "The capital of Virginia is Richmond."
+   ]
+  },
+  {
+   "tag": "capital_state_washington_state",
+   "patterns": [
+    "What is the capital of Washington state?",
+    "capital of Washington state",
+    "What's Washington state's capital?"
+   ],
+   "responses": [
+    "The capital of Washington state is Olympia."
+   ]
+  },
+  {
+   "tag": "capital_state_west_virginia",
+   "patterns": [
+    "What is the capital of West Virginia?",
+    "capital of West Virginia",
+    "What's West Virginia's capital?"
+   ],
+   "responses": [
+    "The capital of West Virginia is Charleston."
+   ]
+  },
+  {
+   "tag": "capital_state_wisconsin",
+   "patterns": [
+    "What is the capital of Wisconsin?",
+    "capital of Wisconsin",
+    "What's Wisconsin's capital?"
+   ],
+   "responses": [
+    "The capital of Wisconsin is Madison."
+   ]
+  },
+  {
+   "tag": "capital_state_wyoming",
+   "patterns": [
+    "What is the capital of Wyoming?",
+    "capital of Wyoming",
+    "What's Wyoming's capital?"
+   ],
+   "responses": [
+    "The capital of Wyoming is Cheyenne."
+   ]
+  }
+ ]
+}

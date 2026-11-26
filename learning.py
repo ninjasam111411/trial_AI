@@ -20,8 +20,8 @@ import time
 import uuid
 from collections import Counter
 
-from config import (CHAT_LOG_FILE, INTENTS_FILE, LEARNED_DIR, TAUGHT_FILE,
-                    TYPOS_FILE, WORDS_FILE)
+from config import (CHAT_LOG_FILE, LEARNED_DIR, TAUGHT_FILE,
+                    TYPOS_FILE, WORDS_FILE, load_intents)
 
 _lock = threading.Lock()
 WORD_RE = re.compile(r"[a-z']+")
@@ -69,8 +69,8 @@ class Speller:
         # Words from Neural's clean knowledge (not training.txt, which
         # contains deliberate typos) plus answers people taught it.
         self.base = Counter()
-        if INTENTS_FILE.exists():
-            self.base.update(words_in(INTENTS_FILE.read_text(encoding="utf-8")))
+        for intent in load_intents():
+            self.base.update(words_in(" ".join(intent["patterns"] + intent["responses"])))
         if TAUGHT_FILE.exists():
             self.base.update(words_in(TAUGHT_FILE.read_text(encoding="utf-8")))
         # Plus a real English dictionary (the 50,000 most common words).

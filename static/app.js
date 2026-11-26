@@ -70,6 +70,16 @@ function renderMarkdown(text) {
   return html;
 }
 
+// Little message that pops up at the bottom of the screen.
+function toast(text, kind = "") {
+  let holder = document.getElementById("toasts");
+  if (!holder) { holder = el("div"); holder.id = "toasts"; document.body.append(holder); }
+  const t = el("div", "toast " + kind, text);
+  holder.append(t);
+  setTimeout(() => t.classList.add("out"), 2600);
+  setTimeout(() => t.remove(), 3000);
+}
+
 function scrollDown() { messagesEl.scrollTop = messagesEl.scrollHeight; }
 
 // ---------- theme ----------
@@ -167,26 +177,52 @@ function addBot(text, source, id, question, rating, animate = false) {
     up.title = "Good answer"; down.title = "Bad answer - teach me";
     const copy = el("button", "act", "⧉");
     copy.title = "Copy";
-    copy.onclick = () => navigator.clipboard?.writeText(text);
 
+    const note = el("span", "rate-note");
     const setRating = (r) => {
       up.classList.toggle("on", r === "good");
       down.classList.toggle("on", r === "bad");
     };
     setRating(rating);
+    const pop = (btn) => { btn.classList.remove("pop"); void btn.offsetWidth; btn.classList.add("pop"); };
+    const flash = (text, cls) => {
+      note.textContent = text;
+      note.className = "rate-note show " + cls;
+      clearTimeout(note._t);
+      note._t = setTimeout(() => note.classList.remove("show"), 2500);
+    };
+    const send = async (r) => {
+      try {
+        await api("/api/feedback", { method: "POST", body: JSON.stringify({ id, rating: r }) });
+        return true;
+      } catch (err) { toast("Couldn't save that: " + err.message, "bad"); return false; }
+    };
 
     up.onclick = async () => {
       const r = up.classList.contains("on") ? null : "good";
       setRating(r);
+      pop(up);
       body.querySelector(".teach")?.remove();
-      await api("/api/feedback", { method: "POST", body: JSON.stringify({ id, rating: r }) });
+      if (await send(r)) {
+        if (r) { flash("Thanks! I'll learn from this one.", "good"); toast("👍 Saved. This answer goes into my next training.", "good"); }
+        else flash("Rating removed", "");
+      }
     };
     down.onclick = async () => {
       setRating("bad");
-      await api("/api/feedback", { method: "POST", body: JSON.stringify({ id, rating: "bad" }) });
-      if (!body.querySelector(".teach")) showTeach(body, question, id);
+      pop(down);
+      if (await send("bad")) {
+        flash("Got it. Teach me the right answer below.", "bad");
+        if (!body.querySelector(".teach")) showTeach(body, question, id);
+        else body.querySelector(".teach textarea")?.focus();
+      }
     };
-    meta.append(up, down, copy);
+    copy.onclick = () => {
+      navigator.clipboard?.writeText(text);
+      pop(copy);
+      toast("Copied to clipboard");
+    };
+    meta.append(up, down, copy, note);
   }
   body.append(meta);
 
@@ -209,7 +245,7 @@ function typeOut(node, text) {
 
 function showTeach(body, question, id) {
   const box = el("div", "teach");
-  const label = el("label", "", `What should I have said to "${question}"?`);
+  const label = el("label", "", `What should I have said to "${question}"? I'll learn it right away.`);
   const area = el("textarea");
   area.placeholder = "Type the right answer and I'll learn it...";
   const row = el("div", "row");
@@ -224,7 +260,9 @@ function showTeach(body, question, id) {
     try {
       await api("/api/teach", { method: "POST", body: JSON.stringify({ question, answer, id }) });
       box.innerHTML = "";
-      box.append(el("div", "done", "✓ Thanks! I learned that. Ask me again anytime."));
+      box.classList.add("learned");
+      box.append(el("div", "done", "✓ Learned! Ask me again and I'll give that answer."));
+      toast("🧠 New answer learned!", "good");
     } catch (err) {
       save.disabled = false;
       alert(err.message);

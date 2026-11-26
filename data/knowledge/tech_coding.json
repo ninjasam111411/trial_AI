@@ -1,0 +1,225 @@
+{
+ "intents": [
+  {
+   "tag": "python_if",
+   "patterns": [
+    "How do I write an if statement in Python?",
+    "What is an if statement?"
+   ],
+   "responses": [
+    "An if statement runs code only when something is true:\n```\nif score > 10:\n    print(\"You win!\")\nelse:\n    print(\"Keep trying\")\n```"
+   ]
+  },
+  {
+   "tag": "python_list",
+   "patterns": [
+    "What is a list in Python?",
+    "How do I make a list?"
+   ],
+   "responses": [
+    "A list holds several values in order:\n```\nfruits = [\"apple\", \"banana\"]\nfruits.append(\"cherry\")\nprint(fruits[0])\n```"
+   ]
+  },
+  {
+   "tag": "python_dict",
+   "patterns": [
+    "What is a dictionary in Python?"
+   ],
+   "responses": [
+    "A dictionary stores values by name:\n```\nplayer = {\"name\": \"Sam\", \"score\": 10}\nprint(player[\"score\"])\n```"
+   ]
+  },
+  {
+   "tag": "python_input",
+   "patterns": [
+    "How do I get user input in Python?"
+   ],
+   "responses": [
+    "Use input():\n```\nname = input(\"What is your name? \")\nprint(\"Hi\", name)\n```"
+   ]
+  },
+  {
+   "tag": "python_random",
+   "patterns": [
+    "How do I make a random number in Python?"
+   ],
+   "responses": [
+    "Use the random module:\n```\nimport random\nprint(random.randint(1, 10))\n```"
+   ]
+  },
+  {
+   "tag": "python_while",
+   "patterns": [
+    "What is a while loop?"
+   ],
+   "responses": [
+    "A while loop repeats as long as something is true:\n```\ncount = 3\nwhile count > 0:\n    print(count)\n    count -= 1\n```"
+   ]
+  },
+  {
+   "tag": "python_def",
+   "patterns": [
+    "How do I make a function in Python?"
+   ],
+   "responses": [
+    "Use def:\n```\ndef greet(name):\n    return \"Hello \" + name\n\nprint(greet(\"Sam\"))\n```"
+   ]
+  },
+  {
+   "tag": "python_install",
+   "patterns": [
+    "How do I install Python?"
+   ],
+   "responses": [
+    "Download it from python.org. On Windows, check Add python.exe to PATH on the first installer screen."
+   ]
+  },
+  {
+   "tag": "pip",
+   "patterns": [
+    "What is pip?",
+    "How do I install a Python package?"
+   ],
+   "responses": [
+    "pip installs Python packages. In a terminal, type: pip install package-name"
+   ]
+  },
+  {
+   "tag": "html",
+   "patterns": [
+    "What is HTML?",
+    "How do websites work?"
+   ],
+   "responses": [
+    "HTML is the language that structures web pages. CSS makes them look nice, and JavaScript makes them interactive."
+   ]
+  },
+  {
+   "tag": "javascript",
+   "patterns": [
+    "What is JavaScript?"
+   ],
+   "responses": [
+    "JavaScript is the programming language of the web. It runs in your browser and makes pages interactive."
+   ]
+  },
+  {
+   "tag": "lua",
+   "patterns": [
+    "What is Lua?",
+    "What language does Roblox use?"
+   ],
+   "responses": [
+    "Lua is a small, fast scripting language. Roblox uses a version of it called Luau."
+   ]
+  },
+  {
+   "tag": "git",
+   "patterns": [
+    "What is Git?",
+    "What is GitHub?"
+   ],
+   "responses": [
+    "Git tracks changes to code so you can go back in time and work with others. GitHub is a website that stores Git projects online."
+   ]
+  },
+  {
+   "tag": "algorithm",
+   "patterns": [
+    "What is an algorithm?"
+   ],
+   "responses": [
+    "An algorithm is a step-by-step set of instructions for solving a problem, like a recipe for a computer."
+   ]
+  },
+  {
+   "tag": "cloud",
+   "patterns": [
+    "What is the cloud?",
+    "What is cloud storage?"
+   ],
+   "responses": [
+    "The cloud means computers in big data centers that store your files and run programs over the internet."
+   ]
+  },
+  {
+   "tag": "password_safe",
+   "patterns": [
+    "How do I make a strong password?",
+    "How do I stay safe online?"
+   ],
+   "responses": [
+    "Use a long passphrase or a password manager, a different password for each site, and turn on two-factor sign-in. Never share passwords."
+   ]
+  },
+  {
+   "tag": "phishing",
+   "patterns": [
+    "What is phishing?",
+    "What is a scam email?"
+   ],
+   "responses": [
+    "Phishing is a trick where scammers pretend to be someone trusted to steal passwords or money. Don't click strange links, and check who really sent it."
+   ]
+  },
+  {
+   "tag": "computer_slow",
+   "patterns": [
+    "Why is my computer slow?",
+    "How do I make my computer faster?"
+   ],
+   "responses": [
+    "Close programs you aren't using, restart it, free up disk space, and check that it isn't running too many startup apps."
+   ]
+  },
+  {
+   "tag": "wifi",
+   "patterns": [
+    "How does wifi work?",
+    "What is wifi?"
+   ],
+   "responses": [
+    "Wi-Fi sends data using radio waves between your device and a router, which connects to the internet."
+   ]
+  },
+  {
+   "tag": "pixel",
+   "patterns": [
+    "What is a pixel?"
+   ],
+   "responses": [
+    "A pixel is one tiny dot of color on a screen. Millions of pixels together make the picture."
+   ]
+  },
+  {
+   "tag": "game_dev",
+   "patterns": [
+    "How do I make a video game?",
+    "How do I start making games?"
+   ],
+   "responses": [
+    "Start small! Try Roblox Studio, Scratch, Godot, or Unity. Make a tiny game first, like one level, and finish it before making a big one."
+   ]
+  },
+  {
+   "tag": "llm",
+   "patterns": [
+    "What is a large language model?",
+    "What is an LLM?"
+   ],
+   "responses": [
+    "A large language model is an AI trained on huge amounts of text to predict the next word. I'm a small language model built the same way, just much smaller."
+   ]
+  },
+  {
+   "tag": "parameters",
+   "patterns": [
+    "What are parameters?",
+    "How many parameters do you have?"
+   ],
+   "responses": [
+    "Parameters are the numbers inside a neural network that get adjusted during training. Look in the Brain panel to see how many I have!"
+   ]
+  }
+ ]
+}

@@ -16,7 +16,7 @@ import json
 import random
 import re
 
-from config import EXTRA_FILE, INTENTS_FILE, TRAINING_FILE
+from config import EXTRA_FILE, TRAINING_FILE, load_intents
 from learning import ChatLog, Speller, TaughtStore
 
 random.seed(42)
@@ -75,7 +75,7 @@ def variants(text):
 
 
 def build():
-    intents = json.loads(INTENTS_FILE.read_text(encoding="utf-8"))["intents"]
+    intents = load_intents()
     taught = [{**t, "patterns": [one_block(x) for x in t["patterns"]],
                "responses": [one_block(x) for x in t["responses"]]}
               for t in TaughtStore().as_intents()]
