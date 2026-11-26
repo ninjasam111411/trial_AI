@@ -1,88 +1,50 @@
+"""Chat with Neural in the terminal.  (For the full app, run: python app.py)"""
 
-import torch
-from pathlib import Path
+import memory
+from brain import Brain
 
-from model import NeuralChatbot
-from tokenizer import Tokenizer
-from memory import add_message, get_context
-
-device = "cuda" if torch.cuda.is_available() else "cpu"
-
-# Load trained model
-checkpoint = torch.load(
-    "saved/chatbot.pt",
-    map_location=device,
-    weights_only=True
-)
-
-tokenizer = Tokenizer("".join(checkpoint["characters"]))
-
-model = NeuralChatbot(
-    vocab_size=tokenizer.vocab_size,
-    context_size=checkpoint["context_size"]
-).to(device)
-
-model.load_state_dict(checkpoint["model"])
-model.eval()
+brain = Brain()
+conversation = memory.create_conversation("terminal")
 
 print("============================")
 print("       PROJECT NEURAL")
 print("============================")
-print("Chatbot online. Type exit to quit.\n")
+print("Chatbot online. Type exit to quit.")
+print("Commands: /debug (show answer sources), /good, /bad, /teach <answer>\n")
 
-
-def respond(message):
-
-    history = get_context()
-
-    prompt = (
-        history
-        + "\nUser: " + message
-        + "\nBot:"
-    )
-
-    encoded = tokenizer.encode(prompt)
-
-    input_tensor = torch.tensor(
-        [encoded],
-        dtype=torch.long,
-        device=device
-    )
-
-    with torch.no_grad():
-        generated = model.generate(
-            input_tensor,
-            max_tokens=250,
-            temperature=0.8
-        )
-
-    # Decode only newly generated characters
-    new_tokens = generated[0, len(encoded):].tolist()
-
-    response = tokenizer.decode(new_tokens)
-
-    # Stop at the next conversation turn
-    response = response.split("\nUser:")[0]
-    response = response.strip()
-
-    return response or "I don't know what to say yet."
-
+debug = False
+last_id = None
+last_question = None
 
 while True:
-
     message = input("You: ").strip()
 
     if message.lower() in ["exit", "quit"]:
         print("Bot: Goodbye!")
         break
-
     if not message:
         continue
 
-    add_message("User", message)
+    if message == "/debug":
+        debug = not debug
+        print(f"(debug {'on' if debug else 'off'})")
+        continue
+    if message in ("/good", "/bad") and last_id:
+        brain.chat_log.rate(last_id, message[1:])
+        print("(thanks for the feedback!)")
+        continue
+    if message.startswith("/teach ") and last_question:
+        brain.teach(last_question, message[7:])
+        print("(learned it!)")
+        continue
 
-    answer = respond(message)
+    result = brain.respond(message, memory.history(conversation))
+    if result["corrected"] and debug:
+        print(f"  (read as: {result['corrected']})")
+    print("Bot:", result["answer"] + (f"  [{result['source']}]" if debug else ""))
 
-    print("Bot:", answer)
-
-    add_message("Bot", answer)
+    last_id = brain.chat_log.add(conversation, message, result["answer"],
+                                 result["source"], result["corrected"])
+    last_question = message
+    memory.add_message(conversation, "User", message)
+    memory.add_message(conversation, "Bot", result["answer"])

@@ -1,0 +1,6 @@
+saved/
+.git/
+__pycache__/
+.venv/
+data/pretrain/
+data/chats/
