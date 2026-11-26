@@ -148,8 +148,6 @@ class NeuralModel:
     """Neural's own self-trained language model (see model.py / train.py)."""
 
     def __init__(self, path=MODEL_FILE):
-        import tempfile
-
         import torch
         from model import NeuralLM
         from tokenizer import Tokenizer
@@ -159,10 +157,7 @@ class NeuralModel:
         if ckpt.get("format") != 2:
             raise ValueError("old model format - press Train in the Brain panel to make a new one")
 
-        with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8") as f:
-            f.write(ckpt["tokenizer"])
-        self.tokenizer = Tokenizer(f.name)
-        Path(f.name).unlink(missing_ok=True)
+        self.tokenizer = Tokenizer.from_string(ckpt["tokenizer"])
 
         c = ckpt["config"]
         self.model = NeuralLM(c["vocab"], c["dim"], c["layers"], c["heads"], c["context"]).to(self.device)
@@ -228,11 +223,13 @@ class Brain:
 
     def reload_model(self):
         self.neural = None
+        self.model_error = None
         if Path(self.model_path).exists():
             try:
                 self.neural = NeuralModel(self.model_path)
             except Exception as e:  # noqa: BLE001
-                print(f"[brain] Could not load the model: {e}")
+                self.model_error = f"{type(e).__name__}: {e}"
+                print(f"[brain] Could not load the model: {self.model_error}")
         else:
             print(f"[brain] No trained model at {self.model_path} yet. "
                   "Using knowledge base only until it is trained.")
@@ -347,6 +344,7 @@ class Brain:
             "taught_answers": len(self.taught.all()),
             "model_ready": self.neural is not None,
             "model": self.neural.info if self.neural else None,
+            "model_error": self.model_error,
             **self.speller.stats(),
             **self.chat_log.stats(),
         }
