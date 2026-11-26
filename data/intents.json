@@ -12,7 +12,11 @@
         "Yo",
         "Howdy",
         "Greetings",
-        "Sup"
+        "Sup",
+        "Sup dude",
+        "What's good",
+        "Hey dude",
+        "Wassup"
       ],
       "responses": [
         "Hello! It is nice to talk with you.",
@@ -74,7 +78,10 @@
         "How have you been?",
         "Are you okay?",
         "How do you feel?",
-        "What's up?"
+        "What's up?",
+        "How's life?",
+        "How's it hanging?",
+        "You good?"
       ],
       "responses": [
         "I am doing well. How are you?",

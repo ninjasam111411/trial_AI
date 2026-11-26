@@ -185,6 +185,22 @@
    "responses": [
     "In the United States, call 911 for emergencies. Stay calm, say where you are, and explain what's happening."
    ]
+  },
+  {
+   "tag": "live_info",
+   "patterns": [
+    "How much does it cost right now?",
+    "What is the price of",
+    "How much is it these days?",
+    "What are prices like right now?",
+    "How much does a computer cost?",
+    "What's the latest news?",
+    "What's happening in the news?",
+    "What's the stock price?"
+   ],
+   "responses": [
+    "I run offline, so I don't have live info like prices or news. If you know, tell me and I'll remember it!"
+   ]
   }
  ]
 }
