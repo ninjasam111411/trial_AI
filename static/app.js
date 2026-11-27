@@ -51,25 +51,94 @@ function escapeHtml(s) {
 function inline(s) {
   return s.replace(/`([^`]+)`/g, "<code>$1</code>").replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
 }
+// Code blocks: language label, simple colors, Copy and Save-as-file buttons.
+const CODE_EXT = { python: "py", py: "py", javascript: "js", js: "js", html: "html", css: "css",
+  lua: "lua", luau: "lua", json: "json", bash: "sh", sh: "sh", bat: "bat", java: "java",
+  c: "c", cpp: "cpp", sql: "sql", text: "txt", txt: "txt" };
+const KEYWORDS = new Set(("def return if elif else for while in import from as class try except finally " +
+  "with lambda pass break continue and or not is None True False print local function end then do " +
+  "repeat until nil const let var new this async await switch case default typeof true false null " +
+  "public private static void int float string bool").split(" "));
+
+function guessLang(code) {
+  if (/^\s*(def |import |print\()/m.test(code)) return "python";
+  if (/\b(local |game:GetService|\bend\b)/.test(code)) return "lua";
+  if (/<\/?[a-z][\s\S]*>/i.test(code)) return "html";
+  if (/\b(const|let|function)\b/.test(code)) return "javascript";
+  return "text";
+}
+
+function highlight(code, lang) {
+  if (lang === "text" || lang === "html") return escapeHtml(code);
+  const comment = lang === "lua" ? "--[^\\n]*" : lang === "python" ? "#[^\\n]*" : "\\/\\/[^\\n]*";
+  const re = new RegExp(`(${comment})|("(?:[^"\\\\\\n]|\\\\.)*"|'(?:[^'\\\\\\n]|\\\\.)*')|(\\b\\d+(?:\\.\\d+)?\\b)|([A-Za-z_]\\w*)`, "g");
+  let out = "", last = 0, m;
+  while ((m = re.exec(code))) {
+    out += escapeHtml(code.slice(last, m.index));
+    const [tok, c, s, n, w] = m;
+    if (c) out += `<span class="tk-c">${escapeHtml(tok)}</span>`;
+    else if (s) out += `<span class="tk-s">${escapeHtml(tok)}</span>`;
+    else if (n) out += `<span class="tk-n">${tok}</span>`;
+    else if (KEYWORDS.has(w)) out += `<span class="tk-k">${tok}</span>`;
+    else out += escapeHtml(tok);
+    last = re.lastIndex;
+  }
+  return out + escapeHtml(code.slice(last));
+}
+
+function codeBlock(lang, code) {
+  code = code.replace(/\n$/, "");
+  lang = (lang || guessLang(code)).toLowerCase();
+  return `<div class="code"><div class="code-head"><span>${escapeHtml(lang)}</span>` +
+    `<button type="button" data-code="copy">⧉ Copy</button>` +
+    `<button type="button" data-code="save" data-ext="${CODE_EXT[lang] || "txt"}">⬇ Save file</button></div>` +
+    `<pre><code>${highlight(code, lang)}</code></pre></div>`;
+}
+
 function renderMarkdown(text) {
-  const parts = escapeHtml(text).split(/```(?:\w*)\n?/);
-  let html = "";
-  parts.forEach((part, i) => {
-    if (i % 2) { html += `<pre><code>${part.replace(/\n$/, "")}</code></pre>`; return; }
-    let list = null;
-    for (const line of part.split("\n")) {
-      const ul = line.match(/^\s*[-*•]\s+(.*)/), ol = line.match(/^\s*\d+[.)]\s+(.*)/);
-      const kind = ul ? "ul" : ol ? "ol" : null;
-      if (list && kind !== list) { html += `</${list}>`; list = null; }
-      if (kind) {
-        if (!list) { html += `<${kind}>`; list = kind; }
-        html += `<li>${inline((ul || ol)[1])}</li>`;
-      } else if (line.trim()) html += `<p>${inline(line)}</p>`;
-    }
-    if (list) html += `</${list}>`;
-  });
+  let html = "", last = 0, m;
+  const fence = /```(\w*)\n?([\s\S]*?)```/g;
+  while ((m = fence.exec(text))) {
+    html += renderText(text.slice(last, m.index)) + codeBlock(m[1], m[2]);
+    last = fence.lastIndex;
+  }
+  return html + renderText(text.slice(last));
+}
+
+function renderText(part) {
+  let html = "", list = null;
+  for (const line of escapeHtml(part).split("\n")) {
+    const ul = line.match(/^\s*[-*•]\s+(.*)/), ol = line.match(/^\s*\d+[.)]\s+(.*)/);
+    const kind = ul ? "ul" : ol ? "ol" : null;
+    if (list && kind !== list) { html += `</${list}>`; list = null; }
+    if (kind) {
+      if (!list) { html += `<${kind}>`; list = kind; }
+      html += `<li>${inline((ul || ol)[1])}</li>`;
+    } else if (line.trim()) html += `<p>${inline(line)}</p>`;
+  }
+  if (list) html += `</${list}>`;
   return html;
 }
+
+function downloadText(name, content) {
+  const url = URL.createObjectURL(new Blob([content], { type: "text/plain" }));
+  const a = el("a"); a.href = url; a.download = name;
+  document.body.append(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-code]");
+  if (!btn) return;
+  const code = btn.closest(".code").querySelector("code").textContent;
+  if (btn.dataset.code === "copy") {
+    navigator.clipboard?.writeText(code);
+    toast("Code copied");
+  } else {
+    downloadText(`neural-code.${btn.dataset.ext}`, code);
+    toast(`Saved neural-code.${btn.dataset.ext}`, "good");
+  }
+});
 
 // Little message that pops up at the bottom of the screen.
 function toast(text, kind = "") {
@@ -136,6 +205,7 @@ async function loadChatList() {
 function newChat() {
   currentId = null;
   thread.innerHTML = "";
+  showAttached(null, true);
   $("#empty").hidden = false;
   $("#title").textContent = "New chat";
   document.body.classList.remove("side-open");
@@ -148,12 +218,15 @@ async function openChat(id) {
   const convo = await api(`/api/conversations/${id}`);
   currentId = id;
   thread.innerHTML = "";
+  showAttached(null, true);
+  (convo.file_names || []).forEach((n) => showAttached(n));
   $("#empty").hidden = convo.messages.length > 0;
   $("#title").textContent = convo.title;
   let lastUser = "";
   for (const m of convo.messages) {
     if (m.role === "User") { addUser(m.message, m.corrected); lastUser = m.message; }
-    else addBot(m.message, m.source, m.id, lastUser, m.rating);
+    else addBot(m.message, m.source, m.id, lastUser, m.rating, false,
+                { agent: m.agent, options: m.options, file: m.file });
   }
   document.body.classList.remove("side-open");
   loadChatList();
@@ -177,7 +250,20 @@ function addUser(text, corrected) {
   return msg;
 }
 
-function addBot(text, source, id, question, rating, animate = false) {
+function agentChip(agentId, consulted) {
+  const a = agentsById[agentId];
+  if (!a) return null;
+  const chip = el("span", "chip agent", `${a.emoji} ${a.name}`);
+  chip.style.color = a.color;
+  chip.style.borderColor = a.color + "66";
+  const asked = (consulted || []).map((c) => agentsById[c.id] ?
+    `${agentsById[c.id].name} ${Math.round(c.score * 100)}%` : "").filter(Boolean);
+  chip.title = asked.length ? `Neural asked: ${asked.join(", ")}` : `${a.name} agent`;
+  chip.onclick = () => openAgents(agentId);
+  return chip;
+}
+
+function addBot(text, source, id, question, rating, animate = false, extra = {}) {
   const msg = el("div", "msg bot");
   msg.append(el("div", "logo"));
   const body = el("div", "body");
@@ -187,7 +273,35 @@ function addBot(text, source, id, question, rating, animate = false) {
   thread.append(msg);
 
   const meta = el("div", "meta");
+  const chip = agentChip(extra.agent, extra.consulted);
+  if (chip) meta.append(chip);
   if (SOURCES[source]) meta.append(el("span", "chip " + source, SOURCES[source]));
+
+  // Question card: tap an option to answer.
+  if (extra.options && extra.options.length) {
+    const card = el("div", "options");
+    for (const opt of extra.options) {
+      const b = el("button", "option", opt.label);
+      b.type = "button";
+      b.onclick = () => {
+        card.querySelectorAll("button").forEach((x) => (x.disabled = true));
+        b.classList.add("picked");
+        if (opt.send) sendMessage(opt.send); else input.focus();
+      };
+      card.append(b);
+    }
+    body.append(card);
+  }
+  // A file Neural made for you.
+  if (extra.file) {
+    const f = el("div", "file-card");
+    f.append(el("span", "file-icon", "📄"), el("span", "file-name", extra.file.name));
+    const dl = el("button", "primary", "⬇ Download");
+    dl.type = "button";
+    dl.onclick = () => { downloadText(extra.file.name, extra.file.content); toast(`Saved ${extra.file.name}`, "good"); };
+    f.append(dl);
+    body.append(f);
+  }
 
   if (id) {
     const up = el("button", "act good", "👍");
@@ -240,11 +354,15 @@ function addBot(text, source, id, question, rating, animate = false) {
       pop(copy);
       toast("Copied to clipboard");
     };
-    meta.append(up, down, copy, note);
+    const speak = el("button", "act", "🔊");
+    speak.title = "Read out loud";
+    speak.onclick = () => { pop(speak); readAloud(text); };
+    meta.append(up, down, copy, speak, note);
   }
   body.append(meta);
 
   if (animate) typeOut(bubble, text); else bubble.innerHTML = renderMarkdown(text);
+  if (animate && store.get("neural-read-aloud") === "on") readAloud(text);
   scrollDown();
 }
 
@@ -295,11 +413,13 @@ function showTeach(body, question, id) {
 
 // While Neural thinks, an orb animates and changes as it works:
 // searching its knowledge first, then composing a reply.
-function showTyping() {
+function showTyping(firstLabel) {
   const msg = el("div", "msg bot");
   const box = el("div", "thinking");
   const canvas = el("canvas");
-  const label = el("span", "label", "Searching my knowledge...");
+  const a = targetAgent && agentsById[targetAgent];
+  const label = el("span", "label", firstLabel ||
+    (a ? `Asking the ${a.name} agent...` : "Neural is asking the agents..."));
   box.append(canvas, label);
   msg.append(box);
   thread.append(msg);
@@ -332,13 +452,15 @@ async function sendMessage(text) {
   try {
     const data = await api("/api/chat", {
       method: "POST",
-      body: JSON.stringify({ message: text, conversation_id: currentId,
+      body: JSON.stringify({ message: text, conversation_id: currentId, agent: targetAgent,
                              style: store.get("neural-style") === "plain" ? "plain" : "casual" }),
     });
     await new Promise((r) => setTimeout(r, Math.max(0, 650 - (Date.now() - started))));
     typing.stop();
     addReadAs(userMsg, data.corrected);
-    addBot(data.answer, data.source, data.id, text, null, true);
+    addBot(data.answer, data.source, data.id, text, null, true,
+           { agent: data.agent, consulted: data.consulted, options: data.options, file: data.file });
+    pulseAgents(data.agent, data.consulted);
     if (!currentId) { currentId = data.conversation_id; }
     loadChatList().then(() => {
       const active = document.querySelector(".chat-item.active span");
@@ -453,7 +575,9 @@ $("#open-brain").onclick = () => {
 modal.addEventListener("click", (e) => {
   if (e.target === modal || e.target.closest("[data-close]")) modal.hidden = true;
 });
-document.addEventListener("keydown", (e) => { if (e.key === "Escape") modal.hidden = true; });
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") { modal.hidden = true; $("#agents-modal").hidden = true; graph.running = false; }
+});
 
 async function startTraining(fresh) {
   const preset = $("#preset").value;
@@ -578,9 +702,314 @@ $("#casual").onchange = (e) => {
   toast(e.target.checked ? "Casual answers on" : "Textbook-style answers on");
 };
 
+// ---------- agents ----------
+let agents = [];
+let agentsById = {};
+let targetAgent = null;  // null = Neural picks
+
+async function loadAgents() {
+  try {
+    const s = await api("/api/stats");
+    agents = s.agents || [];
+    agentsById = Object.fromEntries(agents.map((a) => [a.id, a]));
+  } catch {}
+}
+
+function setTarget(id) {
+  targetAgent = id && id !== "neural" ? id : null;
+  const a = targetAgent && agentsById[targetAgent];
+  const pill = $("#target");
+  pill.textContent = a ? `${a.emoji} Asking ${a.name} directly ✕` : "🧠 Neural · picks the best agent ▾";
+  pill.classList.toggle("set", !!a);
+  if (a) pill.style.setProperty("--agent", a.color); else pill.style.removeProperty("--agent");
+  input.placeholder = a ? `Ask the ${a.name} agent...` : "Message Neural...";
+  $("#target-menu").hidden = true;
+}
+
+$("#target").onclick = () => {
+  if (targetAgent) return setTarget(null);
+  const menu = $("#target-menu");
+  menu.innerHTML = "";
+  for (const a of agents) {
+    if (a.id === "files" || a.id === "memory") continue;
+    const b = el("button", "", `${a.emoji} ${a.id === "neural" ? "Neural (picks for you)" : a.name}`);
+    b.type = "button";
+    b.title = a.about;
+    b.onclick = () => { setTarget(a.id); input.focus(); };
+    menu.append(b);
+  }
+  menu.hidden = !menu.hidden;
+};
+document.addEventListener("click", (e) => {
+  if (!e.target.closest("#target, #target-menu")) $("#target-menu").hidden = true;
+});
+
+// ---- Agent graph (bubbles, like Obsidian's graph view) ----
+const graphModal = $("#agents-modal");
+const graph = { nodes: [], running: false, drag: null, hover: null, pulse: null, selected: null };
+
+function buildGraph() {
+  const cv = $("#agent-graph");
+  const w = cv.clientWidth, h = cv.clientHeight;
+  const old = Object.fromEntries(graph.nodes.map((n) => [n.id, n]));
+  graph.nodes = agents.map((a, i) => {
+    const angle = (i / Math.max(1, agents.length - 1)) * Math.PI * 2;
+    const prev = old[a.id];
+    return {
+      ...a,
+      r: a.id === "neural" ? 34 : Math.min(44, 15 + 2.6 * Math.sqrt(a.topics || 1)),
+      x: prev ? prev.x : a.id === "neural" ? w / 2 : w / 2 + Math.cos(angle) * 160,
+      y: prev ? prev.y : a.id === "neural" ? h / 2 : h / 2 + Math.sin(angle) * 130,
+      vx: 0, vy: 0,
+    };
+  });
+}
+
+function stepGraph(w, h) {
+  const ns = graph.nodes;
+  const center = ns.find((n) => n.id === "neural");
+  for (const a of ns) {
+    for (const b of ns) {
+      if (a === b) continue;
+      const dx = a.x - b.x, dy = a.y - b.y, d2 = dx * dx + dy * dy + 0.01, d = Math.sqrt(d2);
+      const push = 2600 / d2 + (d < a.r + b.r + 18 ? (a.r + b.r + 18 - d) * 0.08 : 0);
+      a.vx += (dx / d) * push; a.vy += (dy / d) * push;
+    }
+    if (center && a !== center) {  // spring to Neural
+      const dx = center.x - a.x, dy = center.y - a.y, d = Math.hypot(dx, dy) || 1;
+      const pull = (d - (110 + a.r * 1.5)) * 0.012;
+      a.vx += (dx / d) * pull; a.vy += (dy / d) * pull;
+    }
+    a.vx += (w / 2 - a.x) * 0.002; a.vy += (h / 2 - a.y) * 0.002;  // stay centered
+  }
+  for (const n of ns) {
+    if (n === graph.drag) { n.vx = n.vy = 0; continue; }
+    n.vx *= 0.82; n.vy *= 0.82;
+    n.x = Math.max(n.r + 4, Math.min(w - n.r - 4, n.x + n.vx));
+    n.y = Math.max(n.r + 4, Math.min(h - n.r - 22, n.y + n.vy));
+  }
+}
+
+function drawGraph() {
+  const cv = $("#agent-graph");
+  const dpr = Math.min(2, devicePixelRatio || 1);
+  const w = cv.clientWidth, h = cv.clientHeight;
+  if (cv.width !== Math.round(w * dpr)) { cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); }
+  const ctx = cv.getContext("2d");
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, w, h);
+  stepGraph(w, h);
+  const css = getComputedStyle(document.documentElement);
+  const text = css.getPropertyValue("--text").trim(), muted = css.getPropertyValue("--muted").trim();
+  const center = graph.nodes.find((n) => n.id === "neural");
+  const now = performance.now();
+  const pulse = graph.pulse && now - graph.pulse.start < 2600 ? graph.pulse : null;
+
+  for (const n of graph.nodes) {  // links
+    if (!center || n === center) continue;
+    const active = pulse && pulse.targets.includes(n.id);
+    const focus = graph.hover === n || graph.selected === n.id;
+    ctx.strokeStyle = active || focus ? n.color : muted;
+    ctx.globalAlpha = active || focus ? 0.9 : 0.25;
+    ctx.lineWidth = active ? 2.5 : 1.2;
+    ctx.beginPath(); ctx.moveTo(center.x, center.y); ctx.lineTo(n.x, n.y); ctx.stroke();
+    if (active) {  // a dot traveling from Neural to the agent it called
+      const t = ((now - pulse.start) % 900) / 900;
+      ctx.globalAlpha = 1; ctx.fillStyle = n.color;
+      ctx.beginPath(); ctx.arc(center.x + (n.x - center.x) * t, center.y + (n.y - center.y) * t, 4, 0, 7); ctx.fill();
+    }
+  }
+  ctx.globalAlpha = 1;
+  for (const n of graph.nodes) {  // bubbles
+    const glow = graph.hover === n || graph.selected === n.id || (pulse && pulse.answered === n.id);
+    const breathe = n.id === "neural" ? Math.sin(now / 700) * 1.5 : 0;
+    ctx.shadowColor = n.color; ctx.shadowBlur = glow ? 28 : 10;
+    const grad = ctx.createRadialGradient(n.x - n.r / 3, n.y - n.r / 3, 2, n.x, n.y, n.r + breathe);
+    grad.addColorStop(0, n.color + "ff"); grad.addColorStop(1, n.color + "88");
+    ctx.fillStyle = grad;
+    ctx.beginPath(); ctx.arc(n.x, n.y, n.r + breathe, 0, 7); ctx.fill();
+    ctx.shadowBlur = 0;
+    ctx.font = `${Math.round(n.r * 0.8)}px system-ui, sans-serif`;
+    ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.fillText(n.emoji, n.x, n.y + 1);
+    ctx.font = "600 12.5px system-ui, sans-serif"; ctx.fillStyle = glow ? text : muted;
+    ctx.fillText(n.name, n.x, n.y + n.r + 12);
+  }
+  if (graph.running) requestAnimationFrame(drawGraph);
+}
+
+function nodeAt(e) {
+  const r = $("#agent-graph").getBoundingClientRect();
+  const x = e.clientX - r.left, y = e.clientY - r.top;
+  return { x, y, node: [...graph.nodes].reverse().find((n) => Math.hypot(n.x - x, n.y - y) <= n.r + 4) };
+}
+
+(() => {
+  const cv = $("#agent-graph");
+  let moved = false, start = null;
+  cv.addEventListener("pointerdown", (e) => {
+    const hit = nodeAt(e);
+    if (hit.node) { graph.drag = hit.node; moved = false; start = hit; cv.setPointerCapture(e.pointerId); }
+  });
+  cv.addEventListener("pointermove", (e) => {
+    const hit = nodeAt(e);
+    if (graph.drag) {
+      if (Math.hypot(hit.x - start.x, hit.y - start.y) > 3) moved = true;
+      graph.drag.x = hit.x; graph.drag.y = hit.y;
+    }
+    graph.hover = hit.node || null;
+    cv.style.cursor = hit.node ? "pointer" : "default";
+  });
+  cv.addEventListener("pointerup", () => {
+    if (graph.drag && !moved) showAgentInfo(graph.drag.id);
+    graph.drag = null;
+  });
+  cv.addEventListener("pointerleave", () => { graph.hover = null; });
+})();
+
+function showAgentInfo(id) {
+  const a = agentsById[id];
+  if (!a) return;
+  graph.selected = id;
+  const box = $("#agent-info");
+  box.innerHTML = "";
+  box.style.borderColor = a.color + "88";
+  const head = el("div", "agent-head");
+  head.append(el("span", "agent-emoji", a.emoji));
+  const t = el("div");
+  t.append(el("b", "", a.id === "neural" ? "Neural (main agent)" : `${a.name} agent`));
+  t.append(el("div", "muted small", a.id === "neural" ? "Calls the other agents" :
+    a.id === "files" ? "Knows the files you attach" :
+    a.id === "memory" ? `${a.topics} things people taught it` : `${a.topics} topics`));
+  head.append(t);
+  box.append(head, el("p", "", a.about));
+  if (!["files", "memory"].includes(id)) {
+    const ask = el("button", "primary", id === "neural" ? "Let Neural pick (default)" : `Ask ${a.name} directly`);
+    ask.onclick = () => { setTarget(id); graphModal.hidden = true; graph.running = false; input.focus(); };
+    box.append(ask);
+  }
+}
+
+async function openAgents(focusId) {
+  await loadAgents();
+  graphModal.hidden = false;
+  document.body.classList.remove("side-open");
+  buildGraph();
+  graph.selected = null;
+  $("#agent-info").innerHTML = "<span class='muted small'>Click a bubble to learn about that agent.</span>";
+  $("#agent-info").style.borderColor = "";
+  if (focusId) showAgentInfo(focusId);
+  if (!graph.running) { graph.running = true; requestAnimationFrame(drawGraph); }
+}
+$("#open-agents").onclick = () => openAgents();
+graphModal.addEventListener("click", (e) => {
+  if (e.target === graphModal || e.target.closest("[data-close]")) { graphModal.hidden = true; graph.running = false; }
+});
+
+function pulseAgents(answered, consulted) {
+  graph.pulse = { start: performance.now(), answered,
+                  targets: [...new Set([answered, ...(consulted || []).map((c) => c.id)])].filter(Boolean) };
+}
+
+// ---------- ➕ attach files ----------
+$("#attach-btn").onclick = () => $("#attach-input").click();
+$("#attach-input").onchange = async (e) => {
+  const file = e.target.files[0];
+  e.target.value = "";
+  if (!file) return;
+  if (file.size > 20 * 1024 * 1024) return toast("That file is over 20 MB", "bad");
+  $("#empty").hidden = true;
+  addUser(`📎 ${file.name}`);
+  const typing = showTyping("Reading your file...");
+  const form = new FormData();
+  form.append("file", file);
+  if (currentId) form.append("conversation_id", currentId);
+  try {
+    const res = await fetch("/api/attach", { method: "POST", body: form });
+    const data = await res.json().catch(() => ({}));
+    typing.stop();
+    if (!res.ok) throw new Error(data.error || "Couldn't read that file");
+    currentId = data.conversation_id;
+    addBot(data.answer, data.source, null, "", null, true, { agent: "files" });
+    showAttached(data.file.name);
+    loadChatList();
+  } catch (err) {
+    typing.stop();
+    addBot("⚠ " + err.message, "fallback", null, "", null, false, { agent: "files" });
+  }
+};
+
+function showAttached(name, reset = false) {
+  const box = $("#attached");
+  if (reset) box.innerHTML = "";
+  if (name) box.append(el("span", "attached-chip", `📎 ${name}`));
+  box.hidden = !box.children.length;
+}
+
+// ---------- 🎤 talk to text ----------
+const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+let listening = null, micOrb = null;
+
+function stopListening() {
+  if (listening) { try { listening.stop(); } catch {} }
+}
+$("#mic-orb").onclick = stopListening;
+$("#mic-btn").onclick = () => {
+  if (!Recognition) {
+    return toast("Talk-to-text needs Chrome or Edge.", "bad");
+  }
+  const rec = new Recognition();
+  rec.lang = navigator.language || "en-US";
+  rec.interimResults = true;
+  rec.continuous = false;
+  const before = input.value ? input.value.trim() + " " : "";
+  let finalText = "";
+  rec.onresult = (e) => {
+    let interim = "";
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      if (e.results[i].isFinal) finalText += e.results[i][0].transcript;
+      else interim += e.results[i][0].transcript;
+    }
+    input.value = before + finalText + interim;
+    autoGrow();
+  };
+  rec.onerror = (e) => {
+    toast(e.error === "not-allowed" ? "Allow microphone access to talk to Neural." :
+          e.error === "network" ? "Talk-to-text needs internet in this browser." :
+          e.error === "no-speech" ? "I didn't hear anything." : "Talk-to-text stopped: " + e.error, "bad");
+  };
+  rec.onend = () => {
+    listening = null;
+    $("#mic-btn").hidden = false; $("#mic-orb").hidden = true;
+    dropOrb(micOrb); micOrb = null;
+    if (finalText.trim()) sendMessage(input.value);
+  };
+  listening = rec;
+  $("#mic-btn").hidden = true; $("#mic-orb").hidden = false;
+  micOrb = makeOrb($("#mic-orb"), "listening", 34);
+  rec.start();
+};
+
+// ---------- 🔊 read out loud ----------
+function readAloud(text) {
+  if (!("speechSynthesis" in window)) return toast("This browser can't read out loud.", "bad");
+  speechSynthesis.cancel();
+  const plain = text.replace(/```[\s\S]*?```/g, " (code) ").replace(/[*`#>]/g, "").replace(/[\u{1F300}-\u{1FAFF}]/gu, "");
+  const u = new SpeechSynthesisUtterance(plain);
+  u.rate = 1.03;
+  speechSynthesis.speak(u);
+}
+$("#read-aloud").checked = store.get("neural-read-aloud") === "on";
+$("#read-aloud").onchange = (e) => {
+  store.set("neural-read-aloud", e.target.checked ? "on" : "off");
+  toast(e.target.checked ? "I'll read answers out loud" : "Read-aloud off");
+  if (!e.target.checked) speechSynthesis?.cancel();
+};
+
 // ---------- start ----------
 makeOrb($("#hero-orb"), "working", 96);
 loadChatList();
+loadAgents();
 refreshStats().catch(() => {});
 refreshUpdate();
 setInterval(refreshUpdate, 60 * 1000);

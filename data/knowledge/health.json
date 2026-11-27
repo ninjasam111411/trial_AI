@@ -1,0 +1,99 @@
+{
+ "intents": [
+  {
+   "tag": "health_food_groups",
+   "patterns": [
+    "What are the food groups?",
+    "What should I eat to be healthy?"
+   ],
+   "responses": [
+    "The main food groups are fruits, vegetables, grains, protein, and dairy. Filling half your plate with fruits and veggies is a great habit."
+   ]
+  },
+  {
+   "tag": "health_protein",
+   "patterns": [
+    "What does protein do?"
+   ],
+   "responses": [
+    "Protein helps build and repair muscles and other parts of your body. You get it from foods like meat, fish, eggs, beans, and nuts."
+   ]
+  },
+  {
+   "tag": "health_muscles",
+   "patterns": [
+    "How many muscles are in the body?",
+    "How do muscles work?"
+   ],
+   "responses": [
+    "You have more than 600 muscles. They move your body by contracting, which means getting shorter and pulling on your bones."
+   ]
+  },
+  {
+   "tag": "health_lungs",
+   "patterns": [
+    "How do lungs work?",
+    "What do lungs do?"
+   ],
+   "responses": [
+    "Your lungs bring in oxygen when you breathe in and get rid of carbon dioxide when you breathe out."
+   ]
+  },
+  {
+   "tag": "health_skin",
+   "patterns": [
+    "What is the largest organ?"
+   ],
+   "responses": [
+    "Your skin is your largest organ. It protects you, keeps you at the right temperature, and lets you feel touch."
+   ]
+  },
+  {
+   "tag": "health_stomach",
+   "patterns": [
+    "How does digestion work?",
+    "What does the stomach do?"
+   ],
+   "responses": [
+    "Food gets chewed, then your stomach breaks it down with acid. Your small intestine soaks up the nutrients, and your large intestine handles the leftovers."
+   ]
+  },
+  {
+   "tag": "health_immune",
+   "patterns": [
+    "What is the immune system?"
+   ],
+   "responses": [
+    "The immune system is your body's defense team. White blood cells find and fight germs that make you sick."
+   ]
+  },
+  {
+   "tag": "health_handwash",
+   "patterns": [
+    "Why should I wash my hands?",
+    "How long should I wash my hands?"
+   ],
+   "responses": [
+    "Washing hands removes germs. Scrub with soap for about 20 seconds, about the time it takes to hum Happy Birthday twice."
+   ]
+  },
+  {
+   "tag": "health_teeth",
+   "patterns": [
+    "How do I keep my teeth healthy?"
+   ],
+   "responses": [
+    "Brush twice a day for two minutes, floss daily, cut back on sugary drinks, and see a dentist regularly."
+   ]
+  },
+  {
+   "tag": "health_screen_time",
+   "patterns": [
+    "Is too much screen time bad?"
+   ],
+   "responses": [
+    "Lots of screen time can hurt sleep and focus. Taking breaks, going outside, and keeping screens out of bed helps."
+   ]
+  }
+ ]
+}

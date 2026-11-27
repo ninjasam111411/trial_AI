@@ -21,6 +21,23 @@ downloaded model. It comes with a chat app that runs in your browser and
 - 👍 / 👎 on every answer, and you can **teach it** the right answer
 - One-click **Retrain**, and model sizes from 5 million to 1.3 billion parameters
 
+## Agents, files, voice
+
+- **🫧 Agents:** Neural is the main agent. For each question it asks a team of
+  subject agents (English, History, Science, Geography, Math, Tech, Life,
+  Friend, Memory and Files) and the one that knows best answers. Each answer
+  is tagged with the agent that gave it. If two agents both think they know,
+  Neural asks you with tap-to-answer options. Open **🫧 Agents** in the sidebar
+  to see them as bubbles (drag them around), or pick one under the message box
+  (or type `@history ...`) to ask it directly. Add agents in `agents.py`.
+- **➕ Attach files:** text, PDF, Word (.docx) and code files. The Files agent
+  answers questions from them ("when is my test?", "what is the file about?").
+- **🎤 Talk to text** (Chrome or Edge; that part needs internet) and **🔊 read
+  aloud** (your computer's built-in voice; works offline). Turn on "Read
+  answers out loud" in the Brain panel to hear every answer.
+- **Code and files:** code shows with colors and **Copy** / **Save file**
+  buttons. Say "save that as a file" to download the last code as a file.
+
 ## Start it
 
 **Windows:** double-click `start.bat`
@@ -155,7 +172,9 @@ running Neural (not uploaded to GitHub). Your browser keeps a cookie
 | File | What it does |
 |---|---|
 | `app.py`, `templates/`, `static/` | The chat app |
-| `brain.py` | Spelling + calculator + knowledge + neural network |
+| `brain.py` | Neural, the main agent: spelling, calculator, files, agents, neural network |
+| `agents.py` | The subject agents and which topics each one owns |
+| `files.py` | Reading attached files and finding the right passage |
 | `model.py` | The transformer (RoPE, SwiGLU, RMSNorm, KV cache) and size presets |
 | `tokenizer.py` | Neural's own byte-level BPE tokenizer |
 | `train.py` | Pretraining and chat training (`--resume` keeps learning) |

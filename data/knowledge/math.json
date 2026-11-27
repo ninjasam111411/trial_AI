@@ -1,0 +1,206 @@
+{
+ "intents": [
+  {
+   "tag": "math_order_ops",
+   "patterns": [
+    "What is the order of operations?",
+    "What is PEMDAS?"
+   ],
+   "responses": [
+    "PEMDAS: parentheses, exponents, multiplication and division (left to right), then addition and subtraction (left to right)."
+   ]
+  },
+  {
+   "tag": "math_percent",
+   "patterns": [
+    "How do I find a percent?",
+    "What is a percentage?"
+   ],
+   "responses": [
+    "Percent means out of 100. To find 20% of 50, multiply 50 by 0.20 to get 10."
+   ]
+  },
+  {
+   "tag": "math_area",
+   "patterns": [
+    "How do I find the area of a rectangle?",
+    "What is area?"
+   ],
+   "responses": [
+    "Area is the space inside a shape. For a rectangle, multiply length by width. A 4 by 3 rectangle has an area of 12 square units."
+   ]
+  },
+  {
+   "tag": "math_perimeter",
+   "patterns": [
+    "What is perimeter?",
+    "How do I find perimeter?"
+   ],
+   "responses": [
+    "Perimeter is the distance around a shape. Add up all the sides."
+   ]
+  },
+  {
+   "tag": "math_circle_area",
+   "patterns": [
+    "How do I find the area of a circle?",
+    "What is the circumference of a circle?"
+   ],
+   "responses": [
+    "Area of a circle is pi times the radius squared. Circumference (the distance around) is 2 times pi times the radius."
+   ]
+  },
+  {
+   "tag": "math_triangle_area",
+   "patterns": [
+    "How do I find the area of a triangle?"
+   ],
+   "responses": [
+    "Area of a triangle is one half times base times height."
+   ]
+  },
+  {
+   "tag": "math_pythagorean",
+   "patterns": [
+    "What is the Pythagorean theorem?"
+   ],
+   "responses": [
+    "For a right triangle, a squared plus b squared equals c squared, where c is the longest side (the hypotenuse). A 3, 4, 5 triangle works: 9 + 16 = 25."
+   ]
+  },
+  {
+   "tag": "math_mean_median",
+   "patterns": [
+    "What is the mean median and mode?",
+    "How do I find the average?"
+   ],
+   "responses": [
+    "Mean is the average: add the numbers and divide by how many there are. Median is the middle number when they're in order. Mode is the number that shows up most."
+   ]
+  },
+  {
+   "tag": "math_negative",
+   "patterns": [
+    "How do negative numbers work?",
+    "What is a negative times a negative?"
+   ],
+   "responses": [
+    "Negative numbers are less than zero. A negative times a negative is positive, and a negative times a positive is negative."
+   ]
+  },
+  {
+   "tag": "math_decimals",
+   "patterns": [
+    "How do I turn a fraction into a decimal?"
+   ],
+   "responses": [
+    "Divide the top number by the bottom number. 3/4 is 3 divided by 4, which is 0.75."
+   ]
+  },
+  {
+   "tag": "math_exponent",
+   "patterns": [
+    "What is an exponent?",
+    "What does squared mean?"
+   ],
+   "responses": [
+    "An exponent tells you how many times to multiply a number by itself. 2 to the 3rd is 2 x 2 x 2 = 8. Squared means to the 2nd power."
+   ]
+  },
+  {
+   "tag": "math_square_root",
+   "patterns": [
+    "What is a square root?"
+   ],
+   "responses": [
+    "A square root is the number that times itself gives you the original. The square root of 25 is 5, because 5 x 5 = 25."
+   ]
+  },
+  {
+   "tag": "math_variable_algebra",
+   "patterns": [
+    "What is algebra?",
+    "How do I solve for x?"
+   ],
+   "responses": [
+    "Algebra uses letters like x for unknown numbers. To solve for x, do the same thing to both sides until x is alone. If x + 3 = 7, subtract 3 from both sides: x = 4."
+   ]
+  },
+  {
+   "tag": "math_ratio",
+   "patterns": [
+    "What is a ratio?",
+    "What is a proportion?"
+   ],
+   "responses": [
+    "A ratio compares two amounts, like 2 cats to 3 dogs (2:3). A proportion says two ratios are equal, like 2/3 = 4/6."
+   ]
+  },
+  {
+   "tag": "math_slope",
+   "patterns": [
+    "What is slope?",
+    "What is y = mx + b?"
+   ],
+   "responses": [
+    "Slope is how steep a line is: rise over run. In y = mx + b, m is the slope and b is where the line crosses the y-axis."
+   ]
+  },
+  {
+   "tag": "math_angles",
+   "patterns": [
+    "What are the types of angles?",
+    "What is a right angle?"
+   ],
+   "responses": [
+    "A right angle is exactly 90 degrees. Acute angles are smaller than 90, obtuse angles are between 90 and 180, and a straight angle is 180."
+   ]
+  },
+  {
+   "tag": "math_triangle_angles",
+   "patterns": [
+    "How many degrees are in a triangle?"
+   ],
+   "responses": [
+    "The three angles of any triangle add up to 180 degrees."
+   ]
+  },
+  {
+   "tag": "math_even_odd",
+   "patterns": [
+    "What are even and odd numbers?"
+   ],
+   "responses": [
+    "Even numbers can be split into two equal groups (2, 4, 6). Odd numbers can't (1, 3, 5)."
+   ]
+  },
+  {
+   "tag": "math_place_value",
+   "patterns": [
+    "What is place value?"
+   ],
+   "responses": [
+    "Place value is what a digit is worth based on its spot. In 352, the 3 means 300, the 5 means 50, and the 2 means 2."
+   ]
+  },
+  {
+   "tag": "math_rounding",
+   "patterns": [
+    "How do I round numbers?"
+   ],
+   "responses": [
+    "Look at the digit to the right of where you're rounding. If it's 5 or more, round up; if it's 4 or less, round down. 47 rounds to 50."
+   ]
+  },
+  {
+   "tag": "math_times_tables",
+   "patterns": [
+    "How do I learn my times tables?",
+    "Multiplication tips"
+   ],
+   "responses": [
+    "Practice a little each day, learn the easy ones first (2s, 5s, 10s), and use tricks: for 9s, the digits of the answer add up to 9."
+   ]
+  }
+ ]
+}

@@ -4,3 +4,5 @@ flask
 pyspellchecker
 tokenizers
 datasets
+pypdf
+python-docx

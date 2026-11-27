@@ -23,6 +23,8 @@ from pathlib import Path
 from config import MODEL_FILE, load_intents
 from learning import ChatLog, Speller, TaughtStore, words_in
 from style import humanize, kind_for
+from agents import AGENTS, agent_for, public_list
+from files import search as search_files
 
 MATCH_THRESHOLD = 0.72
 
@@ -95,52 +97,66 @@ KEY_STOPWORDS = STOPWORDS - {"you", "your", "u", "ur", "i", "me", "my"}
 
 class KnowledgeBase:
     def __init__(self, extra_intents=()):
-        self.entries = []  # (normalized pattern, word set, intent)
+        self.entries = []  # (normalized pattern, word set, intent, agent)
         intents = load_intents()
         self.topic_count = len(intents)
+        self.agent_topics = {}
         for intent in list(intents) + list(extra_intents):
+            agent = agent_for(intent)
+            self.agent_topics[agent] = self.agent_topics.get(agent, 0) + 1
             for pattern in intent["patterns"]:
                 norm = _normalize(pattern)
-                self.entries.append((norm, set(norm.split()), intent))
+                self.entries.append((norm, set(norm.split()), intent, agent))
 
-    def match(self, message):
-        """Return (score, intent) for the closest known question."""
+    @staticmethod
+    def _score(norm, words, pattern, pattern_words, intent):
+        ratio = difflib.SequenceMatcher(None, norm, pattern).ratio()
+        union = words | pattern_words
+        overlap = len(words & pattern_words) / len(union) if union else 0
+        score = max(ratio, 0.5 * ratio + 0.5 * overlap)
+        # The important words must agree: "tell me about frogs" is not
+        # "tell me about dogs", even though the sentences look alike.
+        # "you"/"I" count here: "how smart are YOU" is not about octopuses.
+        key_msg, key_pat = words - KEY_STOPWORDS, pattern_words - KEY_STOPWORDS
+        shared = key_msg & key_pat
+        if key_msg and key_pat and not shared:
+            score *= 0.6
+        elif key_msg - key_pat and key_pat - key_msg:
+            score *= 0.7   # a key word was swapped (spain vs japan)
+        elif key_msg - key_pat:
+            # you mentioned something extra it doesn't cover
+            score *= 0.85 if len(shared) < 2 else 0.95
+        elif key_pat - key_msg:
+            # the known question has an extra detail ("abraham" lincoln)
+            score *= 0.9
+        # One- or two-word topics ("macbeth", "ww1"): if every important
+        # word is in the known question, that's a match.
+        topic = words - STOPWORDS
+        if len(words) <= 2 and topic and all(len(w) >= 3 for w in topic) \
+                and topic <= (pattern_words - STOPWORDS):
+            score = max(score, 0.8)
+        if intent["tag"].startswith("taught_"):
+            score += 0.06  # what people taught it beats the built-in answer
+        return score
+
+    def match_agents(self, message, only=None):
+        """Ask every agent: what's your best answer, and how sure are you?
+        Returns {agent_id: (score, intent)}."""
         norm = _normalize(message)
         words = set(norm.split())
-        best_score, best_intent = 0.0, None
+        best = {}
+        for pattern, pattern_words, intent, agent in self.entries:
+            if only and agent != only:
+                continue
+            score = self._score(norm, words, pattern, pattern_words, intent)
+            if score > best.get(agent, (0, None))[0]:
+                best[agent] = (score, intent)
+        return best
 
-        for pattern, pattern_words, intent in self.entries:
-            ratio = difflib.SequenceMatcher(None, norm, pattern).ratio()
-            union = words | pattern_words
-            overlap = len(words & pattern_words) / len(union) if union else 0
-            score = max(ratio, 0.5 * ratio + 0.5 * overlap)
-            # The important words must agree: "tell me about frogs" is not
-            # "tell me about dogs", even though the sentences look alike.
-            # "you"/"I" count here: "how smart are YOU" is not about octopuses.
-            key_msg, key_pat = words - KEY_STOPWORDS, pattern_words - KEY_STOPWORDS
-            shared = key_msg & key_pat
-            if key_msg and key_pat and not shared:
-                score *= 0.6
-            elif key_msg - key_pat and key_pat - key_msg:
-                score *= 0.7   # a key word was swapped (spain vs japan)
-            elif key_msg - key_pat:
-                # you mentioned something extra it doesn't cover
-                score *= 0.85 if len(shared) < 2 else 0.95
-            elif key_pat - key_msg:
-                # the known question has an extra detail ("abraham" lincoln)
-                score *= 0.9
-            # One- or two-word topics ("macbeth", "ww1"): if every important
-            # word is in the known question, that's a match.
-            topic = words - STOPWORDS
-            if len(words) <= 2 and topic and all(len(w) >= 3 for w in topic) \
-                    and topic <= (pattern_words - STOPWORDS):
-                score = max(score, 0.8)
-            if intent["tag"].startswith("taught_"):
-                score += 0.06  # what people taught it beats the built-in answer
-            if score > best_score:
-                best_score, best_intent = score, intent
-
-        return best_score, best_intent
+    def match(self, message, only=None):
+        """Return (score, intent) for the closest known question."""
+        best = self.match_agents(message, only)
+        return max(best.values(), key=lambda v: v[0]) if best else (0.0, None)
 
 
 # ---- 3. Neural network ---------------------------------------------------
@@ -173,6 +189,30 @@ class NeuralModel:
         out = self.model.generate(ids, max_tokens=max_tokens, temperature=temperature,
                                   stop_ids=self.stop)
         return self.tokenizer.decode(out).strip()
+
+
+# ---- Agents, files and code ----------------------------------------------
+AGENT_BY_ID = {a["id"]: a for a in AGENTS}
+AGENT_NAMES = {**{a["id"]: a["id"] for a in AGENTS}, **{a["name"].lower(): a["id"] for a in AGENTS}}
+MENTION_RE = re.compile(r"^@([a-z]+)\b[\s,:]*", re.I)
+SAVE_FILE_RE = re.compile(r"\b(save|download|make|turn|put|export)\b.*\b(that|it|this|the code|code)\b.*\bfile\b", re.I)
+FILE_SUMMARY_RE = re.compile(r"\b(summar|what('| i)?s (the|this|my) (file|document|doc|pdf)|what is (it|this) about|what('s| is) in (the|my|this) (file|document|doc|pdf))", re.I)
+CODE_RE = re.compile(r"```(\w*)\n?(.*?)```", re.S)
+EXTENSIONS = {"python": ".py", "py": ".py", "javascript": ".js", "js": ".js", "html": ".html",
+              "css": ".css", "lua": ".lua", "luau": ".lua", "json": ".json", "bash": ".sh",
+              "sh": ".sh", "bat": ".bat", "java": ".java", "c": ".c", "cpp": ".cpp", "sql": ".sql"}
+
+
+def guess_ext(code):
+    if re.search(r"^\s*(def |import |print\()", code, re.M):
+        return ".py"
+    if re.search(r"\b(local |function\b.*\bend\b|game:GetService)", code, re.S):
+        return ".lua"
+    if "<html" in code.lower() or "<div" in code.lower():
+        return ".html"
+    if re.search(r"\b(const|let|function)\b.*[;{]", code):
+        return ".js"
+    return ".txt"
 
 
 # ---- Learning from what people tell it ----------------------------------
@@ -239,73 +279,131 @@ class Brain:
         self.speller.base.update(words_in(question + " " + answer))
         self.reload_knowledge()
 
-    def respond(self, message, history=(), learn=True, style="casual"):
-        """Returns a dict: answer, source, corrected (or None).
+    def respond(self, message, history=(), learn=True, style="casual", agent=None, files=()):
+        """Neural, the main agent, handles a message:
+        teach-back -> spelling -> math -> your files -> ask every subject agent
+        -> its own neural network -> admit it doesn't know.
+
+        Returns a dict: answer, source, agent (who answered), consulted
+        (agents it asked, with how sure each was), corrected, and sometimes
+        options (a question card) or file (something to download).
         learn=False answers without saving anything (used by tests)."""
+        # "@history who was napoleon" sends the question straight to one agent.
+        m = MENTION_RE.match(message)
+        if m and m.group(1).lower() in AGENT_NAMES:
+            agent, message = AGENT_NAMES[m.group(1).lower()], message[m.end():].strip() or message
+
         corrected, changes = self.speller.correct(message)
         if learn:
             self.speller.observe(message)
-        answer, source = None, None
+        out = {"corrected": corrected if changes else None, "consulted": []}
+
+        def done(answer, source, who, **extra):
+            if source != "knowledge":
+                self.last_reply = answer
+            return {**out, "answer": answer, "source": source, "agent": who, **extra}
 
         # Did they just answer a question I couldn't, or correct me?
         learned = self.learn_from_chat(message, corrected, history) if learn else None
         if learned:
-            return {"answer": learned, "source": "learned",
-                    "corrected": corrected if changes else None}
+            return done(learned, "learned", "memory")
+
+        # "save that as a file"
+        if SAVE_FILE_RE.search(corrected):
+            answer, source, who, extra = self.code_to_file(history)
+            return done(answer, source, who, **extra)
 
         spell = SPELL_RE.search(message) or SPELL_RE.search(corrected)
-        if spell:
-            # Use the word as the person typed it, not the auto-corrected one.
-            raw = SPELL_RE.search(message)
+        if spell and agent in (None, "english"):
+            raw = SPELL_RE.search(message)  # the word as typed, not auto-corrected
             word = (raw or spell).group(1).lower()
             right = self.speller.correct_word(word)
             if right != word or self.speller.known(word):
-                answer = f"It's spelled {right}: {'-'.join(right.upper())}."
-            else:
-                answer = f"I don't know the word \"{word}\" yet."
-            source = "spelling"
+                return done(f"It's spelled {right}: {'-'.join(right.upper())}.", "spelling", "english")
+            return done(f"I don't know the word \"{word}\" yet.", "spelling", "english")
 
-        if answer is None:
+        if agent in (None, "math"):
             answer = calculate(message)
-            source = "calculator"
+            if answer:
+                return done(answer, "calculator", "math")
 
-        if answer is None:
-            score, intent = self.knowledge.match(message)
-            if changes:
-                fixed_score, fixed_intent = self.knowledge.match(corrected)
-                if fixed_score > score:
-                    score, intent = fixed_score, fixed_intent
-                    if score >= MATCH_THRESHOLD and learn:
-                        # The fix led to a confident answer: remember the typos.
-                        self.speller.learn_typos(changes)
-            if intent and score >= MATCH_THRESHOLD:
-                options = [r for r in intent["responses"] if r != self.last_reply]
-                answer = random.choice(options or intent["responses"])
-                self.last_reply = answer
-                if style == "casual" and not intent["tag"].startswith("taught_"):
-                    answer = humanize(answer, kind_for(intent))
-                source = "knowledge"
+        # Files you attached to this chat.
+        if files and agent in (None, "files"):
+            if FILE_SUMMARY_RE.search(corrected):
+                doc = files[-1]
+                intro = " ".join(doc["chunks"][:2])
+                return done(f"Here's how **{doc['name']}** starts ({doc['words']:,} words):\n\n"
+                            f"{intro[:900]}", "file", "files")
+            score, name, passage = search_files(files, corrected)
+            if passage and (score >= 0.6 or (agent == "files" and score > 0)):
+                return done(f"From **{name}**:\n\n{passage}", "file", "files",
+                            consulted=[{"id": "files", "score": round(score, 2)}])
 
-        if answer is None and self.neural:
+        # Ask every subject agent how well it can answer.
+        scores = self.knowledge.match_agents(message, agent)
+        if changes:
+            for who, val in self.knowledge.match_agents(corrected, agent).items():
+                if val[0] > scores.get(who, (0, None))[0]:
+                    scores[who] = val
+        ranked = sorted(scores.items(), key=lambda kv: kv[1][0], reverse=True)
+        out["consulted"] = [{"id": who, "score": round(min(s, 1.0), 2)} for who, (s, _) in ranked[:3]]
+
+        if ranked and ranked[0][1][0] >= MATCH_THRESHOLD:
+            who, (score, intent) = ranked[0]
+            if changes and learn and intent:
+                plain = self.knowledge.match(message, agent)[0]
+                if score > plain:
+                    self.speller.learn_typos(changes)  # the fix led to a confident answer
+            # Two agents both think they know: ask instead of guessing.
+            if len(ranked) > 1 and agent is None:
+                who2, (score2, intent2) = ranked[1]
+                if score2 >= MATCH_THRESHOLD and score - score2 < 0.03 and score < 0.95 \
+                        and intent2["tag"] != intent["tag"]:
+                    a1, a2 = AGENT_BY_ID[who], AGENT_BY_ID[who2]
+                    return done("I've got two ideas. Which one did you mean?", "question", "neural",
+                                options=[{"label": f"{a1['emoji']} {intent['patterns'][0]}",
+                                          "send": f"@{who} {intent['patterns'][0]}"},
+                                         {"label": f"{a2['emoji']} {intent2['patterns'][0]}",
+                                          "send": f"@{who2} {intent2['patterns'][0]}"},
+                                         {"label": "Something else", "send": ""}])
+            options = [r for r in intent["responses"] if r != self.last_reply]
+            answer = random.choice(options or intent["responses"])
+            self.last_reply = answer
+            if style == "casual" and not intent["tag"].startswith("taught_"):
+                answer = humanize(answer, kind_for(intent))
+            return done(answer, "knowledge", who)
+
+        if self.neural and agent in (None, "neural"):
             guess = self.neural.generate(corrected, history)
             g = _normalize(guess)
             # The question didn't match that fact, so a pasted-in memorized
             # fact is almost certainly the wrong answer. Admit it instead.
             if guess and not any(f in g for f in self.known_facts):
-                answer, source = guess, "neural"
+                return done(guess, "neural", "neural")
 
-        if not answer:
-            if self.neural is None:
-                answer = ("I don't know that one yet, and my neural network is still being "
-                          f"trained (check the Brain panel). If you know the answer, {TEACH_INVITE} it!")
-            else:
-                answer = f"Hmm, I don't know that one yet. If you know the answer, {TEACH_INVITE} it!"
-            source = "fallback"
+        if agent and agent not in ("neural",):
+            who = AGENT_BY_ID[agent]
+            return done(f"{who['emoji']} {who['name']} doesn't know that one yet. If you know the "
+                        f"answer, {TEACH_INVITE} it!", "fallback", agent)
+        if self.neural is None:
+            answer = ("I don't know that one yet, and my neural network is still being "
+                      f"trained (check the Brain panel). If you know the answer, {TEACH_INVITE} it!")
+        else:
+            answer = f"Hmm, I don't know that one yet. If you know the answer, {TEACH_INVITE} it!"
+        return done(answer, "fallback", "neural")
 
-        if source != "knowledge":
-            self.last_reply = answer
-        return {"answer": answer, "source": source,
-                "corrected": corrected if changes else None}
+    def code_to_file(self, history):
+        """Turn the last code block in the chat into a downloadable file."""
+        for msg in reversed(list(history)):
+            if msg["role"] == "Bot" and "```" in msg["message"]:
+                m = CODE_RE.search(msg["message"])
+                if m:
+                    lang = (m.group(1) or "").lower()
+                    name = "neural-code" + EXTENSIONS.get(lang, guess_ext(m.group(2)))
+                    return ("Here you go! I saved that code as a file.", "file", "tech",
+                            {"file": {"name": name, "content": m.group(2)}})
+        return ("There's no code in this chat yet to save. Ask me for some code first, like "
+                "\"how do I make a list in Python\".", "fallback", "tech", {})
 
     def learn_from_chat(self, message, corrected, history):
         """Two natural ways to teach Neural just by chatting:
@@ -345,6 +443,7 @@ class Brain:
             "model_ready": self.neural is not None,
             "model": self.neural.info if self.neural else None,
             "model_error": self.model_error,
+            "agents": public_list(self.knowledge.agent_topics),
             **self.speller.stats(),
             **self.chat_log.stats(),
         }

@@ -1,0 +1,89 @@
+{
+ "intents": [
+  {
+   "tag": "arts_primary_colors",
+   "patterns": [
+    "What are the primary colors?",
+    "What are secondary colors?"
+   ],
+   "responses": [
+    "In painting, the primary colors are red, yellow, and blue. Mixing them makes the secondary colors: orange, green, and purple."
+   ]
+  },
+  {
+   "tag": "arts_color_wheel",
+   "patterns": [
+    "What are complementary colors?"
+   ],
+   "responses": [
+    "Complementary colors are opposite each other on the color wheel, like red and green, or blue and orange. They make each other pop."
+   ]
+  },
+  {
+   "tag": "arts_mona_lisa",
+   "patterns": [
+    "Who painted the Mona Lisa?"
+   ],
+   "responses": [
+    "Leonardo da Vinci painted the Mona Lisa in the early 1500s. It hangs in the Louvre museum in Paris."
+   ]
+  },
+  {
+   "tag": "arts_starry_night",
+   "patterns": [
+    "Who painted The Starry Night?"
+   ],
+   "responses": [
+    "Vincent van Gogh painted The Starry Night in 1889."
+   ]
+  },
+  {
+   "tag": "arts_music_notes",
+   "patterns": [
+    "What are the music notes?",
+    "How do I read music?"
+   ],
+   "responses": [
+    "The musical notes are A, B, C, D, E, F, and G, then they repeat. On sheet music, notes sit on lines and spaces, and their shape shows how long they last."
+   ]
+  },
+  {
+   "tag": "arts_instruments",
+   "patterns": [
+    "What are the families of instruments?"
+   ],
+   "responses": [
+    "Orchestra instruments come in four families: strings (violin), woodwinds (flute), brass (trumpet), and percussion (drums)."
+   ]
+  },
+  {
+   "tag": "arts_beethoven",
+   "patterns": [
+    "Who was Beethoven?",
+    "Who was Mozart?"
+   ],
+   "responses": [
+    "Beethoven and Mozart were famous composers of classical music. Beethoven kept composing even after he went deaf."
+   ]
+  },
+  {
+   "tag": "arts_draw_better",
+   "patterns": [
+    "How do I get better at drawing?"
+   ],
+   "responses": [
+    "Draw a little every day, practice simple shapes, copy from real life, and don't worry about mistakes. Every drawing teaches you something."
+   ]
+  },
+  {
+   "tag": "arts_photography",
+   "patterns": [
+    "How do I take good photos?",
+    "What is the rule of thirds?"
+   ],
+   "responses": [
+    "Try the rule of thirds: imagine a tic-tac-toe grid on your photo and put the main subject on one of the lines or crossings. Good light helps a lot too."
+   ]
+  }
+ ]
+}

@@ -17,6 +17,7 @@
     <div class="side-label">Chats</div>
     <nav id="chat-list"></nav>
     <div class="side-bottom">
+      <button id="open-agents" class="side-btn">🫧 Agents</button>
       <button id="open-brain" class="side-btn">🧠 Brain &amp; training</button>
       <a id="export" class="side-btn" href="/api/export" download>⬇️ Download my chats</a>
       <button id="theme" class="side-btn">☀️ Light mode</button>
@@ -58,10 +59,20 @@
     </section>
 
     <form id="composer">
+      <div id="attached" class="attached" hidden></div>
       <div class="input-wrap">
-        <textarea id="input" rows="1" maxlength="500" placeholder="Message Neural..." autofocus></textarea>
+        <button type="button" id="attach-btn" class="round-btn" title="Attach a file (text, PDF, Word, code)" aria-label="Attach a file">＋</button>
+        <input type="file" id="attach-input" hidden
+               accept=".txt,.md,.pdf,.docx,.csv,.json,.py,.js,.ts,.html,.css,.lua,.luau,.xml,.log,.yml,.yaml,.java,.c,.cpp,.cs,.sql">
+        <div class="input-col">
+          <button type="button" id="target" class="target-pill" title="Choose which agent answers">🧠 Neural · picks the best agent ▾</button>
+          <textarea id="input" rows="1" maxlength="500" placeholder="Message Neural..." autofocus></textarea>
+        </div>
+        <button type="button" id="mic-btn" class="round-btn" title="Talk instead of typing" aria-label="Talk">🎤</button>
+        <canvas id="mic-orb" class="mic-orb" hidden title="Listening... click to stop"></canvas>
         <button id="send" type="submit" aria-label="Send">➤</button>
       </div>
+      <div id="target-menu" class="target-menu" hidden></div>
       <div class="hint">Your chats are saved in this browser and help Neural learn. Use 👍 / 👎 to help it improve.</div>
     </form>
   </main>
@@ -73,6 +84,10 @@
         <button class="icon-btn" data-close aria-label="Close">✕</button>
       </div>
       <div id="model-card" class="model-card"></div>
+      <label class="style-toggle">
+        <input type="checkbox" id="read-aloud">
+        <span><b>Read answers out loud</b><br><span class="muted small">Uses your computer's built-in voice. Works offline.</span></span>
+      </label>
       <label class="style-toggle">
         <input type="checkbox" id="casual" checked>
         <span><b>Talk like a person</b><br><span class="muted small">Casual, friendly answers. Turn off for short, textbook-style answers.</span></span>
@@ -112,6 +127,19 @@
           <button id="undo-update" class="link" hidden>Undo last update</button>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div id="agents-modal" class="modal" hidden>
+    <div class="modal-card wide">
+      <div class="modal-head">
+        <h2>🫧 Neural's agents</h2>
+        <button class="icon-btn" data-close aria-label="Close">✕</button>
+      </div>
+      <p class="muted small">Neural (in the middle) reads your question and calls the agent that knows the most about it.
+        Bigger bubbles know more topics. Drag them around, and click one to see what it does or to ask it directly.</p>
+      <canvas id="agent-graph" class="agent-graph"></canvas>
+      <div id="agent-info" class="agent-info"></div>
     </div>
   </div>
 
