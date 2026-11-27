@@ -22,8 +22,10 @@ import uuid
 
 from flask import Flask, Response, g, jsonify, render_template, request
 
+import files
 import memory
 import updater
+from agents import AGENTS
 from brain import Brain
 from config import BASE_DIR, MODEL_FILE, TRAIN_INFO_FILE
 from learning import Speller, _read_json
@@ -33,6 +35,8 @@ brain = Brain()
 ADMIN_KEY = os.environ.get("NEURAL_ADMIN_KEY", "")
 
 
+AGENT_IDS = {a["id"] for a in AGENTS}
+app.config["MAX_CONTENT_LENGTH"] = 25 * 1024 * 1024  # biggest attachment
 COOKIE = "neural_uid"
 UID_RE = re.compile(r"^[a-f0-9]{32}$")
 
@@ -116,15 +120,42 @@ def chat():
         return jsonify({"error": "Message is too long (500 characters max)."}), 400
 
     style = "plain" if data.get("style") == "plain" else "casual"
-    result = brain.respond(message, memory.history(cid), style=style)
+    agent = data.get("agent") if data.get("agent") in AGENT_IDS else None
+    convo = memory.get_conversation(cid, g.uid) or {}
+    docs = [d for d in (files.load_file(f, g.uid) for f in convo.get("files", [])) if d]
+    result = brain.respond(message, memory.history(cid, 6), style=style, agent=agent, files=docs)
     entry_id = brain.chat_log.add(cid, message, result["answer"],
                                   result["source"], result["corrected"])
 
     memory.add_message(cid, "User", message, corrected=result["corrected"])
     memory.add_message(cid, "Bot", result["answer"], source=result["source"],
-                       id=entry_id, rating=None)
+                       id=entry_id, rating=None, agent=result.get("agent"),
+                       options=result.get("options"), file=result.get("file"))
 
     return jsonify({**result, "id": entry_id, "conversation_id": cid})
+
+
+@app.post("/api/attach")
+def attach():
+    """➕ button: read a file and let the Files agent answer questions about it."""
+    upload = request.files.get("file")
+    if not upload or not upload.filename:
+        return jsonify({"error": "No file was sent."}), 400
+    cid = request.form.get("conversation_id") or ""
+    if not cid or not memory.get_conversation(cid, g.uid):
+        cid = memory.create_conversation(g.uid)
+    try:
+        doc = files.save_file(g.uid, upload.filename, upload.read())
+    except files.FileError as e:
+        return jsonify({"error": str(e)}), 400
+    except Exception as e:  # noqa: BLE001 - a broken PDF, etc.
+        return jsonify({"error": f"I couldn't read that file ({type(e).__name__})."}), 400
+    memory.attach_file(cid, g.uid, doc["id"], doc["name"])
+    text = (f"📎 I read **{doc['name']}** ({doc['words']:,} words). Ask me anything about it, "
+            "like \"what is the file about?\"")
+    memory.add_message(cid, "Bot", text, source="file", agent="files")
+    return jsonify({"conversation_id": cid, "answer": text, "agent": "files", "source": "file",
+                    "file": {"id": doc["id"], "name": doc["name"], "words": doc["words"]}})
 
 
 @app.post("/api/feedback")

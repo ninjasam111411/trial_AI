@@ -1,0 +1,134 @@
+{
+ "intents": [
+  {
+   "tag": "civics_democracy",
+   "patterns": [
+    "What is a democracy?"
+   ],
+   "responses": [
+    "A democracy is a government where people have power, usually by voting for leaders. The United States is a constitutional republic, a type of democracy."
+   ]
+  },
+  {
+   "tag": "civics_president_role",
+   "patterns": [
+    "What does the president do?"
+   ],
+   "responses": [
+    "The president leads the executive branch: signs or vetoes laws, commands the military, and leads foreign policy. A president serves 4-year terms, at most two."
+   ]
+  },
+  {
+   "tag": "civics_supreme_court",
+   "patterns": [
+    "What is the Supreme Court?",
+    "How many Supreme Court justices are there?"
+   ],
+   "responses": [
+    "The Supreme Court is the highest court in the United States. It has nine justices, appointed for life, and decides if laws follow the Constitution."
+   ]
+  },
+  {
+   "tag": "civics_how_law_made",
+   "patterns": [
+    "How does a bill become a law?"
+   ],
+   "responses": [
+    "A bill must pass both the House and the Senate, then the president signs it. If the president vetoes it, Congress can still pass it with a two-thirds vote in both houses."
+   ]
+  },
+  {
+   "tag": "civics_voting_age",
+   "patterns": [
+    "How old do you have to be to vote?"
+   ],
+   "responses": [
+    "In the United States, you must be 18 to vote in federal elections. The 26th Amendment set that in 1971."
+   ]
+  },
+  {
+   "tag": "civics_electoral_college",
+   "patterns": [
+    "What is the Electoral College?"
+   ],
+   "responses": [
+    "The Electoral College is how the United States elects the president. Each state gets electors based on its members of Congress, and it takes 270 of the 538 electoral votes to win."
+   ]
+  },
+  {
+   "tag": "civics_amendment",
+   "patterns": [
+    "What is an amendment?",
+    "How many amendments are there?"
+   ],
+   "responses": [
+    "An amendment is a change or addition to the Constitution. There are 27 amendments."
+   ]
+  },
+  {
+   "tag": "civics_federalism",
+   "patterns": [
+    "What is federalism?"
+   ],
+   "responses": [
+    "Federalism splits power between the national government and the state governments."
+   ]
+  },
+  {
+   "tag": "civics_rights_responsibilities",
+   "patterns": [
+    "What are the responsibilities of a citizen?"
+   ],
+   "responses": [
+    "Citizens obey laws, pay taxes, serve on juries when called, and can vote, stay informed, and help their communities."
+   ]
+  },
+  {
+   "tag": "civics_separation_powers",
+   "patterns": [
+    "What is separation of powers?"
+   ],
+   "responses": [
+    "Separation of powers divides government into legislative, executive, and judicial branches so no one group has too much power."
+   ]
+  },
+  {
+   "tag": "civics_capitalism",
+   "patterns": [
+    "What is capitalism?",
+    "What is socialism?"
+   ],
+   "responses": [
+    "Capitalism is an economic system where people and businesses own property and make things to sell for profit. In socialism, the government or community owns more of the businesses and resources. Many countries mix both."
+   ]
+  },
+  {
+   "tag": "civics_supply_demand",
+   "patterns": [
+    "What is supply and demand?"
+   ],
+   "responses": [
+    "When lots of people want something (high demand) and there isn't much of it (low supply), prices go up. When there's a lot and few want it, prices go down."
+   ]
+  },
+  {
+   "tag": "civics_taxes",
+   "patterns": [
+    "What are taxes?",
+    "Why do we pay taxes?"
+   ],
+   "responses": [
+    "Taxes are money people and businesses pay the government. They pay for things like roads, schools, the military, and parks."
+   ]
+  },
+  {
+   "tag": "civics_inflation",
+   "patterns": [
+    "What is inflation?"
+   ],
+   "responses": [
+    "Inflation is when prices rise over time, so the same money buys less than before."
+   ]
+  }
+ ]
+}

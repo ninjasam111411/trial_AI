@@ -97,3 +97,16 @@ def set_rating(cid, entry_id, rating):
 def history(cid, turns=4):
     convo = get_conversation(cid)
     return convo["messages"][-turns:] if convo else []
+
+
+def attach_file(cid, owner, file_id, name):
+    with _lock:
+        data = _load()
+        convo = data.get(cid)
+        if convo and convo.get("owner") == owner:
+            convo.setdefault("files", []).append(file_id)
+            convo.setdefault("file_names", []).append(name)
+            if convo["title"] == "New chat":
+                convo["title"] = "📎 " + name[:40]
+            convo["updated"] = time.time()
+            _save(data)
